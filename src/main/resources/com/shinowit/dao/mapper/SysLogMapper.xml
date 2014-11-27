@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shinowit.dao.mapper.SysLogMapper" >
+  <resultMap id="BaseResultMap" type="com.shinowit.entity.SysLog" >
+    <id column="log_id" property="logId" jdbcType="INTEGER" />
+    <result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="log_time" property="logTime" jdbcType="TIMESTAMP" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    log_id, menu_code, user_id, log_time, ip, content
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shinowit.entity.SysLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shinowit.entity.SysLogExample" >
+    delete from sys_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shinowit.entity.SysLog" >
+    <selectKey resultType="java.lang.Integer" keyProperty="logId" order="AFTER" >
+      SELECT SCOPE_IDENTITY()
+    </selectKey>
+    insert into sys_log (menu_code, user_id, log_time, 
+      ip, content)
+    values (#{menuCode,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{logTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shinowit.entity.SysLog" >
+    <selectKey resultType="java.lang.Integer" keyProperty="logId" order="AFTER" >
+      SELECT SCOPE_IDENTITY()
+    </selectKey>
+    insert into sys_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuCode != null" >
+        menu_code,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="logTime != null" >
+        log_time,
+      </if>
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuCode != null" >
+        #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="logTime != null" >
+        #{logTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shinowit.entity.SysLogExample" resultType="java.lang.Integer" >
+    select count(*) from sys_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_log
+    <set >
+      <if test="record.logId != null" >
+        log_id = #{record.logId,jdbcType=INTEGER},
+      </if>
+      <if test="record.menuCode != null" >
+        menu_code = #{record.menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.logTime != null" >
+        log_time = #{record.logTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ip != null" >
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_log
+    set log_id = #{record.logId,jdbcType=INTEGER},
+      menu_code = #{record.menuCode,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      log_time = #{record.logTime,jdbcType=TIMESTAMP},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shinowit.entity.SysLog" >
+    update sys_log
+    <set >
+      <if test="menuCode != null" >
+        menu_code = #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="logTime != null" >
+        log_time = #{logTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shinowit.entity.SysLog" >
+    update sys_log
+    set menu_code = #{menuCode,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      log_time = #{logTime,jdbcType=TIMESTAMP},
+      ip = #{ip,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR}
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="selectPageResult" extends="BaseResultMap" type="com.shinowit.entity.SysLog" >
+    <!--
+<association property="" column="" javaType="">
+   <id column="" property="" jdbcType="" />
+   <result column="" property="" jdbcType="" />
+ </association>
+-->
+  </resultMap>
+  <sql id="select_by_page_outter_where_sql" >
+      <if test="oredCriteria.size>0">     <if test="_parameter != null" > <include refid="Example_Where_Clause"/> </if>    and   </if>  <if test="oredCriteria.size==0">     where   </if> 
+  </sql>
+  <sql id="select_by_page_inner_where_and_orderby_sql" >
+      <if test="oredCriteria.size>0">     <if test="_parameter != null" > <include refid="Example_Where_Clause"/> </if>  </if>   <if test="orderByClause != null">    order by ${orderByClause}   </if> 
+  </sql>
+  <sql id="select_by_page_outter_orderby_sql" >
+       <if test="orderByClause != null">    order by ${orderByClause}   </if> 
+  </sql>
+  <sql id="select_by_page_custom_sql" >
+       <if test="customCriteria != null">  where ${customCriteria} and  </if>   <if test="customCriteria == null">  where </if>
+  </sql>
+  <select id="selectPage" resultMap="selectPageResult" parameterType="com.shinowit.entity.SysLogExample" >
+    select a.* from sys_log a <include refid="select_by_page_custom_sql"/>  a.log_id in 
+ (select top ${pageSize} log_id from sys_log 
+<include refid="select_by_page_outter_where_sql"/> 
+log_id not in (select top ${skipRecordCount} log_id from sys_log  
+<include refid="select_by_page_inner_where_and_orderby_sql"/> 
+ ) 
+<include refid="select_by_page_outter_orderby_sql"/> 
+ )
+  </select>
+  <select id="selectMaxPrimaryKeyValue" resultType="java.lang.Integer" >
+    select max(log_id) from sys_log
+  </select>
+</mapper>
