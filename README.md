@@ -1,0 +1,4 @@
+这是一个springmvc,mybatis,shiro综合整合到一起的空白项目模板。
+
+mybatis支持maven任务生成,里面用到了一个分页插件,该插件需要自己下载源码编译以后自行发布到nexus maven私服当中去。
+其他组件从maven主仓库里面都可以找到。
