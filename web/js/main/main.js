@@ -52,10 +52,9 @@ Ext.onReady(
                 items: [{
                     region: "north",
                     title: "启奥电子商务管理平台",
-                    bodyStyle:'background-image: url(./img/top1.jpg)',
+                    bodyStyle:'background-image: url(./img/top_img.jpg) no-repeat;',
                     height: 100,
                     maxSize: 150
-
                 }, {
                     title: "菜单",
                     region: "west",
