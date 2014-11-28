@@ -3,9 +3,9 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
     <classPathEntry
-            location="e:\jdbc\sqljdbc4.jar"/>
+            location="d:\java\jdbc\mysql-connector-java-5.1.27.jar"/>
     <context id="context1" targetRuntime="MyBatis3">
-        <plugin type="com.shinowit.mybatis.plugin.SelectByPage4SqlServerPlugin"/>
+        <plugin type="com.shinowit.mybatis.plugin.SelectByPage4MySqlPlugin"/>
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
         <!-- 注释生成器 -->
         <commentGenerator>
@@ -13,10 +13,14 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
 
+        <!--
         <jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
                         connectionURL="jdbc:sqlserver://localhost:1433;databaseName=oss2014;"
                         userId="sa" password="shinow"/>
-
+-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/lunwen?useUnicode=true"
+                        userId="root" password="shinow"/>
         <!-- 类型转换器或者加类型解析器 -->
         <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer true，把JDBC DECIMAL 和
             NUMERIC 类型解析为java.math.BigDecimal -->
@@ -34,13 +38,13 @@
 
         <table tableName="sys_user_role"/>
         <table tableName="sys_user">
-            <generatedKey column="user_id" sqlStatement="SqlServer" identity="true"/>
+            <generatedKey column="user_id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="sys_role"/>
         <table tableName="sys_role_to_menu"/>
         <table tableName="sys_menu"/>
         <table tableName="sys_log">
-            <generatedKey column="log_id" sqlStatement="SqlServer" identity="true"/>
+            <generatedKey column="log_id" sqlStatement="MySql" identity="true"/>
         </table>
     </context>
 </generatorConfiguration>

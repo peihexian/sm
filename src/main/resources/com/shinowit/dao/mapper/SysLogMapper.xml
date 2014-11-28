@@ -102,7 +102,7 @@
   </delete>
   <insert id="insert" parameterType="com.shinowit.entity.SysLog" >
     <selectKey resultType="java.lang.Integer" keyProperty="logId" order="AFTER" >
-      SELECT SCOPE_IDENTITY()
+      SELECT LAST_INSERT_ID()
     </selectKey>
     insert into sys_log (menu_code, user_id, log_time, 
       ip, content)
@@ -111,7 +111,7 @@
   </insert>
   <insert id="insertSelective" parameterType="com.shinowit.entity.SysLog" >
     <selectKey resultType="java.lang.Integer" keyProperty="logId" order="AFTER" >
-      SELECT SCOPE_IDENTITY()
+      SELECT LAST_INSERT_ID()
     </selectKey>
     insert into sys_log
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -230,28 +230,10 @@
    <result column="" property="" jdbcType="" />
  </association>
 -->
+
   </resultMap>
-  <sql id="select_by_page_outter_where_sql" >
-      <if test="oredCriteria.size>0">     <if test="_parameter != null" > <include refid="Example_Where_Clause"/> </if>    and   </if>  <if test="oredCriteria.size==0">     where   </if> 
-  </sql>
-  <sql id="select_by_page_inner_where_and_orderby_sql" >
-      <if test="oredCriteria.size>0">     <if test="_parameter != null" > <include refid="Example_Where_Clause"/> </if>  </if>   <if test="orderByClause != null">    order by ${orderByClause}   </if> 
-  </sql>
-  <sql id="select_by_page_outter_orderby_sql" >
-       <if test="orderByClause != null">    order by ${orderByClause}   </if> 
-  </sql>
-  <sql id="select_by_page_custom_sql" >
-       <if test="customCriteria != null">  where ${customCriteria} and  </if>   <if test="customCriteria == null">  where </if>
-  </sql>
   <select id="selectPage" resultMap="selectPageResult" parameterType="com.shinowit.entity.SysLogExample" >
-    select a.* from sys_log a <include refid="select_by_page_custom_sql"/>  a.log_id in 
- (select top ${pageSize} log_id from sys_log 
-<include refid="select_by_page_outter_where_sql"/> 
-log_id not in (select top ${skipRecordCount} log_id from sys_log  
-<include refid="select_by_page_inner_where_and_orderby_sql"/> 
- ) 
-<include refid="select_by_page_outter_orderby_sql"/> 
- )
+    select a.* from sys_log a   <if test="_parameter != null" >    <include refid="Example_Where_Clause" />   </if>  <if test="orderByClause != null" >      order by ${orderByClause}    </if> limit ${skipRecordCount}, ${pageSize} 
   </select>
   <select id="selectMaxPrimaryKeyValue" resultType="java.lang.Integer" >
     select max(log_id) from sys_log

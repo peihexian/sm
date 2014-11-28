@@ -1,3 +1,10 @@
-extjs/*
-.idea
-target
+.architect
+/web/static/js/extjs/
+target/
+*.class
+.mtj.tmp/
+*.war
+*.ear
+hs_err_pid*
+*.log
+

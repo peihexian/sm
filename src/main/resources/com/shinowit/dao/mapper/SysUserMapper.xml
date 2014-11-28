@@ -108,7 +108,7 @@
   </delete>
   <insert id="insert" parameterType="com.shinowit.entity.SysUser" >
     <selectKey resultType="java.lang.Integer" keyProperty="userId" order="AFTER" >
-      SELECT SCOPE_IDENTITY()
+      SELECT LAST_INSERT_ID()
     </selectKey>
     insert into sys_user (real_name, login_name, login_pass, 
       address, link_tel, qq, 
@@ -121,7 +121,7 @@
   </insert>
   <insert id="insertSelective" parameterType="com.shinowit.entity.SysUser" >
     <selectKey resultType="java.lang.Integer" keyProperty="userId" order="AFTER" >
-      SELECT SCOPE_IDENTITY()
+      SELECT LAST_INSERT_ID()
     </selectKey>
     insert into sys_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -310,28 +310,10 @@
    <result column="" property="" jdbcType="" />
  </association>
 -->
+
   </resultMap>
-  <sql id="select_by_page_outter_where_sql" >
-      <if test="oredCriteria.size>0">     <if test="_parameter != null" > <include refid="Example_Where_Clause"/> </if>    and   </if>  <if test="oredCriteria.size==0">     where   </if> 
-  </sql>
-  <sql id="select_by_page_inner_where_and_orderby_sql" >
-      <if test="oredCriteria.size>0">     <if test="_parameter != null" > <include refid="Example_Where_Clause"/> </if>  </if>   <if test="orderByClause != null">    order by ${orderByClause}   </if> 
-  </sql>
-  <sql id="select_by_page_outter_orderby_sql" >
-       <if test="orderByClause != null">    order by ${orderByClause}   </if> 
-  </sql>
-  <sql id="select_by_page_custom_sql" >
-       <if test="customCriteria != null">  where ${customCriteria} and  </if>   <if test="customCriteria == null">  where </if>
-  </sql>
   <select id="selectPage" resultMap="selectPageResult" parameterType="com.shinowit.entity.SysUserExample" >
-    select a.* from sys_user a <include refid="select_by_page_custom_sql"/>  a.user_id in 
- (select top ${pageSize} user_id from sys_user 
-<include refid="select_by_page_outter_where_sql"/> 
-user_id not in (select top ${skipRecordCount} user_id from sys_user  
-<include refid="select_by_page_inner_where_and_orderby_sql"/> 
- ) 
-<include refid="select_by_page_outter_orderby_sql"/> 
- )
+    select a.* from sys_user a   <if test="_parameter != null" >    <include refid="Example_Where_Clause" />   </if>  <if test="orderByClause != null" >      order by ${orderByClause}    </if> limit ${skipRecordCount}, ${pageSize} 
   </select>
   <select id="selectMaxPrimaryKeyValue" resultType="java.lang.Integer" >
     select max(user_id) from sys_user
