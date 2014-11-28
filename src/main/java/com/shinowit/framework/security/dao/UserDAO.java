@@ -8,9 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created on 2014/11/10.
- */
 public class UserDAO {
 
     private JdbcTemplate jt;
