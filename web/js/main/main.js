@@ -10,19 +10,19 @@ var start = {
 var themes = new Ext.data.SimpleStore({
     fields: ['theme', 'css'],
     data: [
-        ['默    认', 'ext-all.css'],
+        ['默 认', 'ext-all.css'],
         ['access', 'ext-all-access.css'],
         ['gray', 'ext-all-gray.css']
     ]
 });
 var color_change = new Ext.form.ComboBox({
     triggerAction: "all",
-    fieldLabel: '切换系统皮肤',
+    fieldLabel: '切换皮肤',
     forceSelection: true,
     listAlign: 'center',
     typeAhead: true,
-    emptyText: "切换系统皮肤",
-    width: 100,
+    emptyText: "切换皮肤",
+   // width: 140,
     store: themes,
     displayField: "theme",
     valueField: "css",
@@ -46,15 +46,15 @@ Ext.onReady(
             var vp = new Ext.Viewport({
                 layout: 'border',
                 defaults: {
-                    collapsible: true,
+                    collapsible: false,
                     split: true
                 },
                 items: [{
+                    collapsible:false,
+                    border:false,
                     region: "north",
-                    title: "启奥电子商务管理平台",
-                    bodyStyle:'background-image: url(./img/top_img.jpg) no-repeat;',
-                    height: 100,
-                    maxSize: 150
+                    bodyStyle:'background: url(./img/top_img.jpg) #fff no-repeat;',
+                    height: 90
                 }, {
                     title: "菜单",
                     region: "west",
