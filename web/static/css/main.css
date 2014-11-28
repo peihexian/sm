@@ -1,0 +1,11 @@
+.ext-ie .x-btn-text-icon .x-btn-center .x-btn-text {padding:3px 0px 0px 0px;}
+.add-btn-icon {
+  background-image: url(img/add.gif);
+}
+.edit-btn-icon {
+  background-image: url(img/edit.png);
+}
+.del-btn-icon {
+  background-image: url(img/delete.gif);
+}
+

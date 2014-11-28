@@ -1,0 +1,7 @@
+body { background-color:#EEE9E9;}
+.ext-ie .x-btn-text-icon .x-btn-center .x-btn-text {padding:3px 0px 0px 0px;}
+.login_bg_img{
+	width:1100px;height:700px;
+	margin:0 auto;
+ 	background: url("./img/login_bg.jpg") no-repeat;	
+} 
