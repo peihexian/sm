@@ -481,6 +481,216 @@ public class SysMenuExample {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
+
+        public Criteria andParentMenuCodeIsNull() {
+            addCriterion("parent_menu_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMenuCodeIsNotNull() {
+            addCriterion("parent_menu_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMenuCodeEqualTo(String value) {
+            addCriterion("parent_menu_code =", value, "parentMenuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMenuCodeNotEqualTo(String value) {
+            addCriterion("parent_menu_code <>", value, "parentMenuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMenuCodeGreaterThan(String value) {
+            addCriterion("parent_menu_code >", value, "parentMenuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMenuCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("parent_menu_code >=", value, "parentMenuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMenuCodeLessThan(String value) {
+            addCriterion("parent_menu_code <", value, "parentMenuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMenuCodeLessThanOrEqualTo(String value) {
+            addCriterion("parent_menu_code <=", value, "parentMenuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMenuCodeLike(String value) {
+            addCriterion("parent_menu_code like", value, "parentMenuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMenuCodeNotLike(String value) {
+            addCriterion("parent_menu_code not like", value, "parentMenuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMenuCodeIn(List<String> values) {
+            addCriterion("parent_menu_code in", values, "parentMenuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMenuCodeNotIn(List<String> values) {
+            addCriterion("parent_menu_code not in", values, "parentMenuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMenuCodeBetween(String value1, String value2) {
+            addCriterion("parent_menu_code between", value1, value2, "parentMenuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentMenuCodeNotBetween(String value1, String value2) {
+            addCriterion("parent_menu_code not between", value1, value2, "parentMenuCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andIconUrlIsNull() {
+            addCriterion("icon_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIconUrlIsNotNull() {
+            addCriterion("icon_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIconUrlEqualTo(String value) {
+            addCriterion("icon_url =", value, "iconUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIconUrlNotEqualTo(String value) {
+            addCriterion("icon_url <>", value, "iconUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIconUrlGreaterThan(String value) {
+            addCriterion("icon_url >", value, "iconUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIconUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("icon_url >=", value, "iconUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIconUrlLessThan(String value) {
+            addCriterion("icon_url <", value, "iconUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIconUrlLessThanOrEqualTo(String value) {
+            addCriterion("icon_url <=", value, "iconUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIconUrlLike(String value) {
+            addCriterion("icon_url like", value, "iconUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIconUrlNotLike(String value) {
+            addCriterion("icon_url not like", value, "iconUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIconUrlIn(List<String> values) {
+            addCriterion("icon_url in", values, "iconUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIconUrlNotIn(List<String> values) {
+            addCriterion("icon_url not in", values, "iconUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIconUrlBetween(String value1, String value2) {
+            addCriterion("icon_url between", value1, value2, "iconUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIconUrlNotBetween(String value1, String value2) {
+            addCriterion("icon_url not between", value1, value2, "iconUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionIsNull() {
+            addCriterion("permission is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionIsNotNull() {
+            addCriterion("permission is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionEqualTo(String value) {
+            addCriterion("permission =", value, "permission");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNotEqualTo(String value) {
+            addCriterion("permission <>", value, "permission");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionGreaterThan(String value) {
+            addCriterion("permission >", value, "permission");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionGreaterThanOrEqualTo(String value) {
+            addCriterion("permission >=", value, "permission");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionLessThan(String value) {
+            addCriterion("permission <", value, "permission");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionLessThanOrEqualTo(String value) {
+            addCriterion("permission <=", value, "permission");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionLike(String value) {
+            addCriterion("permission like", value, "permission");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNotLike(String value) {
+            addCriterion("permission not like", value, "permission");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionIn(List<String> values) {
+            addCriterion("permission in", values, "permission");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNotIn(List<String> values) {
+            addCriterion("permission not in", values, "permission");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionBetween(String value1, String value2) {
+            addCriterion("permission between", value1, value2, "permission");
+            return (Criteria) this;
+        }
+
+        public Criteria andPermissionNotBetween(String value1, String value2) {
+            addCriterion("permission not between", value1, value2, "permission");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

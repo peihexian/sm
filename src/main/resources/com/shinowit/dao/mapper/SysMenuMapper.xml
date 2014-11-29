@@ -7,6 +7,9 @@
     <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
     <result column="sort_id" property="sortId" jdbcType="SMALLINT" />
     <result column="status" property="status" jdbcType="BIT" />
+    <result column="parent_menu_code" property="parentMenuCode" jdbcType="VARCHAR" />
+    <result column="icon_url" property="iconUrl" jdbcType="VARCHAR" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    menu_code, menu_name, menu_url, sort_id, status
+    menu_code, menu_name, menu_url, sort_id, status, parent_menu_code, icon_url, permission
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shinowit.entity.SysMenuExample" >
     select
@@ -101,9 +104,11 @@
   </delete>
   <insert id="insert" parameterType="com.shinowit.entity.SysMenu" >
     insert into sys_menu (menu_code, menu_name, menu_url, 
-      sort_id, status)
+      sort_id, status, parent_menu_code, 
+      icon_url, permission)
     values (#{menuCode,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR}, 
-      #{sortId,jdbcType=SMALLINT}, #{status,jdbcType=BIT})
+      #{sortId,jdbcType=SMALLINT}, #{status,jdbcType=BIT}, #{parentMenuCode,jdbcType=VARCHAR}, 
+      #{iconUrl,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shinowit.entity.SysMenu" >
     insert into sys_menu
@@ -123,6 +128,15 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="parentMenuCode != null" >
+        parent_menu_code,
+      </if>
+      <if test="iconUrl != null" >
+        icon_url,
+      </if>
+      <if test="permission != null" >
+        permission,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="menuCode != null" >
@@ -139,6 +153,15 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=BIT},
+      </if>
+      <if test="parentMenuCode != null" >
+        #{parentMenuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="iconUrl != null" >
+        #{iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null" >
+        #{permission,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +189,15 @@
       <if test="record.status != null" >
         status = #{record.status,jdbcType=BIT},
       </if>
+      <if test="record.parentMenuCode != null" >
+        parent_menu_code = #{record.parentMenuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconUrl != null" >
+        icon_url = #{record.iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.permission != null" >
+        permission = #{record.permission,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +209,10 @@
       menu_name = #{record.menuName,jdbcType=VARCHAR},
       menu_url = #{record.menuUrl,jdbcType=VARCHAR},
       sort_id = #{record.sortId,jdbcType=SMALLINT},
-      status = #{record.status,jdbcType=BIT}
+      status = #{record.status,jdbcType=BIT},
+      parent_menu_code = #{record.parentMenuCode,jdbcType=VARCHAR},
+      icon_url = #{record.iconUrl,jdbcType=VARCHAR},
+      permission = #{record.permission,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +232,15 @@
       <if test="status != null" >
         status = #{status,jdbcType=BIT},
       </if>
+      <if test="parentMenuCode != null" >
+        parent_menu_code = #{parentMenuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="iconUrl != null" >
+        icon_url = #{iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="permission != null" >
+        permission = #{permission,jdbcType=VARCHAR},
+      </if>
     </set>
     where menu_code = #{menuCode,jdbcType=VARCHAR}
   </update>
@@ -205,7 +249,10 @@
     set menu_name = #{menuName,jdbcType=VARCHAR},
       menu_url = #{menuUrl,jdbcType=VARCHAR},
       sort_id = #{sortId,jdbcType=SMALLINT},
-      status = #{status,jdbcType=BIT}
+      status = #{status,jdbcType=BIT},
+      parent_menu_code = #{parentMenuCode,jdbcType=VARCHAR},
+      icon_url = #{iconUrl,jdbcType=VARCHAR},
+      permission = #{permission,jdbcType=VARCHAR}
     where menu_code = #{menuCode,jdbcType=VARCHAR}
   </update>
   <resultMap id="selectPageResult" extends="BaseResultMap" type="com.shinowit.entity.SysMenu" >

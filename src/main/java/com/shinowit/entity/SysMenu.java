@@ -13,6 +13,12 @@ public class SysMenu implements Serializable {
 
     private Boolean status;
 
+    private String parentMenuCode;
+
+    private String iconUrl;
+
+    private String permission;
+
     private static final long serialVersionUID = 1L;
 
     public String getMenuCode() {
@@ -53,5 +59,29 @@ public class SysMenu implements Serializable {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public String getParentMenuCode() {
+        return parentMenuCode;
+    }
+
+    public void setParentMenuCode(String parentMenuCode) {
+        this.parentMenuCode = parentMenuCode;
+    }
+
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 }

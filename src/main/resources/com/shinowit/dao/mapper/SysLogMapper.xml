@@ -3,8 +3,8 @@
 <mapper namespace="com.shinowit.dao.mapper.SysLogMapper" >
   <resultMap id="BaseResultMap" type="com.shinowit.entity.SysLog" >
     <id column="log_id" property="logId" jdbcType="INTEGER" />
-    <result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
     <result column="log_time" property="logTime" jdbcType="TIMESTAMP" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    log_id, menu_code, user_id, log_time, ip, content
+    log_id, user_id, menu_code, log_time, ip, content
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shinowit.entity.SysLogExample" >
     select
@@ -104,9 +104,9 @@
     <selectKey resultType="java.lang.Integer" keyProperty="logId" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into sys_log (menu_code, user_id, log_time, 
+    insert into sys_log (user_id, menu_code, log_time, 
       ip, content)
-    values (#{menuCode,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{logTime,jdbcType=TIMESTAMP}, 
+    values (#{userId,jdbcType=INTEGER}, #{menuCode,jdbcType=VARCHAR}, #{logTime,jdbcType=TIMESTAMP}, 
       #{ip,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.shinowit.entity.SysLog" >
@@ -115,11 +115,11 @@
     </selectKey>
     insert into sys_log
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="menuCode != null" >
-        menu_code,
-      </if>
       <if test="userId != null" >
         user_id,
+      </if>
+      <if test="menuCode != null" >
+        menu_code,
       </if>
       <if test="logTime != null" >
         log_time,
@@ -132,11 +132,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="menuCode != null" >
-        #{menuCode,jdbcType=VARCHAR},
-      </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="menuCode != null" >
+        #{menuCode,jdbcType=VARCHAR},
       </if>
       <if test="logTime != null" >
         #{logTime,jdbcType=TIMESTAMP},
@@ -161,11 +161,11 @@
       <if test="record.logId != null" >
         log_id = #{record.logId,jdbcType=INTEGER},
       </if>
-      <if test="record.menuCode != null" >
-        menu_code = #{record.menuCode,jdbcType=VARCHAR},
-      </if>
       <if test="record.userId != null" >
         user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.menuCode != null" >
+        menu_code = #{record.menuCode,jdbcType=VARCHAR},
       </if>
       <if test="record.logTime != null" >
         log_time = #{record.logTime,jdbcType=TIMESTAMP},
@@ -184,8 +184,8 @@
   <update id="updateByExample" parameterType="map" >
     update sys_log
     set log_id = #{record.logId,jdbcType=INTEGER},
-      menu_code = #{record.menuCode,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=INTEGER},
+      menu_code = #{record.menuCode,jdbcType=VARCHAR},
       log_time = #{record.logTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR}
@@ -196,11 +196,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.shinowit.entity.SysLog" >
     update sys_log
     <set >
-      <if test="menuCode != null" >
-        menu_code = #{menuCode,jdbcType=VARCHAR},
-      </if>
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="menuCode != null" >
+        menu_code = #{menuCode,jdbcType=VARCHAR},
       </if>
       <if test="logTime != null" >
         log_time = #{logTime,jdbcType=TIMESTAMP},
@@ -216,8 +216,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.shinowit.entity.SysLog" >
     update sys_log
-    set menu_code = #{menuCode,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=INTEGER},
+    set user_id = #{userId,jdbcType=INTEGER},
+      menu_code = #{menuCode,jdbcType=VARCHAR},
       log_time = #{logTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR}

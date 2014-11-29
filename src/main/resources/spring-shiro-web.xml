@@ -128,8 +128,7 @@
         </property>
         <property name="filterChainDefinitions">
             <value>
-                /**=anon
-                <!--
+                /login/logout = logout
                 /index.jsp = anon
                 /validcode.jsp = anon
                 /login/ = anon
@@ -137,11 +136,8 @@
                 /js/** = anon
                 /img/** = anon
                 /unauthorized.jsp = anon
-                #/login/checklogin = authc
                 /login/checklogin = anon
-                /login/logout = logout
                 /** = user
-                -->
             </value>
         </property>
     </bean>

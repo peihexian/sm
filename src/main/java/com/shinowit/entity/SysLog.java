@@ -6,9 +6,9 @@ import java.util.Date;
 public class SysLog implements Serializable {
     private Integer logId;
 
-    private String menuCode;
-
     private Integer userId;
+
+    private String menuCode;
 
     private Date logTime;
 
@@ -26,20 +26,20 @@ public class SysLog implements Serializable {
         this.logId = logId;
     }
 
-    public String getMenuCode() {
-        return menuCode;
-    }
-
-    public void setMenuCode(String menuCode) {
-        this.menuCode = menuCode;
-    }
-
     public Integer getUserId() {
         return userId;
     }
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getMenuCode() {
+        return menuCode;
+    }
+
+    public void setMenuCode(String menuCode) {
+        this.menuCode = menuCode;
     }
 
     public Date getLogTime() {

@@ -22,8 +22,8 @@ public class UserDAO {
     }
 
     public Set<String> findPermissions(String loginName) {
-//        String sql = "select p.permission from sys_user u, sys_role r, sys_menu p, sys_user_role ur, sys_role_to_menu rp where u.login_name=? and u.user_id=ur.user_id and r.role_code=ur.role_code and r.role_code=rp.role_code and p.menu_code=rp.menu_code";
-        String sql = "select p.menu_code from sys_user u, sys_role r, sys_menu p, sys_user_role ur, sys_role_to_menu rp where u.login_name=? and u.user_id=ur.user_id and r.role_code=ur.role_code and r.role_code=rp.role_code and p.menu_code=rp.menu_code";
+//        String sql = "select p.menu_code from sys_user u, sys_role r, sys_menu p, sys_user_role ur, sys_role_to_menu rp where u.login_name=? and u.user_id=ur.user_id and r.role_code=ur.role_code and r.role_code=rp.role_code and p.menu_code=rp.menu_code";
+        String sql = "select distinct p.permission from sys_user u, sys_role r, sys_menu p, sys_user_role ur, sys_role_to_menu rp where u.login_name=? and u.user_id=ur.user_id and r.role_code=ur.role_code and r.role_code=rp.role_code and p.menu_code=rp.menu_code";
         return new HashSet(jt.queryForList(sql, String.class, loginName));
     }
 
