@@ -4,6 +4,8 @@ import com.shinowit.entity.SysMenu;
 import com.shinowit.entity.SysMenuExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.Select;
 
 public interface SysMenuMapper {
     int countByExample(SysMenuExample example);
@@ -31,4 +33,8 @@ public interface SysMenuMapper {
     List<SysMenu> selectPage(SysMenuExample example);
 
     String selectMaxPrimaryKeyValue();
+
+    @Select("select DISTINCT p.menu_code,p.menu_name,p.menu_url,p.icon_url from sys_user u, sys_role r, sys_menu p, sys_user_role ur, sys_role_to_menu rp where u.user_id=#{user_id} and u.user_id=ur.user_id and r.role_code=ur.role_code and r.role_code=rp.role_code and p.parent_menu_code is null and p.menu_code=rp.menu_code ")
+    @ResultMap("com.shinowit.dao.mapper.SysMenuMapper.BaseResultMap")
+    List<SysMenu> selectTopMenuByUser(int user_id);
 }

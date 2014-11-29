@@ -1,6 +1,8 @@
 package com.shinowit.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SysMenu implements Serializable {
     private String menuCode;
@@ -20,6 +22,8 @@ public class SysMenu implements Serializable {
     private String permission;
 
     private static final long serialVersionUID = 1L;
+
+    private List<SysMenu> subMenuList=new ArrayList<SysMenu>();
 
     public String getMenuCode() {
         return menuCode;
@@ -83,5 +87,13 @@ public class SysMenu implements Serializable {
 
     public void setPermission(String permission) {
         this.permission = permission;
+    }
+
+    public List<SysMenu> getSubMenuList() {
+        return subMenuList;
+    }
+
+    public void setSubMenuList(List<SysMenu> subMenuList) {
+        this.subMenuList = subMenuList;
     }
 }
