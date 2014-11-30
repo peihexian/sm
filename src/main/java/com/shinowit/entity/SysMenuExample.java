@@ -691,6 +691,216 @@ public class SysMenuExample {
             addCriterion("permission not between", value1, value2, "permission");
             return (Criteria) this;
         }
+
+        public Criteria andControllerFullClassnameIsNull() {
+            addCriterion("controller_full_classname is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerFullClassnameIsNotNull() {
+            addCriterion("controller_full_classname is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerFullClassnameEqualTo(String value) {
+            addCriterion("controller_full_classname =", value, "controllerFullClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerFullClassnameNotEqualTo(String value) {
+            addCriterion("controller_full_classname <>", value, "controllerFullClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerFullClassnameGreaterThan(String value) {
+            addCriterion("controller_full_classname >", value, "controllerFullClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerFullClassnameGreaterThanOrEqualTo(String value) {
+            addCriterion("controller_full_classname >=", value, "controllerFullClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerFullClassnameLessThan(String value) {
+            addCriterion("controller_full_classname <", value, "controllerFullClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerFullClassnameLessThanOrEqualTo(String value) {
+            addCriterion("controller_full_classname <=", value, "controllerFullClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerFullClassnameLike(String value) {
+            addCriterion("controller_full_classname like", value, "controllerFullClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerFullClassnameNotLike(String value) {
+            addCriterion("controller_full_classname not like", value, "controllerFullClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerFullClassnameIn(List<String> values) {
+            addCriterion("controller_full_classname in", values, "controllerFullClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerFullClassnameNotIn(List<String> values) {
+            addCriterion("controller_full_classname not in", values, "controllerFullClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerFullClassnameBetween(String value1, String value2) {
+            addCriterion("controller_full_classname between", value1, value2, "controllerFullClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerFullClassnameNotBetween(String value1, String value2) {
+            addCriterion("controller_full_classname not between", value1, value2, "controllerFullClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerShortNameIsNull() {
+            addCriterion("controller_short_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerShortNameIsNotNull() {
+            addCriterion("controller_short_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerShortNameEqualTo(String value) {
+            addCriterion("controller_short_name =", value, "controllerShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerShortNameNotEqualTo(String value) {
+            addCriterion("controller_short_name <>", value, "controllerShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerShortNameGreaterThan(String value) {
+            addCriterion("controller_short_name >", value, "controllerShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerShortNameGreaterThanOrEqualTo(String value) {
+            addCriterion("controller_short_name >=", value, "controllerShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerShortNameLessThan(String value) {
+            addCriterion("controller_short_name <", value, "controllerShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerShortNameLessThanOrEqualTo(String value) {
+            addCriterion("controller_short_name <=", value, "controllerShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerShortNameLike(String value) {
+            addCriterion("controller_short_name like", value, "controllerShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerShortNameNotLike(String value) {
+            addCriterion("controller_short_name not like", value, "controllerShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerShortNameIn(List<String> values) {
+            addCriterion("controller_short_name in", values, "controllerShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerShortNameNotIn(List<String> values) {
+            addCriterion("controller_short_name not in", values, "controllerShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerShortNameBetween(String value1, String value2) {
+            addCriterion("controller_short_name between", value1, value2, "controllerShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andControllerShortNameNotBetween(String value1, String value2) {
+            addCriterion("controller_short_name not between", value1, value2, "controllerShortName");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefaultViewClassnameIsNull() {
+            addCriterion("default_view_classname is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefaultViewClassnameIsNotNull() {
+            addCriterion("default_view_classname is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefaultViewClassnameEqualTo(String value) {
+            addCriterion("default_view_classname =", value, "defaultViewClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefaultViewClassnameNotEqualTo(String value) {
+            addCriterion("default_view_classname <>", value, "defaultViewClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefaultViewClassnameGreaterThan(String value) {
+            addCriterion("default_view_classname >", value, "defaultViewClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefaultViewClassnameGreaterThanOrEqualTo(String value) {
+            addCriterion("default_view_classname >=", value, "defaultViewClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefaultViewClassnameLessThan(String value) {
+            addCriterion("default_view_classname <", value, "defaultViewClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefaultViewClassnameLessThanOrEqualTo(String value) {
+            addCriterion("default_view_classname <=", value, "defaultViewClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefaultViewClassnameLike(String value) {
+            addCriterion("default_view_classname like", value, "defaultViewClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefaultViewClassnameNotLike(String value) {
+            addCriterion("default_view_classname not like", value, "defaultViewClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefaultViewClassnameIn(List<String> values) {
+            addCriterion("default_view_classname in", values, "defaultViewClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefaultViewClassnameNotIn(List<String> values) {
+            addCriterion("default_view_classname not in", values, "defaultViewClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefaultViewClassnameBetween(String value1, String value2) {
+            addCriterion("default_view_classname between", value1, value2, "defaultViewClassname");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefaultViewClassnameNotBetween(String value1, String value2) {
+            addCriterion("default_view_classname not between", value1, value2, "defaultViewClassname");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

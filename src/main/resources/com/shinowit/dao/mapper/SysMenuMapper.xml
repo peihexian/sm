@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.shinowit.dao.mapper.SysMenuMapper" >
+  <cache/>
   <resultMap id="BaseResultMap" type="com.shinowit.entity.SysMenu" >
     <id column="menu_code" property="menuCode" jdbcType="VARCHAR" />
     <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
@@ -10,6 +11,9 @@
     <result column="parent_menu_code" property="parentMenuCode" jdbcType="VARCHAR" />
     <result column="icon_url" property="iconUrl" jdbcType="VARCHAR" />
     <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="controller_full_classname" property="controllerFullClassname" jdbcType="VARCHAR" />
+    <result column="controller_short_name" property="controllerShortName" jdbcType="VARCHAR" />
+    <result column="default_view_classname" property="defaultViewClassname" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    menu_code, menu_name, menu_url, sort_id, status, parent_menu_code, icon_url, permission
+    menu_code, menu_name, menu_url, sort_id, status, parent_menu_code, icon_url, permission, 
+    controller_full_classname, controller_short_name, default_view_classname
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shinowit.entity.SysMenuExample" >
     select
@@ -105,10 +110,14 @@
   <insert id="insert" parameterType="com.shinowit.entity.SysMenu" >
     insert into sys_menu (menu_code, menu_name, menu_url, 
       sort_id, status, parent_menu_code, 
-      icon_url, permission)
+      icon_url, permission, controller_full_classname, 
+      controller_short_name, default_view_classname
+      )
     values (#{menuCode,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR}, 
       #{sortId,jdbcType=SMALLINT}, #{status,jdbcType=BIT}, #{parentMenuCode,jdbcType=VARCHAR}, 
-      #{iconUrl,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR})
+      #{iconUrl,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR}, #{controllerFullClassname,jdbcType=VARCHAR}, 
+      #{controllerShortName,jdbcType=VARCHAR}, #{defaultViewClassname,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.shinowit.entity.SysMenu" >
     insert into sys_menu
@@ -137,6 +146,15 @@
       <if test="permission != null" >
         permission,
       </if>
+      <if test="controllerFullClassname != null" >
+        controller_full_classname,
+      </if>
+      <if test="controllerShortName != null" >
+        controller_short_name,
+      </if>
+      <if test="defaultViewClassname != null" >
+        default_view_classname,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="menuCode != null" >
@@ -162,6 +180,15 @@
       </if>
       <if test="permission != null" >
         #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="controllerFullClassname != null" >
+        #{controllerFullClassname,jdbcType=VARCHAR},
+      </if>
+      <if test="controllerShortName != null" >
+        #{controllerShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultViewClassname != null" >
+        #{defaultViewClassname,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -198,6 +225,15 @@
       <if test="record.permission != null" >
         permission = #{record.permission,jdbcType=VARCHAR},
       </if>
+      <if test="record.controllerFullClassname != null" >
+        controller_full_classname = #{record.controllerFullClassname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.controllerShortName != null" >
+        controller_short_name = #{record.controllerShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.defaultViewClassname != null" >
+        default_view_classname = #{record.defaultViewClassname,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +248,10 @@
       status = #{record.status,jdbcType=BIT},
       parent_menu_code = #{record.parentMenuCode,jdbcType=VARCHAR},
       icon_url = #{record.iconUrl,jdbcType=VARCHAR},
-      permission = #{record.permission,jdbcType=VARCHAR}
+      permission = #{record.permission,jdbcType=VARCHAR},
+      controller_full_classname = #{record.controllerFullClassname,jdbcType=VARCHAR},
+      controller_short_name = #{record.controllerShortName,jdbcType=VARCHAR},
+      default_view_classname = #{record.defaultViewClassname,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +280,15 @@
       <if test="permission != null" >
         permission = #{permission,jdbcType=VARCHAR},
       </if>
+      <if test="controllerFullClassname != null" >
+        controller_full_classname = #{controllerFullClassname,jdbcType=VARCHAR},
+      </if>
+      <if test="controllerShortName != null" >
+        controller_short_name = #{controllerShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultViewClassname != null" >
+        default_view_classname = #{defaultViewClassname,jdbcType=VARCHAR},
+      </if>
     </set>
     where menu_code = #{menuCode,jdbcType=VARCHAR}
   </update>
@@ -252,7 +300,10 @@
       status = #{status,jdbcType=BIT},
       parent_menu_code = #{parentMenuCode,jdbcType=VARCHAR},
       icon_url = #{iconUrl,jdbcType=VARCHAR},
-      permission = #{permission,jdbcType=VARCHAR}
+      permission = #{permission,jdbcType=VARCHAR},
+      controller_full_classname = #{controllerFullClassname,jdbcType=VARCHAR},
+      controller_short_name = #{controllerShortName,jdbcType=VARCHAR},
+      default_view_classname = #{defaultViewClassname,jdbcType=VARCHAR}
     where menu_code = #{menuCode,jdbcType=VARCHAR}
   </update>
   <resultMap id="selectPageResult" extends="BaseResultMap" type="com.shinowit.entity.SysMenu" >

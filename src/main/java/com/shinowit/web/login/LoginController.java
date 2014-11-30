@@ -116,7 +116,7 @@ public class LoginController {
         result.put("success", "true");
         result.put("status", false);
 
-        SysUser user = sys_user_dao.selectByPrimaryKey(1);
+        SysUser user = sys_user_dao.selectByPrimaryKey(2);
         user.setLoginPass("a");
         String new_pass = passwordHelper.encryptPassword(user.getLoginName(), user.getLoginPass());
         user.setLoginPass(new_pass);

@@ -1,7 +1,6 @@
 package com.shinowit.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SysMenu implements Serializable {
@@ -21,9 +20,15 @@ public class SysMenu implements Serializable {
 
     private String permission;
 
+    private String controllerFullClassname;
+
+    private String controllerShortName;
+
+    private String defaultViewClassname;
+
     private static final long serialVersionUID = 1L;
 
-    private List<SysMenu> subMenuList=new ArrayList<SysMenu>();
+    private List<SysMenu> subMenuList;
 
     public String getMenuCode() {
         return menuCode;
@@ -87,6 +92,30 @@ public class SysMenu implements Serializable {
 
     public void setPermission(String permission) {
         this.permission = permission;
+    }
+
+    public String getControllerFullClassname() {
+        return controllerFullClassname;
+    }
+
+    public void setControllerFullClassname(String controllerFullClassname) {
+        this.controllerFullClassname = controllerFullClassname;
+    }
+
+    public String getControllerShortName() {
+        return controllerShortName;
+    }
+
+    public void setControllerShortName(String controllerShortName) {
+        this.controllerShortName = controllerShortName;
+    }
+
+    public String getDefaultViewClassname() {
+        return defaultViewClassname;
+    }
+
+    public void setDefaultViewClassname(String defaultViewClassname) {
+        this.defaultViewClassname = defaultViewClassname;
     }
 
     public List<SysMenu> getSubMenuList() {
