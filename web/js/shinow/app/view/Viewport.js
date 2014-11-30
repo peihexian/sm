@@ -1,90 +1,251 @@
 Ext.define('app.view.Viewport', {
-	renderTo: Ext.getBody(),
-	extend: 'Ext.container.Viewport',
-	alias: 'widget.main_viewport',
-	requires:[
-	    'Ext.tab.Panel',
-	    'Ext.layout.container.Border'
-	],
-	layout: {
-		type: 'border'
-	},
-	items: [
-		{
-		    region: 'north',
-		    xtype:'panel',
-		    html: '<h1 class="x-panel-header">启奥实训教学管理平台</h1>',
-		    border: false,
-		    margins: '0 0 5 0'
-		},	        
-	    {
-	    	region: 'west',
-   			collapsible: true,
-        	title: '功能导航',
-        	id:'menu_panel',
-        	width: 200,
-        	xtype: 'panel',
-//			layout: {
-//		        type: 'accordion',
-//		        xtype: 'panel',
-//		        titleCollapse: true,
-//		        animate: true,
-//		        activeOnTop: false
-//		    },
-		    items: [
-		    	/*
-		    		{
-		        title: '系统设置',
-				xtype: 'treepanel',
-				title: 'west'
-				,
-		        store: Ext.create('Ext.data.TreeStore', {
-			        	root: {
-			        		expanded: true,
-			        		children: [
-			        		           {text: '班级信息', page: 'ClassInfo_List', controller_full_class_name:'app.controller.ClassInfo',leaf: true},
-			        		           {text: '学历分类', page: 'SysEduLevel_List', controller_full_class_name:'app.controller.SysEduLevel',leaf: true},
-			        		           {text: '学校信息', page: 'SchoolInfo_List', leaf: true},
-			        		           {text: '学生信息', page: 'Student_List', leaf: true},
-			        		           {text: '高校机构信息', page: 'SchoolDept_List', leaf: true},
-			        		           {text: '教学情况记录', page: 'TeachRecord_List', leaf: true},
-			        		           {text: '工作岗位分类', page: 'SysJobType_List', leaf: true}
-			        		]
-			        	}
-			        }),
-			        listeners: {
-			        	'itemclick': function(view, record){
-			        		if (!Ext.ClassManager.isCreated(record.raw.controller_full_class_name)) {
-                                var init = getApplication().getController(record.raw.controller_full_class_name);
-                                init.init();
+    renderTo: Ext.getBody(),
+    extend: 'Ext.container.Viewport',
+    alias: 'widget.main_viewport',
+    requires: [
+        'Ext.tab.Panel',
+        'Ext.layout.container.Border'
+    ],
+    layout: {
+        type: 'border'
+    },
+    items: [{
+        region: "north",
+        collapsible: false,
+        border: false,
+        height: 90,
+        layout: 'column',
+        items: [{
+            columnWidth: 1,
+            border: false,
+            height: 90,
+            bodyStyle: 'background: url(./img/top_img.jpg) #fff no-repeat;'
+        }, {
+            xtype: 'panel',
+            border: false,
+            height: 90,
+            width: 250,
+            style: 'background: transparent;',
+            dockedItems: [{
+                xtype: 'toolbar',
+                dock: 'bottom',
+                ui: 'footer',
+                style: 'background: transparent;',
+                defaults: {minWidth: 30},
+                items: [
+                    {xtype: 'component', flex: 1},
+                    {
+                        xtype: 'button', text: '退出', handler: function () {
+                        Ext.Msg.confirm('系统注销', '你确定要退出系统吗?', function (btn) {
+                            if (btn == 'yes') {
+                                window.location.href = GLOBAL_ROOT_PATH + '/login/logout';
                             }
-			        		
-			        		if(record.isLeaf()){
-			        			var id = 'tab-' + record.internalId;
-			        			var center = view.up('viewport').down('tabpanel');
-			        			var tab = center.queryById(id);
-			        			if(!tab){
-			        				tab = center.add(Ext.widget(record.raw.page, {itemId: id, title: record.get('text'),closable : true}));
-			        			}
-			        			center.setActiveTab(tab);
-			        		}
-			        	}
-			        }
-		    },
-		    */
-		   ]     
-    },{
-        region: 'center',
-        xtype: 'tabpanel',
-        id:'tabpanel',
-        itemId: 'center',
-        resizeTabs : true, // 改变选项大小
-        minTabWidth : 115,//每个选项的最小宽度
-        tabWidth : 135,//每个选项的宽度
-        activeTab : 0, // 当前活动面板为第一个，索引为0
-        enableTabScroll : true,//可以左右滑动
-        defaults : {
-              autoScroll : true
-         }
-    }]
+                        })
+                    }
+                    }
+                ]
+            }],
+            items: [{
+                xtype: 'combobox',
+                triggerAction: "all",
+                fieldLabel: '切换皮肤',
+                forceSelection: true,
+                listAlign: 'center',
+                typeAhead: true,
+                emptyText: "切换皮肤",
+                store: new Ext.data.SimpleStore({
+                    fields: ['theme', 'css'],
+                    data: [
+                        ['默 认', 'ext-all.css'],
+                        ['access', 'ext-all-access.css'],
+                        ['gray', 'ext-all-gray.css'],
+                        ['neptune', 'ext-all-neptune.css']
+                    ]
+                }),
+                displayField: "theme",
+                valueField: "css",
+                mode: "local",
+                listeners: {
+                    'select': function (e) {
+                        var conboBoxValue = e.getValue();
+                        var cp = new Ext.state.CookieProvider();
+                        Ext.state.Manager.setProvider(cp);
+                        cp.setCookie('color', conboBoxValue);
+                        Ext.util.CSS.swapStyleSheet(
+                            'theme',
+                            './static/js/extjs/resources/css/' + conboBoxValue
+                        );
+                    }
+                }
+            }]
+        }]
+    },
+        {
+            title: "菜单",
+            id: 'menu-panel',
+            region: "west",
+            split: true,
+            collapsible: true,
+            floatable: false,
+            width: 205,
+            layout: 'border',
+            margins: '2 0 5 5',
+            defaults: {
+                border: false
+            },
+            items: [
+                {
+                    id: 'accordion-panel',
+                    layout: 'accordion',
+                    region: 'center',
+                    items: [
+                        {
+                            title: '入库管理',
+                            layout: {
+                                type: 'vbox',
+                                padding: '5',
+                                align: 'stretch'
+                            },
+                            defaults: {margin: '5 0 5 0'},
+                            items: [
+                                {
+                                    xtype: 'button',
+                                    icon: './static/css/img/add.gif',
+                                    scale: 'medium',
+                                    text: '入库管理'
+                                },
+                                {
+                                    xtype: 'button',
+                                    icon: './static/css/img/add.gif',
+                                    scale: 'medium',
+                                    text: '出库管理'
+                                }
+                            ]
+                        },
+                        {
+                            title: '系统管理',
+                            iconCls: 'icon-nav',
+                            border: false,
+                            items: [
+                                {
+                                    xtype: 'menuitem',
+                                    text: 'test'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }, {
+            xtype:'tabpanel',
+            region: "center",
+            id: 'content_tabpanel',
+            margins: '2 5 5 0',
+            activeTab: 0,
+            border: false,
+            items: [{
+                id: 'start-panel',
+                title: '欢迎使用',
+                layout: 'fit',
+                bodyStyle: 'padding:25px; background-image: url(./img/bg.jpg); background-repeat: no-repeat;  background-attachment: fixed;  background-position: 100% 100%'
+            }]
+        }
+    ],
+    initComponent: function () {
+        var me = this;
+        var cp = new Ext.state.CookieProvider();
+        Ext.state.Manager.setProvider(cp);
+        var css = cp.get('color');
+        if ((null == css) || (undefined == css)) {
+            css = "ext-all.css";
+        }
+        Ext.util.CSS.swapStyleSheet(
+            'theme',
+            './static/js/extjs/resources/css/' + css
+        );
+        Ext.MessageBox.show({title:'请稍候',  msg:'正在加载菜单数据，请耐心等待...'});
+
+        Ext.Ajax.request({
+            url: GLOBAL_ROOT_PATH + '/menu',
+            success: function (response, request) {
+                Ext.MessageBox.hide();
+                var res = Ext.JSON.decode(response.responseText);
+
+                var menu_panels=new Array();
+                for (var i = 0; i < res.subMenuList.length; i++) {
+                    var rec = res.subMenuList[i];
+
+                    menu_panels[i]=Ext.create('Ext.panel.Panel',{
+                        title:rec.menuName,
+                        titleAlign :'center',
+                        layout: {
+                            type: 'vbox',
+                            padding: '5',
+                            align: 'stretch'
+                        },
+                        defaults: {margin: '5 0 5 0'},
+                        items: [
+                        ]
+                    });
+
+                    for (var j=0;j<rec.subMenuList.length;j++){
+                        var subrec=rec.subMenuList[j];
+                        var btn=Ext.create('Ext.button.Button',{
+                            xtype: 'button',
+                            icon: './static/css/img/add.gif',
+                            scale: 'medium',
+                            style:{
+                                marginBottom: '10px'
+                            },
+                            menuCode:subrec.menuCode,
+                            menuName:subrec.menuName,
+                            menuUrl:subrec.menuUrl,
+                            iconUrl:subrec.iconUrl,
+                            controllerFullClassname:subrec.controllerFullClassname,
+                            controllerShortName:subrec.controllerShortName,
+                            defaultViewClassname:subrec.defaultViewClassname,
+                            handler:function(e){
+                                me.menuClick(me,this.controllerFullClassname,this.defaultViewClassname,this.menuName,this.menuCode);
+                            },
+                            text: subrec.menuName
+                        });
+                        menu_panels[i].items.add(btn);
+                    }
+
+                }
+                var _tmp_accordion_panel=Ext.getCmp('accordion-panel');
+                _tmp_accordion_panel.removeAll(true);
+                _tmp_accordion_panel.add(menu_panels);
+                _tmp_accordion_panel.doLayout();
+            },
+            failure: function () {
+                Ext.MessageBox.hide();
+                alert('sorry!');
+            }
+        });
+        me.callParent(arguments);
+    },
+    menuClick:function(viewport,controller_full_class,default_view_class,menu_name,menu_code){
+
+        var id = 'tab_' + menu_code;//id名称里面不能带点
+        var center =  Ext.getCmp('content_tabpanel');
+        var tab = center.queryById(id);
+
+        //如果从来没有加载过,需要异步加载controller js类文件,加载完后在回调函数中初始化tab
+        if (!Ext.ClassManager.isCreated(controller_full_class)) {
+            Ext.require(controller_full_class,function(){
+                var tmp_controller = viewport.application.getController(controller_full_class);
+                tmp_controller.init(viewport.application);
+                tab = center.add(Ext.widget(default_view_class, {itemId: id, title: menu_name,closable : true}));
+                center.setActiveTab(tab);
+            },viewport);
+        }else{
+            //如果不是第一次加载了,判断是否已经显示处理
+            if(!tab){
+                //如果没有显示时
+                tab = center.add(Ext.widget(default_view_class, {itemId: id, title: menu_name,closable : true}));
+            }
+            center.setActiveTab(tab);
+        }
+    }
 });

@@ -14,7 +14,7 @@
 	<script type="text/javascript" src="<%=context_path%>/static/js/extjs/locale/ext-lang-zh_CN.js"></script>
 	<!--定义全局JS变量-->
 	<script type="text/javascript">var GLOBAL_ROOT_PATH="<%=context_path%>";</script>
-	<script type="text/javascript" src="<%=context_path%>/js/main/main.js"></script>
+	<script type="text/javascript" src="<%=context_path%>/js/shinow/app.js"></script>
 </head>
 <body>
 </body>

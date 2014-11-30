@@ -1,7 +1,57 @@
 Ext.BLANK_IMAGE_URL = GLOBAL_ROOT_PATH + '/img/s.gif';
 Ext.QuickTips.init();
+
+// Define custom TreeReader
+var MyTreeReader = Ext.extend(Ext.data.TreeReader, {
+    extractData : function(root, returnRecords) {
+
+        // convert node.
+        var convertedRoot = convertNodeTree(root);
+
+        var records = Ext.data.TreeReader.superclass.extractData.call(this, convertedRoot, returnRecords),
+            ln = records.length,
+            i  = 0,
+            record;
+        if (returnRecords) {
+            for (; i < ln; i++) {
+                record = records[i];
+                record.doPreload = !!this.getRoot(record.raw);
+            }
+        }
+        return records;
+    }
+});
+
 Ext.onReady(
     function () {
+        var menu_panels=Ext.create('Ext.panel.Panel',{
+            layout: 'accordion',
+            region: 'center',
+            items: []
+        });
+
+        var menu_store = Ext.create('Ext.data.TreeStore', {
+            autoLoad : true,
+            proxy: {
+                type: 'ajax',
+                url: GLOBAL_ROOT_PATH+'/menu'
+            },
+            fields:['menuCode','menuName','menuUrl','iconUrl','parentMenuCode','subMenuList'],
+            sorters: [{
+                property: 'menuCode',
+                direction: 'ASC'
+            }],
+            reader : {
+                type : 'json',
+                root:'subMenuList'
+            }
+        });
+
+
+
+        // Register custom TreeReader as 'mytree'
+        Ext.data.ReaderMgr.registerType('mytree', MyTreeReader);
+
         setTimeout(function () {
             var vp = new Ext.Viewport({
                 layout: 'border',
@@ -97,25 +147,28 @@ Ext.onReady(
                             title: '导航菜单',
                             iconCls: 'icon-nav',
                             border: false,
-                            items: [{
-                                xtype: 'treepanel',
-                                border: false,
-                                rootVisible: false,
-                                autoScroll: true,
-                                listeners: {
-                                    'click': function (n) {
-                                        try {
-                                            var sn = this.selModel.selNode || {};
-                                            if (n.leaf && n.id != sn.id) {
-                                                var panel = n.id.substring(0, n.id.indexOf("-")) + "-panel";
-                                                Ext.getCmp('content-panel').layout.setActiveItem(panel);
-
-                                            }
-                                        } catch (e) {
-                                        }
-                                    }
-                                }
-                            }]
+                            items: [ menu_panels
+                            //    {
+                            //    xtype: 'treepanel',
+                            //    border: false,
+                            //    store:menu_store,
+                            //    rootVisible: false,
+                            //    autoScroll: true,
+                            //    listeners: {
+                            //        'click': function (n) {
+                            //            try {
+                            //                var sn = this.selModel.selNode || {};
+                            //                if (n.leaf && n.id != sn.id) {
+                            //                    var panel = n.id.substring(0, n.id.indexOf("-")) + "-panel";
+                            //                    Ext.getCmp('content-panel').layout.setActiveItem(panel);
+                            //
+                            //                }
+                            //            } catch (e) {
+                            //            }
+                            //        }
+                            //    }
+                            //}
+                            ]
                         }]
                     }]
                 }, {
@@ -130,7 +183,6 @@ Ext.onReady(
                         title: '欢迎使用',
                         layout: 'fit',
                         bodyStyle: 'padding:25px; background-image: url(./img/bg.jpg); background-repeat: no-repeat;  background-attachment: fixed;  background-position: 100% 100%'
-                        //html: '<img src="./img/bg.jpg"/>'
                     } ]
                 }]
             });

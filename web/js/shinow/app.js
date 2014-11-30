@@ -1,32 +1,22 @@
 var application;
-var _myDesktopApp;
-
+Ext.BLANK_IMAGE_URL = GLOBAL_ROOT_PATH + '/img/s.gif';
 Ext.tip.QuickTipManager.init();
 
 Ext.Loader.setConfig({
 	disableCaching:false,
-    enabled: true,
-    paths: {
-        'Ext.ux.desktop': 'static/js/lib/desktop',
-        'MyDesktop': 'js/shinow/shinow_desktop'
-    }
+    enabled: true
 });
-
-
-Ext.require('MyDesktop.App');
-        
-//Ext.Ajax.disableCaching = false;
 
 application =new Ext.application({
 	requires: [
 		'Ext.window.MessageBox',
-		'Ext.container.Viewport'
+		'Ext.container.Viewport',
+        'app.view.Viewport'
 	],
 	name: 'app',
 	appFolder:'js/shinow/app',
     autoCreateViewport: false,
     controllers: [
-       // 'webdesktop.Desktop'
     ],
     views: [
     ],
@@ -40,9 +30,8 @@ application =new Ext.application({
         var me = this;
         Ext.QuickTips.init();
         Ext.Ajax.on('requestcomplete', me.onAjaxRequest,me);
-       _myDesktopApp = Ext.create('MyDesktop.App');
-       _myDesktopApp.application=me;
-       
+        var viewport=Ext.widget("main_viewport");
+        viewport.application=me;
     },
     onAjaxRequest: function(connection, response, options) {
         var me = this; // scope: app
@@ -72,7 +61,6 @@ application =new Ext.application({
         */
     }
 });
-
 
 function refresh4Session()
 {
