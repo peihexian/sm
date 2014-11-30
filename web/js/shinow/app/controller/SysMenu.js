@@ -50,11 +50,11 @@
 		add : function(btn){
 			//用于新增数据的方法
 			var window_id='SysMenu_add_window';
-			var desktop = this.app.getDesktop();
-			//以下检测是否该窗口已经打开,如果已经打开则不再重新创建新窗口
-			if (desktop.getWindow(window_id)){
-				desktop.restoreWindow(desktop.getWindow(window_id));
-				return;
+
+			var add_window=Ext.getCmp(window_id);
+			if (add_window){
+				add_window.show();
+				return ;
 			}
 
 			var store = btn.up('panel').down('gridpanel').getStore();
@@ -63,11 +63,12 @@
 			});
 
 			var _view=Ext.widget('SysMenu_Add');
-			var add_window = desktop.createWindow({
+			add_window=Ext.create('Ext.window.Window', {
 				id: window_id,
 				title:'新增系统菜单信息表',
 				layout:"fit",
 				closable:true,
+				modal:false,
 				closeAction:"destroy",
 				items:[_view],
 				iconCls: 'bogus',
@@ -75,7 +76,7 @@
 				animCollapse:false,
 				constrainHeader:true
 			});
-			
+
 			add_window.down('form').loadRecord(new_record);
 			add_window.show();
 		},

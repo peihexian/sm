@@ -235,7 +235,7 @@ Ext.define('app.view.Viewport', {
         if (!Ext.ClassManager.isCreated(controller_full_class)) {
             Ext.require(controller_full_class,function(){
                 var tmp_controller = viewport.application.getController(controller_full_class);
-                tmp_controller.init(viewport.application);
+                //tmp_controller.init(viewport.application);
                 tab = center.add(Ext.widget(default_view_class, {itemId: id, title: menu_name,closable : true}));
                 center.setActiveTab(tab);
             },viewport);
