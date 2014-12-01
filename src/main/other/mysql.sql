@@ -769,3 +769,23 @@ alter table sys_user_role add constraint FK_Reference_44 foreign key (user_id)
 
 alter table sys_user_role add constraint FK_Reference_45 foreign key (role_code)
       references sys_role (role_code);
+
+
+
+
+update sys_menu set controller_full_classname='app.controller.InStock',default_view_classname='InStock_List' where menu_code='0102';
+
+update sys_menu set controller_full_classname='app.controller.Provider',default_view_classname='Provider_List' where menu_code='0101';
+
+
+update sys_menu set controller_full_classname='app.controller.ProductStock',default_view_classname='ProductStock_List' where menu_code='0201';
+
+update sys_menu set controller_full_classname='app.controller.DeliveryInfo',default_view_classname='DeliveryInfo_List' where menu_code='0302';
+
+update sys_menu set controller_full_classname='app.controller.ProductSaleStatus',default_view_classname='ProductSaleStatus_List' where menu_code='0401';
+
+update sys_menu set controller_full_classname='app.controller.ProductType',default_view_classname='ProductType_List' where menu_code='0402';
+
+update sys_menu set controller_full_classname='app.controller.ProductUnit',default_view_classname='ProductUnit_List' where menu_code='0403';
+
+update sys_menu set controller_full_classname='app.controller.Product',default_view_classname='Product_List' where menu_code='0404';
