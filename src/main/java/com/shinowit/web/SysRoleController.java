@@ -3,9 +3,13 @@ package com.shinowit.web;
 import com.shinowit.dao.mapper.SysRoleMapper;
 import com.shinowit.entity.SysRole;
 import com.shinowit.entity.SysRoleExample;
+import com.shinowit.framework.model.ValidationMessages;
 import org.apache.log4j.Logger;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,12 +18,16 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/sysrole")
 public class SysRoleController {
     private static Logger logger = Logger.getLogger(SysRoleController.class);
+
+    @Resource
+    protected MessageSource messageSource; //用于处理国际化资源
 
     @Resource
     private SysRoleMapper sysrole_dao;
@@ -171,5 +179,37 @@ public class SysRoleController {
         return result;
     }
 
+    /**
+     * 填充字段转换或者绑定错误到结果map中,主要解决错误提示消息i18n问题
+     *
+     * @param bindResult
+     * @param result
+     */
+    protected void fillBindingErrorToResult(BindingResult bindResult, Map<String, Object> result) {
+        if (bindResult.hasFieldErrors()) {
+            Locale locale = LocaleContextHolder.getLocale();
+            //Locale locale =RequestContextUtils.getLocale(getRequest());
+            List<FieldError> fieldErrorList = bindResult.getFieldErrors();
+            ValidationMessages messages = new ValidationMessages();
+            for (FieldError fieldError : fieldErrorList) {
+                String errorCodes[] = fieldError.getCodes();
+                boolean found_i18n_msg = false;
+                for (String code : errorCodes) {
+                    String error_msg = messageSource.getMessage(code, null, fieldError.getDefaultMessage(), locale);
+                    if ((error_msg != null) && (!error_msg.equals(fieldError.getDefaultMessage()))) {
+                        //找到了i18n错误提示信息
+                        found_i18n_msg = true;
+                        messages.addFieldError(fieldError.getField(), error_msg);
+                        break;
+                    }
+                }
+                if (false == found_i18n_msg) {
+                    messages.addFieldError(fieldError.getField(), fieldError.getDefaultMessage());
+                }
+            }
+            //转换为extjs能够识别的错误消息格式
+            result.put("errors", messages.getFieldErrors());
+        }
+    }
 
 }
