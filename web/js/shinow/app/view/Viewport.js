@@ -146,8 +146,56 @@ Ext.define('app.view.Viewport', {
             items: [{
                 id: 'start-panel',
                 title: '欢迎使用',
-                layout: 'fit',
-                bodyStyle: 'padding:25px; background-image: url(./img/bg.jpg); background-repeat: no-repeat;  background-attachment: fixed;  background-position: 100% 100%'
+                layout: 'hbox',
+                bodyStyle: 'padding:25px; background-image: url(./img/bg.jpg); background-repeat: no-repeat;  background-attachment: fixed;  background-position: 100% 100%',
+                items:[
+                    {
+                        xtype:'chart',
+                        animate: true,
+                        width:200,
+                        height:200,
+                        store: new Ext.data.ArrayStore({
+                            fields: ['name', 'data1'],
+                            data: [{name:"a",data1:1},{name:"b",data1:2}]
+                        }),
+                        shadow: true,
+                        legend: {
+                            position: 'right'
+                        },
+                        insetPadding: 60,
+                        theme: 'Base:gradients',
+                        series: [{
+                            type: 'pie',
+                            field: 'data1',
+                            showInLegend: true,
+                            donut: 35,
+                            tips: {
+                                trackMouse: true,
+                                width: 140,
+                                height: 28,
+                                renderer: function(storeItem, item) {
+                                    ////calculate percentage.
+                                    //var total = 0;
+                                    //store1.each(function(rec) {
+                                    //    total += rec.get('data1');
+                                    //});
+                                    //this.setTitle(storeItem.get('name') + ': ' + Math.round(storeItem.get('data1') / total * 100) + '%');
+                                }
+                            },
+                            highlight: {
+                                segment: {
+                                    margin: 20
+                                }
+                            },
+                            label: {
+                                field: 'name',
+                                display: 'rotate',
+                                contrast: true,
+                                font: '18px Arial'
+                            }
+                        }]
+                    }
+                ]
             }]
         }
     ],
