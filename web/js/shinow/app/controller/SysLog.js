@@ -50,12 +50,20 @@
 		add : function(btn){
 			//用于新增数据的方法
 			var window_id='SysUserRole_add_window';
-			var desktop = this.app.getDesktop();
+			
 			//以下检测是否该窗口已经打开,如果已经打开则不再重新创建新窗口
+			var add_window=Ext.getCmp(window_id);
+			if (add_window){
+				add_window.show();
+				return ;
+			}
+			/*			
+			var desktop = this.app.getDesktop();
 			if (desktop.getWindow(window_id)){
 				desktop.restoreWindow(desktop.getWindow(window_id));
 				return;
 			}
+			*/
 
 			var store = btn.up('panel').down('gridpanel').getStore();
 			var new_record = Ext.create('app.model.SysUserRole',{
@@ -63,6 +71,21 @@
 			});
 
 			var _view=Ext.widget('SysUserRole_Add');
+			add_window=Ext.create('Ext.window.Window', {
+				id: window_id,
+				title:'新增系统用户对应角色表',
+				layout:"fit",
+				closable:true,
+				modal:false,
+				closeAction:"destroy",
+				items:[_view],
+				iconCls: 'bogus',
+				maximizable:false,
+				animCollapse:false,
+				constrainHeader:true
+			});
+			
+			/*			
 			var add_window = desktop.createWindow({
 				id: window_id,
 				title:'新增系统用户对应角色表',
@@ -75,6 +98,7 @@
 				animCollapse:false,
 				constrainHeader:true
 			});
+			*/
 			
 			add_window.down('form').loadRecord(new_record);
 			add_window.show();
@@ -148,12 +172,21 @@
 		//打开编辑窗口并加载待编辑数据
 		edit : function(btn){
 			var window_id='SysUserRole_edit_window';
-			var desktop = this.app.getDesktop();
+
 			//以下检测是否该窗口已经打开,如果已经打开则不再重新创建新窗口
+			var edit_window=Ext.getCmp(window_id);
+			if (edit_window){
+				edit_window.show();
+				return ;
+			}
+			
+			/*			
+			var desktop = this.app.getDesktop();
 			if (desktop.getWindow(window_id)){
 				desktop.restoreWindow(desktop.getWindow(window_id));
 				return;
 			}
+			*/
 			
 			var store = btn.up('panel').down('gridpanel').getStore();
 			var grid = btn.up('panel').down('gridpanel');
@@ -166,9 +199,25 @@
 			var edit_record = sm.getSelection()[0];
 			
 			var _view=Ext.widget('SysUserRole_Edit');
+			
+			edit_window=Ext.create('Ext.window.Window', {
+				id: window_id,
+				title:'编辑系统用户对应角色表',
+				layout:"fit",
+				closable:true,
+				modal:false,
+				closeAction:"destroy",
+				items:[_view],
+				iconCls: 'bogus',
+				maximizable:false,
+				animCollapse:false,
+				constrainHeader:true
+			});
+			
+			/*			
 			var edit_window = desktop.createWindow({
 				id: window_id,
-				title:'编辑班级信息',
+				title:'编辑系统用户对应角色表',
 				layout:"fit",
 				width:440,
 				height:280,
@@ -180,6 +229,7 @@
 				animCollapse:false,
 				constrainHeader:true
 			});
+			*/
 			
 			edit_window.down('form').loadRecord(edit_record);
 			//加载下拉列表框值及赋予缺省值

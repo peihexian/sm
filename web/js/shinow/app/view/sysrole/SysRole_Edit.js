@@ -54,7 +54,6 @@
 				},
 
 				{
-					xtype:'checkbox',
 					name:'status',
 					fieldLabel:'状态'
 				}	

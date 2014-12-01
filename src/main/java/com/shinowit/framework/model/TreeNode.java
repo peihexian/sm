@@ -1,9 +1,9 @@
 package com.shinowit.framework.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class TreeNode<T> {
 

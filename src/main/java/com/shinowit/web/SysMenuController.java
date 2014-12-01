@@ -3,7 +3,7 @@ package com.shinowit.web;
 import com.shinowit.dao.mapper.SysMenuMapper;
 import com.shinowit.entity.SysMenu;
 import com.shinowit.entity.SysMenuExample;
-import org.apache.log4j.Logger;
+import com.shinowit.framework.controller.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,16 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 @Controller
 @RequestMapping(value = "/sysmenu")
-public class SysMenuController {
-
-    private static Logger logger= Logger.getLogger(SysMenuController.class);
+public class SysMenuController extends BaseController {
 
     @Resource
     private SysMenuMapper sysmenu_dao;
-
 
     @RequestMapping(value = "/listbypage")
     @ResponseBody
@@ -82,6 +78,8 @@ public class SysMenuController {
 
             result.put("success", false);
             result.put("msg", "保存失败!输入数据非法!");
+
+            fillBindingErrorToResult(bindResult, result);
             return result;
         }
 
@@ -122,6 +120,7 @@ public class SysMenuController {
             result.put("success", false);
             result.put("msg", "数据修改失败!输入数据非法!");
 
+            fillBindingErrorToResult(bindResult, result);
             return result;
         }
 

@@ -50,12 +50,20 @@
 		add : function(btn){
 			//用于新增数据的方法
 			var window_id='SysRole_add_window';
-
+			
+			//以下检测是否该窗口已经打开,如果已经打开则不再重新创建新窗口
 			var add_window=Ext.getCmp(window_id);
 			if (add_window){
 				add_window.show();
 				return ;
 			}
+			/*			
+			var desktop = this.app.getDesktop();
+			if (desktop.getWindow(window_id)){
+				desktop.restoreWindow(desktop.getWindow(window_id));
+				return;
+			}
+			*/
 
 			var store = btn.up('panel').down('gridpanel').getStore();
 			var new_record = Ext.create('app.model.SysRole',{
@@ -76,6 +84,22 @@
 				animCollapse:false,
 				constrainHeader:true
 			});
+			
+			/*			
+			var add_window = desktop.createWindow({
+				id: window_id,
+				title:'新增角色信息表',
+				layout:"fit",
+				closable:true,
+				closeAction:"destroy",
+				items:[_view],
+				iconCls: 'bogus',
+				maximizable:false,
+				animCollapse:false,
+				constrainHeader:true
+			});
+			*/
+			
 			add_window.down('form').loadRecord(new_record);
 			add_window.show();
 		},
@@ -149,11 +173,20 @@
 		edit : function(btn){
 			var window_id='SysRole_edit_window';
 
+			//以下检测是否该窗口已经打开,如果已经打开则不再重新创建新窗口
 			var edit_window=Ext.getCmp(window_id);
 			if (edit_window){
 				edit_window.show();
 				return ;
 			}
+			
+			/*			
+			var desktop = this.app.getDesktop();
+			if (desktop.getWindow(window_id)){
+				desktop.restoreWindow(desktop.getWindow(window_id));
+				return;
+			}
+			*/
 			
 			var store = btn.up('panel').down('gridpanel').getStore();
 			var grid = btn.up('panel').down('gridpanel');
@@ -166,7 +199,7 @@
 			var edit_record = sm.getSelection()[0];
 			
 			var _view=Ext.widget('SysRole_Edit');
-
+			
 			edit_window=Ext.create('Ext.window.Window', {
 				id: window_id,
 				title:'编辑角色信息表',
@@ -180,7 +213,24 @@
 				animCollapse:false,
 				constrainHeader:true
 			});
-
+			
+			/*			
+			var edit_window = desktop.createWindow({
+				id: window_id,
+				title:'编辑角色信息表',
+				layout:"fit",
+				width:440,
+				height:280,
+				closable:true,
+				closeAction:"destroy",
+				items:[_view],
+				iconCls: 'bogus',
+				maximizable:false,
+				animCollapse:false,
+				constrainHeader:true
+			});
+			*/
+			
 			edit_window.down('form').loadRecord(edit_record);
 			//加载下拉列表框值及赋予缺省值
 			edit_window.show();

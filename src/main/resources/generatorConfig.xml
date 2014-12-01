@@ -35,7 +35,7 @@
                          targetProject="src\main\resources"/>
 
         <javaClientGenerator targetPackage="com.shinowit.dao.mapper" targetProject="src\main\java"  type="XMLMAPPER" />
-
+<!--
         <table tableName="sys_user_role"/>
         <table tableName="sys_user">
             <generatedKey column="user_id" sqlStatement="MySql" identity="true"/>
@@ -46,5 +46,127 @@
         <table tableName="sys_log">
             <generatedKey column="log_id" sqlStatement="MySql" identity="true"/>
         </table>
+        -->
+
+        <table tableName="sys_user">
+            <generatedKey column="user_id" sqlStatement="MySql"	identity="true" />
+        </table>
+
+
+
+        <table tableName="product_type">
+        </table>
+
+
+
+        <table tableName="product_unit">
+            <generatedKey column="unit_id" sqlStatement="MySql"	identity="true" />
+        </table>
+
+
+
+        <table tableName="product_sale_status">
+            <generatedKey column="status_id" sqlStatement="MySql"	identity="true" />
+        </table>
+
+
+
+        <table tableName="web_user">
+        </table>
+
+
+
+        <table tableName="product">
+        </table>
+
+
+
+        <table tableName="out_stock">
+            <generatedKey column="out_stock_id" sqlStatement="MySql"	identity="true" />
+        </table>
+
+
+
+        <table tableName="provider">
+        </table>
+
+
+
+        <table tableName="delivery_info">
+        </table>
+
+
+
+        <table tableName="sys_role">
+        </table>
+
+
+
+        <table tableName="sys_menu">
+        </table>
+
+
+
+        <table tableName="order_info">
+            <generatedKey column="bill_code" sqlStatement="MySql"	identity="true" />
+        </table>
+
+
+
+        <table tableName="in_stock">
+            <generatedKey column="in_stock_id" sqlStatement="MySql"	identity="true" />
+        </table>
+
+
+
+        <table tableName="sys_log">
+            <generatedKey column="log_id" sqlStatement="MySql"	identity="true" />
+        </table>
+
+
+
+        <table tableName="sys_role_to_menu">
+        </table>
+
+
+
+        <table tableName="sys_user_role">
+        </table>
+
+
+
+        <table tableName="in_stock_detail">
+            <generatedKey column="in_stock_detail_id" sqlStatement="MySql"	identity="true" />
+        </table>
+
+
+
+        <table tableName="order_detail">
+            <generatedKey column="id" sqlStatement="MySql"	identity="true" />
+        </table>
+
+
+
+        <table tableName="member_supply_record">
+            <generatedKey column="id" sqlStatement="MySql"	identity="true" />
+        </table>
+
+
+
+        <table tableName="member_address">
+            <generatedKey column="id" sqlStatement="MySql"	identity="true" />
+        </table>
+
+
+
+        <table tableName="product_stock">
+        </table>
+
+
+
+        <table tableName="out_stock_detail">
+            <generatedKey column="out_stock_detail_id" sqlStatement="MySql"	identity="true" />
+        </table>
+
     </context>
 </generatorConfiguration>

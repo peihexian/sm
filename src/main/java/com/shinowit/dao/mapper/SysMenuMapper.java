@@ -2,10 +2,11 @@ package com.shinowit.dao.mapper;
 
 import com.shinowit.entity.SysMenu;
 import com.shinowit.entity.SysMenuExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface SysMenuMapper {
     int countByExample(SysMenuExample example);

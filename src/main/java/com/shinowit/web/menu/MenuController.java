@@ -20,33 +20,33 @@ public class MenuController {
     @Resource
     private SysMenuMapper menu_dao;
 
-    private void querySubMenu(SysMenu parent_menu){
-        SysMenuExample ex=new SysMenuExample();
+    private void querySubMenu(SysMenu parent_menu) {
+        SysMenuExample ex = new SysMenuExample();
         ex.createCriteria().andParentMenuCodeEqualTo(parent_menu.getMenuCode());
-        List<SysMenu> sub_menus=menu_dao.selectByExample(ex);
+        List<SysMenu> sub_menus = menu_dao.selectByExample(ex);
         parent_menu.setSubMenuList(sub_menus);
-        for (SysMenu menu:sub_menus){
+        for (SysMenu menu : sub_menus) {
             querySubMenu(menu);
         }
     }
 
     @RequiresUser
-    @RequestMapping(value="/menu")
+    @RequestMapping(value = "/menu")
     @ResponseBody
-    public SysMenu getCurrentUserMenu(HttpServletRequest request){
-        SysMenu result=new SysMenu();
+    public SysMenu getCurrentUserMenu(HttpServletRequest request) {
+        SysMenu result = new SysMenu();
 
-        HttpSession session=request.getSession(true);
-        SysUser user=(SysUser)session.getAttribute("current_login_user");
-        if (null==user){
+        HttpSession session = request.getSession(true);
+        SysUser user = (SysUser) session.getAttribute("current_login_user");
+        if (null == user) {
             return result;
         }
 
         //查询顶级菜单
-        List<SysMenu> top_menu=menu_dao.selectTopMenuByUser(user.getUserId());
+        List<SysMenu> top_menu = menu_dao.selectTopMenuByUser(user.getUserId());
         result.setSubMenuList(top_menu);
 
-        for (SysMenu menu:top_menu){
+        for (SysMenu menu : top_menu) {
             querySubMenu(menu);
         }
         return result;

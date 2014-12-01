@@ -2,8 +2,9 @@ package com.shinowit.dao.mapper;
 
 import com.shinowit.entity.SysRoleToMenu;
 import com.shinowit.entity.SysRoleToMenuExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface SysRoleToMenuMapper {
     int countByExample(SysRoleToMenuExample example);

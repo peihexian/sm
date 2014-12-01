@@ -95,13 +95,14 @@ public class LoginController {
 
     @RequestMapping(value = "/logout")
     public String logout(HttpServletRequest request) {
-        try{
+        try {
             request.getSession(true).invalidate();
             Subject currentUser = SecurityUtils.getSubject();
             if (SecurityUtils.getSubject().getSession() != null) {
-               currentUser.logout();
+                currentUser.logout();
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         return "redirect:/login/";
     }
 

@@ -2,8 +2,9 @@ package com.shinowit.dao.mapper;
 
 import com.shinowit.entity.SysUserRole;
 import com.shinowit.entity.SysUserRoleExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface SysUserRoleMapper {
     int countByExample(SysUserRoleExample example);

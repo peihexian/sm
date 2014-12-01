@@ -1,8 +1,8 @@
 package com.shinowit.web;
 
-import com.shinowit.dao.mapper.SysLogMapper;
-import com.shinowit.entity.SysLog;
-import com.shinowit.entity.SysLogExample;
+import com.shinowit.dao.mapper.DeliveryInfoMapper;
+import com.shinowit.entity.DeliveryInfo;
+import com.shinowit.entity.DeliveryInfoExample;
 import com.shinowit.framework.controller.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -17,30 +17,30 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/syslog")
-public class SysLogController extends BaseController {
+@RequestMapping(value = "/deliveryinfo")
+public class DeliveryInfoController extends BaseController {
 
     @Resource
-    private SysLogMapper syslog_dao;
+    private DeliveryInfoMapper deliveryinfo_dao;
 
     @RequestMapping(value = "/listbypage")
     @ResponseBody
     public Map<String, Object> listByPage(@RequestParam("start") int start, @RequestParam("limit") int pageSize, @RequestParam("page") int pageIndex) {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        SysLogExample ex = new SysLogExample(); //创建缺省查询条件对象
+        DeliveryInfoExample ex = new DeliveryInfoExample(); //创建缺省查询条件对象
         ex.setPageSize(pageSize);
         ex.setPageIndex(pageIndex);
-        //ex.setOrderByClause("log_id");
+        //ex.setOrderByClause("delivery_code");
 
-        List<SysLog> list_data = null;
+        List<DeliveryInfo> list_data = null;
         int record_count = 0;
         try {
-            list_data = syslog_dao.selectPage(ex);
+            list_data = deliveryinfo_dao.selectPage(ex);
             result.put("listData", list_data);
 
             //取得满足查询条件的记录总数
-            record_count = syslog_dao.countByExample(ex);
+            record_count = deliveryinfo_dao.countByExample(ex);
 
             //设置查询成功标志
             result.put("success", true);
@@ -67,7 +67,7 @@ public class SysLogController extends BaseController {
 
     @RequestMapping(value = "/add")
     @ResponseBody
-    public Map<String, Object> add(@Valid SysLog pojo, BindingResult bindResult) {
+    public Map<String, Object> add(@Valid DeliveryInfo pojo, BindingResult bindResult) {
         Map<String, Object> result = new HashMap<String, Object>();
 
         if (bindResult.hasErrors()) {
@@ -86,7 +86,7 @@ public class SysLogController extends BaseController {
 
         int rec_changed = 0;
         try {
-            rec_changed = syslog_dao.insert(pojo);
+            rec_changed = deliveryinfo_dao.insert(pojo);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "保存失败!数据库操作异常!");
@@ -108,7 +108,7 @@ public class SysLogController extends BaseController {
 
     @RequestMapping(value = "/edit")
     @ResponseBody
-    public Map<String, Object> edit(@Valid SysLog pojo, BindingResult bindResult) {
+    public Map<String, Object> edit(@Valid DeliveryInfo pojo, BindingResult bindResult) {
         Map<String, Object> result = new HashMap<String, Object>();
 
         if (bindResult.hasErrors()) {
@@ -126,7 +126,7 @@ public class SysLogController extends BaseController {
 
         int rec_changed = 0;
         try {
-            rec_changed = syslog_dao.updateByPrimaryKey(pojo);
+            rec_changed = deliveryinfo_dao.updateByPrimaryKey(pojo);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "修改失败!数据库操作异常!");
@@ -148,12 +148,12 @@ public class SysLogController extends BaseController {
 
     @RequestMapping(value = "/del")
     @ResponseBody
-    public Map<String, Object> del(@RequestParam("id") Integer logId) {
+    public Map<String, Object> del(@RequestParam("id") String deliveryCode) {
         Map<String, Object> result = new HashMap<String, Object>();
 
         int rec_changed = 0;
         try {
-            rec_changed = syslog_dao.deleteByPrimaryKey(logId);
+            rec_changed = deliveryinfo_dao.deleteByPrimaryKey(deliveryCode);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "删除失败!数据库操作异常!");
