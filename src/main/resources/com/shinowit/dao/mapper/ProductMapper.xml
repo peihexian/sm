@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shinowit.dao.mapper.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.shinowit.entity.Product" >
+    <id column="product_code" property="productCode" jdbcType="VARCHAR" />
+    <result column="type_code" property="typeCode" jdbcType="VARCHAR" />
+    <result column="unit_id" property="unitId" jdbcType="TINYINT" />
+    <result column="status_id" property="statusId" jdbcType="TINYINT" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_name_ab" property="productNameAb" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="REAL" />
+    <result column="valid" property="valid" jdbcType="BIT" />
+    <result column="spec" property="spec" jdbcType="VARCHAR" />
+    <result column="describe_txt" property="describeTxt" jdbcType="VARCHAR" />
+    <result column="pic_path" property="picPath" jdbcType="VARCHAR" />
+    <result column="click_count" property="clickCount" jdbcType="INTEGER" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    product_code, type_code, unit_id, status_id, product_name, product_name_ab, price, 
+    valid, spec, describe_txt, pic_path, click_count, memo
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shinowit.entity.ProductExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where product_code = #{productCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from product
+    where product_code = #{productCode,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shinowit.entity.ProductExample" >
+    delete from product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shinowit.entity.Product" >
+    insert into product (product_code, type_code, unit_id, 
+      status_id, product_name, product_name_ab, 
+      price, valid, spec, describe_txt, 
+      pic_path, click_count, memo
+      )
+    values (#{productCode,jdbcType=VARCHAR}, #{typeCode,jdbcType=VARCHAR}, #{unitId,jdbcType=TINYINT}, 
+      #{statusId,jdbcType=TINYINT}, #{productName,jdbcType=VARCHAR}, #{productNameAb,jdbcType=VARCHAR}, 
+      #{price,jdbcType=REAL}, #{valid,jdbcType=BIT}, #{spec,jdbcType=VARCHAR}, #{describeTxt,jdbcType=VARCHAR}, 
+      #{picPath,jdbcType=VARCHAR}, #{clickCount,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shinowit.entity.Product" >
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productCode != null" >
+        product_code,
+      </if>
+      <if test="typeCode != null" >
+        type_code,
+      </if>
+      <if test="unitId != null" >
+        unit_id,
+      </if>
+      <if test="statusId != null" >
+        status_id,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="productNameAb != null" >
+        product_name_ab,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="valid != null" >
+        valid,
+      </if>
+      <if test="spec != null" >
+        spec,
+      </if>
+      <if test="describeTxt != null" >
+        describe_txt,
+      </if>
+      <if test="picPath != null" >
+        pic_path,
+      </if>
+      <if test="clickCount != null" >
+        click_count,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productCode != null" >
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null" >
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null" >
+        #{unitId,jdbcType=TINYINT},
+      </if>
+      <if test="statusId != null" >
+        #{statusId,jdbcType=TINYINT},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productNameAb != null" >
+        #{productNameAb,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="valid != null" >
+        #{valid,jdbcType=BIT},
+      </if>
+      <if test="spec != null" >
+        #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="describeTxt != null" >
+        #{describeTxt,jdbcType=VARCHAR},
+      </if>
+      <if test="picPath != null" >
+        #{picPath,jdbcType=VARCHAR},
+      </if>
+      <if test="clickCount != null" >
+        #{clickCount,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shinowit.entity.ProductExample" resultType="java.lang.Integer" >
+    select count(*) from product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update product
+    <set >
+      <if test="record.productCode != null" >
+        product_code = #{record.productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeCode != null" >
+        type_code = #{record.typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitId != null" >
+        unit_id = #{record.unitId,jdbcType=TINYINT},
+      </if>
+      <if test="record.statusId != null" >
+        status_id = #{record.statusId,jdbcType=TINYINT},
+      </if>
+      <if test="record.productName != null" >
+        product_name = #{record.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productNameAb != null" >
+        product_name_ab = #{record.productNameAb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=REAL},
+      </if>
+      <if test="record.valid != null" >
+        valid = #{record.valid,jdbcType=BIT},
+      </if>
+      <if test="record.spec != null" >
+        spec = #{record.spec,jdbcType=VARCHAR},
+      </if>
+      <if test="record.describeTxt != null" >
+        describe_txt = #{record.describeTxt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picPath != null" >
+        pic_path = #{record.picPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clickCount != null" >
+        click_count = #{record.clickCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.memo != null" >
+        memo = #{record.memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update product
+    set product_code = #{record.productCode,jdbcType=VARCHAR},
+      type_code = #{record.typeCode,jdbcType=VARCHAR},
+      unit_id = #{record.unitId,jdbcType=TINYINT},
+      status_id = #{record.statusId,jdbcType=TINYINT},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      product_name_ab = #{record.productNameAb,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=REAL},
+      valid = #{record.valid,jdbcType=BIT},
+      spec = #{record.spec,jdbcType=VARCHAR},
+      describe_txt = #{record.describeTxt,jdbcType=VARCHAR},
+      pic_path = #{record.picPath,jdbcType=VARCHAR},
+      click_count = #{record.clickCount,jdbcType=INTEGER},
+      memo = #{record.memo,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shinowit.entity.Product" >
+    update product
+    <set >
+      <if test="typeCode != null" >
+        type_code = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null" >
+        unit_id = #{unitId,jdbcType=TINYINT},
+      </if>
+      <if test="statusId != null" >
+        status_id = #{statusId,jdbcType=TINYINT},
+      </if>
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productNameAb != null" >
+        product_name_ab = #{productNameAb,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="valid != null" >
+        valid = #{valid,jdbcType=BIT},
+      </if>
+      <if test="spec != null" >
+        spec = #{spec,jdbcType=VARCHAR},
+      </if>
+      <if test="describeTxt != null" >
+        describe_txt = #{describeTxt,jdbcType=VARCHAR},
+      </if>
+      <if test="picPath != null" >
+        pic_path = #{picPath,jdbcType=VARCHAR},
+      </if>
+      <if test="clickCount != null" >
+        click_count = #{clickCount,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where product_code = #{productCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shinowit.entity.Product" >
+    update product
+    set type_code = #{typeCode,jdbcType=VARCHAR},
+      unit_id = #{unitId,jdbcType=TINYINT},
+      status_id = #{statusId,jdbcType=TINYINT},
+      product_name = #{productName,jdbcType=VARCHAR},
+      product_name_ab = #{productNameAb,jdbcType=VARCHAR},
+      price = #{price,jdbcType=REAL},
+      valid = #{valid,jdbcType=BIT},
+      spec = #{spec,jdbcType=VARCHAR},
+      describe_txt = #{describeTxt,jdbcType=VARCHAR},
+      pic_path = #{picPath,jdbcType=VARCHAR},
+      click_count = #{clickCount,jdbcType=INTEGER},
+      memo = #{memo,jdbcType=VARCHAR}
+    where product_code = #{productCode,jdbcType=VARCHAR}
+  </update>
+  <resultMap id="selectPageResult" extends="BaseResultMap" type="com.shinowit.entity.Product" >
+    <!--
+<association property="" column="" javaType="">
+   <id column="" property="" jdbcType="" />
+   <result column="" property="" jdbcType="" />
+ </association>
+-->
+
+  </resultMap>
+  <select id="selectPage" resultMap="selectPageResult" parameterType="com.shinowit.entity.ProductExample" >
+    select a.* from product a   <if test="_parameter != null" >    <include refid="Example_Where_Clause" />   </if>  <if test="orderByClause != null" >      order by ${orderByClause}    </if> limit ${skipRecordCount}, ${pageSize} 
+  </select>
+  <select id="selectMaxPrimaryKeyValue" resultType="java.lang.String" >
+    select max(product_code) from product
+  </select>
+</mapper>

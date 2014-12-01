@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shinowit.dao.mapper.OutStockMapper" >
+  <resultMap id="BaseResultMap" type="com.shinowit.entity.OutStock" >
+    <id column="out_stock_id" property="outStockId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="out_time" property="outTime" jdbcType="TIMESTAMP" />
+    <result column="handler_name" property="handlerName" jdbcType="VARCHAR" />
+    <result column="out_type" property="outType" jdbcType="TINYINT" />
+    <result column="total_money" property="totalMoney" jdbcType="REAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    out_stock_id, user_id, out_time, handler_name, out_type, total_money, remark
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shinowit.entity.OutStockExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from out_stock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from out_stock
+    where out_stock_id = #{outStockId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from out_stock
+    where out_stock_id = #{outStockId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shinowit.entity.OutStockExample" >
+    delete from out_stock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shinowit.entity.OutStock" >
+    <selectKey resultType="java.lang.Integer" keyProperty="outStockId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into out_stock (user_id, out_time, handler_name, 
+      out_type, total_money, remark
+      )
+    values (#{userId,jdbcType=INTEGER}, #{outTime,jdbcType=TIMESTAMP}, #{handlerName,jdbcType=VARCHAR}, 
+      #{outType,jdbcType=TINYINT}, #{totalMoney,jdbcType=REAL}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shinowit.entity.OutStock" >
+    <selectKey resultType="java.lang.Integer" keyProperty="outStockId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into out_stock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="outTime != null" >
+        out_time,
+      </if>
+      <if test="handlerName != null" >
+        handler_name,
+      </if>
+      <if test="outType != null" >
+        out_type,
+      </if>
+      <if test="totalMoney != null" >
+        total_money,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="outTime != null" >
+        #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handlerName != null" >
+        #{handlerName,jdbcType=VARCHAR},
+      </if>
+      <if test="outType != null" >
+        #{outType,jdbcType=TINYINT},
+      </if>
+      <if test="totalMoney != null" >
+        #{totalMoney,jdbcType=REAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shinowit.entity.OutStockExample" resultType="java.lang.Integer" >
+    select count(*) from out_stock
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update out_stock
+    <set >
+      <if test="record.outStockId != null" >
+        out_stock_id = #{record.outStockId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.outTime != null" >
+        out_time = #{record.outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.handlerName != null" >
+        handler_name = #{record.handlerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outType != null" >
+        out_type = #{record.outType,jdbcType=TINYINT},
+      </if>
+      <if test="record.totalMoney != null" >
+        total_money = #{record.totalMoney,jdbcType=REAL},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update out_stock
+    set out_stock_id = #{record.outStockId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      out_time = #{record.outTime,jdbcType=TIMESTAMP},
+      handler_name = #{record.handlerName,jdbcType=VARCHAR},
+      out_type = #{record.outType,jdbcType=TINYINT},
+      total_money = #{record.totalMoney,jdbcType=REAL},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shinowit.entity.OutStock" >
+    update out_stock
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="outTime != null" >
+        out_time = #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="handlerName != null" >
+        handler_name = #{handlerName,jdbcType=VARCHAR},
+      </if>
+      <if test="outType != null" >
+        out_type = #{outType,jdbcType=TINYINT},
+      </if>
+      <if test="totalMoney != null" >
+        total_money = #{totalMoney,jdbcType=REAL},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where out_stock_id = #{outStockId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shinowit.entity.OutStock" >
+    update out_stock
+    set user_id = #{userId,jdbcType=INTEGER},
+      out_time = #{outTime,jdbcType=TIMESTAMP},
+      handler_name = #{handlerName,jdbcType=VARCHAR},
+      out_type = #{outType,jdbcType=TINYINT},
+      total_money = #{totalMoney,jdbcType=REAL},
+      remark = #{remark,jdbcType=VARCHAR}
+    where out_stock_id = #{outStockId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="selectPageResult" extends="BaseResultMap" type="com.shinowit.entity.OutStock" >
+    <!--
+<association property="" column="" javaType="">
+   <id column="" property="" jdbcType="" />
+   <result column="" property="" jdbcType="" />
+ </association>
+-->
+
+  </resultMap>
+  <select id="selectPage" resultMap="selectPageResult" parameterType="com.shinowit.entity.OutStockExample" >
+    select a.* from out_stock a   <if test="_parameter != null" >    <include refid="Example_Where_Clause" />   </if>  <if test="orderByClause != null" >      order by ${orderByClause}    </if> limit ${skipRecordCount}, ${pageSize} 
+  </select>
+  <select id="selectMaxPrimaryKeyValue" resultType="java.lang.Integer" >
+    select max(out_stock_id) from out_stock
+  </select>
+</mapper>

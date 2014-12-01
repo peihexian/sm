@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shinowit.dao.mapper.OrderInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.shinowit.entity.OrderInfo" >
+    <id column="bill_code" property="billCode" jdbcType="INTEGER" />
+    <result column="delivery_code" property="deliveryCode" jdbcType="VARCHAR" />
+    <result column="out_stock_id" property="outStockId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="post_bill_code" property="postBillCode" jdbcType="VARCHAR" />
+    <result column="bill_status" property="billStatus" jdbcType="TINYINT" />
+    <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+    <result column="recv_name" property="recvName" jdbcType="VARCHAR" />
+    <result column="link_tel" property="linkTel" jdbcType="VARCHAR" />
+    <result column="recv_address" property="recvAddress" jdbcType="VARCHAR" />
+    <result column="post_code" property="postCode" jdbcType="VARCHAR" />
+    <result column="total_money" property="totalMoney" jdbcType="REAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    bill_code, delivery_code, out_stock_id, user_name, user_id, post_bill_code, bill_status, 
+    order_time, recv_name, link_tel, recv_address, post_code, total_money, remark
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shinowit.entity.OrderInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_info
+    where bill_code = #{billCode,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order_info
+    where bill_code = #{billCode,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shinowit.entity.OrderInfoExample" >
+    delete from order_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shinowit.entity.OrderInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="billCode" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into order_info (delivery_code, out_stock_id, user_name, 
+      user_id, post_bill_code, bill_status, 
+      order_time, recv_name, link_tel, 
+      recv_address, post_code, total_money, 
+      remark)
+    values (#{deliveryCode,jdbcType=VARCHAR}, #{outStockId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{postBillCode,jdbcType=VARCHAR}, #{billStatus,jdbcType=TINYINT}, 
+      #{orderTime,jdbcType=TIMESTAMP}, #{recvName,jdbcType=VARCHAR}, #{linkTel,jdbcType=VARCHAR}, 
+      #{recvAddress,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR}, #{totalMoney,jdbcType=REAL}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shinowit.entity.OrderInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="billCode" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into order_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deliveryCode != null" >
+        delivery_code,
+      </if>
+      <if test="outStockId != null" >
+        out_stock_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="postBillCode != null" >
+        post_bill_code,
+      </if>
+      <if test="billStatus != null" >
+        bill_status,
+      </if>
+      <if test="orderTime != null" >
+        order_time,
+      </if>
+      <if test="recvName != null" >
+        recv_name,
+      </if>
+      <if test="linkTel != null" >
+        link_tel,
+      </if>
+      <if test="recvAddress != null" >
+        recv_address,
+      </if>
+      <if test="postCode != null" >
+        post_code,
+      </if>
+      <if test="totalMoney != null" >
+        total_money,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deliveryCode != null" >
+        #{deliveryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outStockId != null" >
+        #{outStockId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="postBillCode != null" >
+        #{postBillCode,jdbcType=VARCHAR},
+      </if>
+      <if test="billStatus != null" >
+        #{billStatus,jdbcType=TINYINT},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recvName != null" >
+        #{recvName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkTel != null" >
+        #{linkTel,jdbcType=VARCHAR},
+      </if>
+      <if test="recvAddress != null" >
+        #{recvAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalMoney != null" >
+        #{totalMoney,jdbcType=REAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shinowit.entity.OrderInfoExample" resultType="java.lang.Integer" >
+    select count(*) from order_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update order_info
+    <set >
+      <if test="record.billCode != null" >
+        bill_code = #{record.billCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.deliveryCode != null" >
+        delivery_code = #{record.deliveryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outStockId != null" >
+        out_stock_id = #{record.outStockId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.postBillCode != null" >
+        post_bill_code = #{record.postBillCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billStatus != null" >
+        bill_status = #{record.billStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.orderTime != null" >
+        order_time = #{record.orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.recvName != null" >
+        recv_name = #{record.recvName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkTel != null" >
+        link_tel = #{record.linkTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recvAddress != null" >
+        recv_address = #{record.recvAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postCode != null" >
+        post_code = #{record.postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalMoney != null" >
+        total_money = #{record.totalMoney,jdbcType=REAL},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update order_info
+    set bill_code = #{record.billCode,jdbcType=INTEGER},
+      delivery_code = #{record.deliveryCode,jdbcType=VARCHAR},
+      out_stock_id = #{record.outStockId,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      post_bill_code = #{record.postBillCode,jdbcType=VARCHAR},
+      bill_status = #{record.billStatus,jdbcType=TINYINT},
+      order_time = #{record.orderTime,jdbcType=TIMESTAMP},
+      recv_name = #{record.recvName,jdbcType=VARCHAR},
+      link_tel = #{record.linkTel,jdbcType=VARCHAR},
+      recv_address = #{record.recvAddress,jdbcType=VARCHAR},
+      post_code = #{record.postCode,jdbcType=VARCHAR},
+      total_money = #{record.totalMoney,jdbcType=REAL},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shinowit.entity.OrderInfo" >
+    update order_info
+    <set >
+      <if test="deliveryCode != null" >
+        delivery_code = #{deliveryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outStockId != null" >
+        out_stock_id = #{outStockId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="postBillCode != null" >
+        post_bill_code = #{postBillCode,jdbcType=VARCHAR},
+      </if>
+      <if test="billStatus != null" >
+        bill_status = #{billStatus,jdbcType=TINYINT},
+      </if>
+      <if test="orderTime != null" >
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recvName != null" >
+        recv_name = #{recvName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkTel != null" >
+        link_tel = #{linkTel,jdbcType=VARCHAR},
+      </if>
+      <if test="recvAddress != null" >
+        recv_address = #{recvAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null" >
+        post_code = #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="totalMoney != null" >
+        total_money = #{totalMoney,jdbcType=REAL},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where bill_code = #{billCode,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shinowit.entity.OrderInfo" >
+    update order_info
+    set delivery_code = #{deliveryCode,jdbcType=VARCHAR},
+      out_stock_id = #{outStockId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      post_bill_code = #{postBillCode,jdbcType=VARCHAR},
+      bill_status = #{billStatus,jdbcType=TINYINT},
+      order_time = #{orderTime,jdbcType=TIMESTAMP},
+      recv_name = #{recvName,jdbcType=VARCHAR},
+      link_tel = #{linkTel,jdbcType=VARCHAR},
+      recv_address = #{recvAddress,jdbcType=VARCHAR},
+      post_code = #{postCode,jdbcType=VARCHAR},
+      total_money = #{totalMoney,jdbcType=REAL},
+      remark = #{remark,jdbcType=VARCHAR}
+    where bill_code = #{billCode,jdbcType=INTEGER}
+  </update>
+  <resultMap id="selectPageResult" extends="BaseResultMap" type="com.shinowit.entity.OrderInfo" >
+    <!--
+<association property="" column="" javaType="">
+   <id column="" property="" jdbcType="" />
+   <result column="" property="" jdbcType="" />
+ </association>
+-->
+
+  </resultMap>
+  <select id="selectPage" resultMap="selectPageResult" parameterType="com.shinowit.entity.OrderInfoExample" >
+    select a.* from order_info a   <if test="_parameter != null" >    <include refid="Example_Where_Clause" />   </if>  <if test="orderByClause != null" >      order by ${orderByClause}    </if> limit ${skipRecordCount}, ${pageSize} 
+  </select>
+  <select id="selectMaxPrimaryKeyValue" resultType="java.lang.Integer" >
+    select max(bill_code) from order_info
+  </select>
+</mapper>

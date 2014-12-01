@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shinowit.dao.mapper.MemberSupplyRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.shinowit.entity.MemberSupplyRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="pay_account_id" property="payAccountId" jdbcType="VARCHAR" />
+    <result column="pay_bank" property="payBank" jdbcType="VARCHAR" />
+    <result column="recv_account_id" property="recvAccountId" jdbcType="VARCHAR" />
+    <result column="recv_bank" property="recvBank" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="total_money" property="totalMoney" jdbcType="REAL" />
+    <result column="supply_time" property="supplyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_name, pay_account_id, pay_bank, recv_account_id, recv_bank, remark, total_money, 
+    supply_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shinowit.entity.MemberSupplyRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from member_supply_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from member_supply_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from member_supply_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shinowit.entity.MemberSupplyRecordExample" >
+    delete from member_supply_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shinowit.entity.MemberSupplyRecord" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into member_supply_record (user_name, pay_account_id, pay_bank, 
+      recv_account_id, recv_bank, remark, 
+      total_money, supply_time)
+    values (#{userName,jdbcType=VARCHAR}, #{payAccountId,jdbcType=VARCHAR}, #{payBank,jdbcType=VARCHAR}, 
+      #{recvAccountId,jdbcType=VARCHAR}, #{recvBank,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{totalMoney,jdbcType=REAL}, #{supplyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shinowit.entity.MemberSupplyRecord" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into member_supply_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="payAccountId != null" >
+        pay_account_id,
+      </if>
+      <if test="payBank != null" >
+        pay_bank,
+      </if>
+      <if test="recvAccountId != null" >
+        recv_account_id,
+      </if>
+      <if test="recvBank != null" >
+        recv_bank,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="totalMoney != null" >
+        total_money,
+      </if>
+      <if test="supplyTime != null" >
+        supply_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="payAccountId != null" >
+        #{payAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="payBank != null" >
+        #{payBank,jdbcType=VARCHAR},
+      </if>
+      <if test="recvAccountId != null" >
+        #{recvAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="recvBank != null" >
+        #{recvBank,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="totalMoney != null" >
+        #{totalMoney,jdbcType=REAL},
+      </if>
+      <if test="supplyTime != null" >
+        #{supplyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shinowit.entity.MemberSupplyRecordExample" resultType="java.lang.Integer" >
+    select count(*) from member_supply_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update member_supply_record
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payAccountId != null" >
+        pay_account_id = #{record.payAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payBank != null" >
+        pay_bank = #{record.payBank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recvAccountId != null" >
+        recv_account_id = #{record.recvAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recvBank != null" >
+        recv_bank = #{record.recvBank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalMoney != null" >
+        total_money = #{record.totalMoney,jdbcType=REAL},
+      </if>
+      <if test="record.supplyTime != null" >
+        supply_time = #{record.supplyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update member_supply_record
+    set id = #{record.id,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      pay_account_id = #{record.payAccountId,jdbcType=VARCHAR},
+      pay_bank = #{record.payBank,jdbcType=VARCHAR},
+      recv_account_id = #{record.recvAccountId,jdbcType=VARCHAR},
+      recv_bank = #{record.recvBank,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      total_money = #{record.totalMoney,jdbcType=REAL},
+      supply_time = #{record.supplyTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shinowit.entity.MemberSupplyRecord" >
+    update member_supply_record
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="payAccountId != null" >
+        pay_account_id = #{payAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="payBank != null" >
+        pay_bank = #{payBank,jdbcType=VARCHAR},
+      </if>
+      <if test="recvAccountId != null" >
+        recv_account_id = #{recvAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="recvBank != null" >
+        recv_bank = #{recvBank,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="totalMoney != null" >
+        total_money = #{totalMoney,jdbcType=REAL},
+      </if>
+      <if test="supplyTime != null" >
+        supply_time = #{supplyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shinowit.entity.MemberSupplyRecord" >
+    update member_supply_record
+    set user_name = #{userName,jdbcType=VARCHAR},
+      pay_account_id = #{payAccountId,jdbcType=VARCHAR},
+      pay_bank = #{payBank,jdbcType=VARCHAR},
+      recv_account_id = #{recvAccountId,jdbcType=VARCHAR},
+      recv_bank = #{recvBank,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      total_money = #{totalMoney,jdbcType=REAL},
+      supply_time = #{supplyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="selectPageResult" extends="BaseResultMap" type="com.shinowit.entity.MemberSupplyRecord" >
+    <!--
+<association property="" column="" javaType="">
+   <id column="" property="" jdbcType="" />
+   <result column="" property="" jdbcType="" />
+ </association>
+-->
+
+  </resultMap>
+  <select id="selectPage" resultMap="selectPageResult" parameterType="com.shinowit.entity.MemberSupplyRecordExample" >
+    select a.* from member_supply_record a   <if test="_parameter != null" >    <include refid="Example_Where_Clause" />   </if>  <if test="orderByClause != null" >      order by ${orderByClause}    </if> limit ${skipRecordCount}, ${pageSize} 
+  </select>
+  <select id="selectMaxPrimaryKeyValue" resultType="java.lang.Integer" >
+    select max(id) from member_supply_record
+  </select>
+</mapper>
