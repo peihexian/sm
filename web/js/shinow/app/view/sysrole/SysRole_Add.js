@@ -58,8 +58,12 @@
 				},
 
 				{
+					xtype:'checkbox',
 					name:'status',
-					fieldLabel:'状态'
+					fieldLabel:'状态',
+					inputValue: 'true',
+					boxLabel  : '启用'
+
 				}	
 			]
 		}];

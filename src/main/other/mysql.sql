@@ -773,6 +773,8 @@ alter table sys_user_role add constraint FK_Reference_45 foreign key (role_code)
 
 
 
+insert into sys_menu(menu_code,menu_name,sort_id,status,parent_menu_code,permission,controller_full_classname,default_view_classname) values('0408','系统功能管理',1,1,'04','sys_menu_menu','app.controller.SysMenu','SysMenu_List');
+
 update sys_menu set controller_full_classname='app.controller.InStock',default_view_classname='InStock_List' where menu_code='0102';
 
 update sys_menu set controller_full_classname='app.controller.Provider',default_view_classname='Provider_List' where menu_code='0101';
@@ -789,3 +791,7 @@ update sys_menu set controller_full_classname='app.controller.ProductType',defau
 update sys_menu set controller_full_classname='app.controller.ProductUnit',default_view_classname='ProductUnit_List' where menu_code='0403';
 
 update sys_menu set controller_full_classname='app.controller.Product',default_view_classname='Product_List' where menu_code='0404';
+
+update sys_menu set controller_full_classname='app.controller.SysUser',default_view_classname='SysUser_List' where menu_code='0405';
+
+update sys_menu set controller_full_classname='app.controller.SysRole',default_view_classname='SysRole_List' where menu_code='0406';
