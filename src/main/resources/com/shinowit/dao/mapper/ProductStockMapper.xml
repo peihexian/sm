@@ -5,6 +5,7 @@
     <id column="product_code" property="productCode" jdbcType="VARCHAR" />
     <result column="avg_price" property="avgPrice" jdbcType="REAL" />
     <result column="num" property="num" jdbcType="INTEGER" />
+    <association property="product" column="product_code" javaType="com.shinowit.entity.Product" select="com.shinowit.dao.mapper.ProductMapper.selectByPrimaryKey"/>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >

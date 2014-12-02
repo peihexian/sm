@@ -22,6 +22,10 @@ Ext.define('app.model.ProductStock', {
 				{
 					name : 'num',
 					type: 'int'
-				}
+				},
+			{
+				name:'product.productName'
+			}
+
 		]
 });

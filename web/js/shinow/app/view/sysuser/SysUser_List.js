@@ -64,12 +64,7 @@
 							
 							
 						},
-						{
-							text: '用户密码',
-							dataIndex:'loginPass'
-							
-							
-						},
+
 						{
 							text: '地址',
 							dataIndex:'address'

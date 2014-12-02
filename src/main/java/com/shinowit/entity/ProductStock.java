@@ -9,6 +9,8 @@ public class ProductStock implements Serializable {
 
     private Integer num;
 
+    private Product product;
+
     private static final long serialVersionUID = 1L;
 
     public String getProductCode() {
@@ -33,5 +35,13 @@ public class ProductStock implements Serializable {
 
     public void setNum(Integer num) {
         this.num = num;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

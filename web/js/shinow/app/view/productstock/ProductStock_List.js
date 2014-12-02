@@ -17,19 +17,29 @@
 	},
 	initComponent: function() {
 		var me = this;
+		var productCode_store = Ext.create('app.store.Product',{
+			pageSize : 1000,
+			autoLoad:true
+		});
+		var productCode_combobox = Ext.create('Ext.form.ComboBox',{
+			name:'productCode',
+			editable: false,
+			forceSelection: true,
+			labelAlign:'left',
+			fieldLabel:'商品编码',
+			store:productCode_store,
+			queryMode:'local',
+			displayField:'productName',
+			valueField:'productCode',
+			allowBlank:false,
+			emptyText : '请选择'
+		});
 		Ext.applyIf(me, {
-			tbar : [{
-				text : '新增',
-				action : 'add',
+			tbar : [productCode_combobox,,
+				{
+				text : '查询',
+				action : 'query',
 				iconCls : 'add-btn-icon'
-			},'-',{
-				text : '修改',
-				action : 'edit',
-				iconCls : 'edit-btn-icon'
-			} ,'-',{
-				text : '删除',
-				action : 'del',
-				iconCls : 'del-btn-icon'
 			}],
 			items: [
 				{
@@ -47,8 +57,8 @@
 					},					
 					columns: [
 						{
-							text: '商品编码',
-							dataIndex:'productCode'
+							text: '商品',
+							dataIndex:'product.productName'
 							
 							
 						},
@@ -63,6 +73,12 @@
 							dataIndex:'num'
 							
 							
+						},{
+							text:'库存成本小计',
+							renderer: function(val,params, data) {
+								var percentage = (data.raw.num*data.raw.avgPrice);
+								return percentage.toString() + '元';
+							}
 						}
 					],
 					dockedItems: [{
