@@ -53,28 +53,20 @@
 							
 						},
 						{
-							text: '商品类别编码',
-							dataIndex:'typeCode'
-							
-							
+							text: '商品类别',
+							dataIndex:'productType.typeName'
 						},
 						{
-							text: '商品单位分类id',
-							dataIndex:'unitId'
-							
-							
+							text: '商品单位分类',
+							dataIndex:'productUnit.name'
 						},
 						{
-							text: '促销状态编码',
-							dataIndex:'statusId'
-							
-							
+							text: '促销状态',
+							dataIndex:'saleStatus.statusName'
 						},
 						{
 							text: '商品名称',
 							dataIndex:'productName'
-							
-							
 						},
 						{
 							text: '商品助记码',

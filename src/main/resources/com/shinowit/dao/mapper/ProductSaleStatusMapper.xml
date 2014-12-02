@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.shinowit.dao.mapper.ProductSaleStatusMapper" >
+  <cache/>
   <resultMap id="BaseResultMap" type="com.shinowit.entity.ProductSaleStatus" >
     <id column="status_id" property="statusId" jdbcType="TINYINT" />
     <result column="status_name" property="statusName" jdbcType="VARCHAR" />

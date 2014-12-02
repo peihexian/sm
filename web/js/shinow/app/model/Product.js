@@ -62,6 +62,16 @@ Ext.define('app.model.Product', {
 				{
 					name : 'memo',
 					type: 'string'
+				},
+				{
+					name:'saleStatus.statusName'
+				},
+				{
+					name:'productType.typeName'
+				},
+				{
+					name:'productUnit.name'
 				}
+
 		]
 });

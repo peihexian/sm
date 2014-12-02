@@ -336,12 +336,14 @@
     where product_code = #{productCode,jdbcType=VARCHAR}
   </update>
   <resultMap id="selectPageResult" extends="BaseResultMap" type="com.shinowit.entity.Product" >
-    <!--
-<association property="" column="" javaType="">
-   <id column="" property="" jdbcType="" />
-   <result column="" property="" jdbcType="" />
- </association>
--->
+
+    <association property="saleStatus" column="status_id" javaType="com.shinowit.entity.ProductSaleStatus" select="com.shinowit.dao.mapper.ProductSaleStatusMapper.selectByPrimaryKey">
+    </association>
+    <association property="productType" column="type_code" javaType="com.shinowit.entity.ProductType" select="com.shinowit.dao.mapper.ProductTypeMapper.selectByPrimaryKey">
+    </association>
+    <association property="productUnit" column="unit_id" javaType="com.shinowit.entity.ProductUnit" select="com.shinowit.dao.mapper.ProductUnitMapper.selectByPrimaryKey">
+    </association>
+
 
   </resultMap>
   <select id="selectPage" resultMap="selectPageResult" parameterType="com.shinowit.entity.ProductExample" >

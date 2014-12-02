@@ -31,6 +31,12 @@ public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private ProductSaleStatus saleStatus; //促销状态
+
+    private ProductType productType;//产品分类
+
+    private ProductUnit productUnit;//单位
+
     public String getProductCode() {
         return productCode;
     }
@@ -133,5 +139,29 @@ public class Product implements Serializable {
 
     public void setMemo(String memo) {
         this.memo = memo;
+    }
+
+    public ProductSaleStatus getSaleStatus() {
+        return saleStatus;
+    }
+
+    public void setSaleStatus(ProductSaleStatus saleStatus) {
+        this.saleStatus = saleStatus;
+    }
+
+    public ProductType getProductType() {
+        return productType;
+    }
+
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
+    }
+
+    public ProductUnit getProductUnit() {
+        return productUnit;
+    }
+
+    public void setProductUnit(ProductUnit productUnit) {
+        this.productUnit = productUnit;
     }
 }
