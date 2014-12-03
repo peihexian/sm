@@ -80,7 +80,7 @@
 				border:false,
 				closeAction:"destroy",
 				items:[_view],
-				iconCls: 'bogus',
+				//iconCls: 'bogus',
 				maximizable:false,
 				animCollapse:false,
 				constrainHeader:true
