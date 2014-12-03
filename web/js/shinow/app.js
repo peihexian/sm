@@ -12,7 +12,7 @@ application =new Ext.application({
 		'Ext.window.MessageBox',
 		'Ext.container.Viewport',
         'app.view.Viewport'
-	],
+    ],
 	name: 'app',
 	appFolder:'js/shinow/app',
     autoCreateViewport: false,

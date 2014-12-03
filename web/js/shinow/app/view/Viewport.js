@@ -4,7 +4,8 @@ Ext.define('app.view.Viewport', {
     alias: 'widget.main_viewport',
     requires: [
         'Ext.tab.Panel',
-        'Ext.layout.container.Border'
+        'Ext.layout.container.Border',
+        'app.store.StockChartPieStore'
     ],
     layout: {
         type: 'border'
@@ -152,12 +153,9 @@ Ext.define('app.view.Viewport', {
                     {
                         xtype:'chart',
                         animate: true,
-                        width:200,
-                        height:200,
-                        store: new Ext.data.ArrayStore({
-                            fields: ['name', 'data1'],
-                            data: [{name:"a",data1:1},{name:"b",data1:2}]
-                        }),
+                        width:400,
+                        height:400,
+                        store:Ext.create('app.store.StockChartPieStore'),
                         shadow: true,
                         legend: {
                             position: 'right'
@@ -174,12 +172,12 @@ Ext.define('app.view.Viewport', {
                                 width: 140,
                                 height: 28,
                                 renderer: function(storeItem, item) {
-                                    ////calculate percentage.
                                     //var total = 0;
-                                    //store1.each(function(rec) {
+                                    //storeItem.each(function(rec) {
                                     //    total += rec.get('data1');
                                     //});
-                                    //this.setTitle(storeItem.get('name') + ': ' + Math.round(storeItem.get('data1') / total * 100) + '%');
+                                    //this.setTitle(storeItem.get('product_name') + ': ' + Math.round(storeItem.get('data1') / total * 100) + '%');
+                                    this.setTitle(storeItem.get('product_name') + ': ' +storeItem.get('data1')+'元库存成本');
                                 }
                             },
                             highlight: {
@@ -188,11 +186,58 @@ Ext.define('app.view.Viewport', {
                                 }
                             },
                             label: {
-                                field: 'name',
+                                field: 'product_name',
                                 display: 'rotate',
                                 contrast: true,
                                 font: '18px Arial'
                             }
+                        }]
+                    },{
+                        xtype:'chart',
+                        style: 'background:#fff',
+                        animate: true,
+                        shadow: true,
+                        width:400,
+                        height:400,
+                        store: Ext.create('app.store.StockChartPieStore'),
+                        axes: [{
+                            type: 'Numeric',
+                            position: 'left',
+                            fields: ['data1'],
+                            label: {
+                                renderer: Ext.util.Format.numberRenderer('0,0')
+                            },
+                            title: 'Number of Hits',
+                            grid: true,
+                            minimum: 0
+                        }, {
+                            type: 'Category',
+                            position: 'bottom',
+                            fields: ['product_name'],
+                            title: '库存商品成本统计图'
+                        }],
+                        series: [{
+                            type: 'column',
+                            axis: 'left',
+                            highlight: true,
+                            tips: {
+                                trackMouse: true,
+                                width: 140,
+                                height: 28,
+                                renderer: function(storeItem, item) {
+                                    this.setTitle(storeItem.get('product_name') + ': ' + storeItem.get('data1') + ' $');
+                                }
+                            },
+                            label: {
+                                display: 'insideEnd',
+                                'text-anchor': 'middle',
+                                field: 'data1',
+                                renderer: Ext.util.Format.numberRenderer('0'),
+                                orientation: 'vertical',
+                                color: '#333'
+                            },
+                            xField: 'product_name',
+                            yField: 'data1'
                         }]
                     }
                 ]

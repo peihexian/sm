@@ -77,11 +77,12 @@
 				layout:"fit",
 				closable:true,
 				modal:false,
+				border: false,
 				closeAction:"destroy",
 				items:[_view],
 				iconCls: 'bogus',
 				maximizable:false,
-				animCollapse:false,
+				animCollapse:true,
 				constrainHeader:true
 			});
 			

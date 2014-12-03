@@ -25,6 +25,7 @@
 			defaultType:'textfield',
 			labelAlign:'right',
 			width:'auto',
+			border:false,
 			// height : 150,
 			// width:390,
 			frame : true,
