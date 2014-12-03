@@ -1,3 +1,4 @@
+<%@ page import="com.shinowit.entity.SysUser" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
 <%
   String context_path=request.getContextPath();
@@ -13,7 +14,13 @@
 	<script type="text/javascript" src="<%=context_path%>/static/js/extjs/bootstrap.js"></script>
 	<script type="text/javascript" src="<%=context_path%>/static/js/extjs/locale/ext-lang-zh_CN.js"></script>
 	<!--定义全局JS变量-->
-	<script type="text/javascript">var GLOBAL_ROOT_PATH="<%=context_path%>";</script>
+	<script type="text/javascript">
+		var GLOBAL_ROOT_PATH="<%=context_path%>";
+		<%
+		   SysUser user=(SysUser)session.getAttribute("current_login_user");
+		%>
+		var global_current_login_user="<%=user.getLoginName()%>";
+	</script>
 	<script type="text/javascript" src="<%=context_path%>/js/shinow/app.js"></script>
 </head>
 <body>

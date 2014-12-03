@@ -34,6 +34,7 @@ Ext.define('app.view.main.Main_Top_Panel', {
                         defaults: {minWidth: 30},
                         items: [
                             {xtype: 'component', flex: 1},
+                            {xtype:'label',text:'当前用户:'+global_current_login_user},
                             {
                                 xtype: 'button', text: '退出', handler: function () {
                                 Ext.Msg.confirm('系统注销', '你确定要退出系统吗?', function (btn) {

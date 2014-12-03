@@ -23,9 +23,9 @@ Ext.define('app.view.Viewport', {
                     xtype:'main_top_panel'
                 },
                 {
-                    title: "菜单",
-                    id: 'menu-panel',
                     region: "west",
+                    title: "菜单导航",
+                    id: 'menu-panel',
                     split: true,
                     collapsible: true,
                     floatable: false,
