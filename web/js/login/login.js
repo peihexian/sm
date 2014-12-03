@@ -17,13 +17,24 @@ Ext.onReady(function () {
     Ext.state.Manager.setProvider(cp);
     var last_loginUsername = cp.get("loginName");
 
+    //加载css主题样式
+    var css = cp.get('color');
+    if ((null == css) || (undefined == css)) {
+        css = "ext-all.css";
+    }
+    Ext.util.CSS.swapStyleSheet(
+        'theme',
+        GLOBAL_ROOT_PATH+ '/static/js/extjs/resources/css/' + css
+    );
+
     var login_form = new Ext.create('Ext.form.FormPanel', {
         bodyStyle: 'padding-top:20px;padding-left:20px;',
         defaultType: 'textfield',
         labelAlign: 'right',
         width: 'auto',
         height: 150,
-        frame: true,
+        frame: false,
+        border:false,
         buttonAlign: 'center',
         defaults: {
             allowBlank: false,
@@ -116,10 +127,12 @@ Ext.onReady(function () {
         modal: true,
         draggable: false,
         shadow: true,
+        frame:false,
         items: [
             login_form
         ]
     });
+
     login_window.show();
     //创建验证码
     Ext.core.DomHelper.insertAfter(Ext.get('validCode'), {
@@ -137,6 +150,7 @@ Ext.onReady(function () {
             }
         }
     });
+
     //浏览器窗口大小发生变化时，让弹出的窗体自动居中
     Ext.EventManager.onWindowResize(function () {
         if (login_window) {

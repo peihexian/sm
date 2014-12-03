@@ -4,6 +4,7 @@ Ext.define('app.view.main.Main_Top_Panel', {
         'Ext.tab.Panel',
         'Ext.layout.container.Border'
     ],
+    viewport:null,
     alias: 'widget.main_top_panel',
     initComponent: function () {
         var me = this;
@@ -76,6 +77,7 @@ Ext.define('app.view.main.Main_Top_Panel', {
                                     'theme',
                                     './static/js/extjs/resources/css/' + conboBoxValue
                                 );
+                                me.viewport.doLayout();
                             }
                         }
                     }]

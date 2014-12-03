@@ -30,8 +30,7 @@ application =new Ext.application({
         var me = this;
         Ext.QuickTips.init();
         Ext.Ajax.on('requestcomplete', me.onAjaxRequest,me);
-        var viewport=Ext.widget("main_viewport",{application:me});
-        //viewport.application=me;
+        Ext.widget("main_viewport",{application:me});
     },
     onAjaxRequest: function(connection, response, options) {
         var me = this; // scope: app

@@ -20,6 +20,7 @@ Ext.define('app.view.Viewport', {
             items:[
                 {
                     region: "north",
+                    viewport:me,
                     xtype:'main_top_panel'
                 },
                 {
