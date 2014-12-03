@@ -5,247 +5,173 @@ Ext.define('app.view.Viewport', {
     requires: [
         'Ext.tab.Panel',
         'Ext.layout.container.Border',
-        'app.store.StockChartPieStore'
+        'app.store.StockChartPieStore',
+        'app.view.main.Main_Pie_Chart',
+        'app.view.main.Main_Column_Chart'
     ],
     layout: {
         type: 'border'
     },
-    items: [{
-        region: "north",
-        collapsible: false,
-        border: false,
-        height: 90,
-        layout: 'column',
-        items: [{
-            columnWidth: 1,
-            border: false,
-            height: 90,
-            bodyStyle: 'background: url(./img/top_img.jpg) #fff no-repeat;'
-        }, {
-            xtype: 'panel',
-            border: false,
-            height: 90,
-            width: 250,
-            style: 'background: transparent;',
-            dockedItems: [{
-                xtype: 'toolbar',
-                dock: 'bottom',
-                ui: 'footer',
-                style: 'background: transparent;',
-                defaults: {minWidth: 30},
-                items: [
-                    {xtype: 'component', flex: 1},
-                    {
-                        xtype: 'button', text: '退出', handler: function () {
-                        Ext.Msg.confirm('系统注销', '你确定要退出系统吗?', function (btn) {
-                            if (btn == 'yes') {
-                                window.location.href = GLOBAL_ROOT_PATH + '/login/logout';
+    initComponent: function () {
+        var me = this;
+        var chart_data_store=Ext.create('app.store.StockChartPieStore');
+        Ext.applyIf(me,{
+            items:[{
+                region: "north",
+                collapsible: false,
+                border: false,
+                height: 90,
+                layout: 'column',
+                items: [{
+                    columnWidth: 1,
+                    border: false,
+                    height: 90,
+                    bodyStyle: 'background: url(./img/top_img.jpg) #fff no-repeat;'
+                }, {
+                    xtype: 'panel',
+                    border: false,
+                    height: 90,
+                    width: 250,
+                    style: 'background: transparent;',
+                    dockedItems: [{
+                        xtype: 'toolbar',
+                        dock: 'bottom',
+                        ui: 'footer',
+                        style: 'background: transparent;',
+                        defaults: {minWidth: 30},
+                        items: [
+                            {xtype: 'component', flex: 1},
+                            {
+                                xtype: 'button', text: '退出', handler: function () {
+                                Ext.Msg.confirm('系统注销', '你确定要退出系统吗?', function (btn) {
+                                    if (btn == 'yes') {
+                                        window.location.href = GLOBAL_ROOT_PATH + '/login/logout';
+                                    }
+                                })
                             }
-                        })
-                    }
-                    }
-                ]
-            }],
-            items: [{
-                xtype: 'combobox',
-                triggerAction: "all",
-                fieldLabel: '切换皮肤',
-                forceSelection: true,
-                listAlign: 'center',
-                typeAhead: true,
-                emptyText: "切换皮肤",
-                store: new Ext.data.SimpleStore({
-                    fields: ['theme', 'css'],
-                    data: [
-                        ['默 认', 'ext-all.css'],
-                        ['access', 'ext-all-access.css'],
-                        ['gray', 'ext-all-gray.css'],
-                        ['neptune', 'ext-all-neptune.css']
-                    ]
-                }),
-                displayField: "theme",
-                valueField: "css",
-                mode: "local",
-                listeners: {
-                    'select': function (e) {
-                        var conboBoxValue = e.getValue();
-                        var cp = new Ext.state.CookieProvider();
-                        Ext.state.Manager.setProvider(cp);
-                        cp.setCookie('color', conboBoxValue);
-                        Ext.util.CSS.swapStyleSheet(
-                            'theme',
-                            './static/js/extjs/resources/css/' + conboBoxValue
-                        );
-                    }
-                }
-            }]
-        }]
-    },
-        {
-            title: "菜单",
-            id: 'menu-panel',
-            region: "west",
-            split: true,
-            collapsible: true,
-            floatable: false,
-            width: 205,
-            layout: 'border',
-            margins: '2 0 5 5',
-            defaults: {
-                border: false
+                            }
+                        ]
+                    }],
+                    items: [{
+                        xtype: 'combobox',
+                        triggerAction: "all",
+                        fieldLabel: '切换皮肤',
+                        forceSelection: true,
+                        listAlign: 'center',
+                        typeAhead: true,
+                        emptyText: "切换皮肤",
+                        store: new Ext.data.SimpleStore({
+                            fields: ['theme', 'css'],
+                            data: [
+                                ['默 认', 'ext-all.css'],
+                                ['access', 'ext-all-access.css'],
+                                ['gray', 'ext-all-gray.css'],
+                                ['neptune', 'ext-all-neptune.css']
+                            ]
+                        }),
+                        displayField: "theme",
+                        valueField: "css",
+                        mode: "local",
+                        listeners: {
+                            'select': function (e) {
+                                var conboBoxValue = e.getValue();
+                                var cp = new Ext.state.CookieProvider();
+                                Ext.state.Manager.setProvider(cp);
+                                cp.setCookie('color', conboBoxValue);
+                                Ext.util.CSS.swapStyleSheet(
+                                    'theme',
+                                    './static/js/extjs/resources/css/' + conboBoxValue
+                                );
+                            }
+                        }
+                    }]
+                }]
             },
-            items: [
                 {
-                    id: 'accordion-panel',
-                    layout: 'accordion',
-                    region: 'center',
+                    title: "菜单",
+                    id: 'menu-panel',
+                    region: "west",
+                    split: true,
+                    collapsible: true,
+                    floatable: false,
+                    width: 205,
+                    layout: 'border',
+                    margins: '2 0 5 5',
+                    defaults: {
+                        border: false
+                    },
                     items: [
                         {
-                            title: '入库管理',
-                            layout: {
-                                type: 'vbox',
-                                padding: '5',
-                                align: 'stretch'
-                            },
-                            defaults: {margin: '5 0 5 0'},
+                            id: 'accordion-panel',
+                            layout: 'accordion',
+                            region: 'center',
                             items: [
                                 {
-                                    xtype: 'button',
-                                    icon: './static/css/img/add.gif',
-                                    scale: 'medium',
-                                    text: '入库管理'
+                                    title: '入库管理',
+                                    layout: {
+                                        type: 'vbox',
+                                        padding: '5',
+                                        align: 'stretch'
+                                    },
+                                    defaults: {margin: '5 0 5 0'},
+                                    items: [
+                                        {
+                                            xtype: 'button',
+                                            icon: './static/css/img/add.gif',
+                                            scale: 'medium',
+                                            text: '入库管理'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            icon: './static/css/img/add.gif',
+                                            scale: 'medium',
+                                            text: '出库管理'
+                                        }
+                                    ]
                                 },
                                 {
-                                    xtype: 'button',
-                                    icon: './static/css/img/add.gif',
-                                    scale: 'medium',
-                                    text: '出库管理'
-                                }
-                            ]
-                        },
-                        {
-                            title: '系统管理',
-                            iconCls: 'icon-nav',
-                            border: false,
-                            items: [
-                                {
-                                    xtype: 'menuitem',
-                                    text: 'test'
+                                    title: '系统管理',
+                                    iconCls: 'icon-nav',
+                                    border: false,
+                                    items: [
+                                        {
+                                            xtype: 'menuitem',
+                                            text: 'test'
+                                        }
+                                    ]
                                 }
                             ]
                         }
                     ]
+                }, {
+                    xtype:'tabpanel',
+                    region: "center",
+                    id: 'content_tabpanel',
+                    margins: '2 5 5 0',
+                    activeTab: 0,
+                    border: false,
+                    items: [{
+                        id: 'start-panel',
+                        title: '欢迎使用',
+                        layout: 'hbox',
+                        bodyStyle: 'padding:25px; background-image: url(./img/bg.jpg); background-repeat: no-repeat;  background-attachment: fixed;  background-position: 100% 100%',
+                        items:[
+                            {
+                                xtype:'main_pie_chart',
+                                chart_store:chart_data_store
+                            }
+                            ,
+                            {
+                                xtype: 'main_column_chart',
+                                chart_store: chart_data_store
+                            }
+                        ]
+                    }]
                 }
             ]
-        }, {
-            xtype:'tabpanel',
-            region: "center",
-            id: 'content_tabpanel',
-            margins: '2 5 5 0',
-            activeTab: 0,
-            border: false,
-            items: [{
-                id: 'start-panel',
-                title: '欢迎使用',
-                layout: 'hbox',
-                bodyStyle: 'padding:25px; background-image: url(./img/bg.jpg); background-repeat: no-repeat;  background-attachment: fixed;  background-position: 100% 100%',
-                items:[
-                    {
-                        xtype:'chart',
-                        animate: true,
-                        width:400,
-                        height:400,
-                        store:Ext.create('app.store.StockChartPieStore'),
-                        shadow: true,
-                        legend: {
-                            position: 'right'
-                        },
-                        insetPadding: 60,
-                        theme: 'Base:gradients',
-                        series: [{
-                            type: 'pie',
-                            field: 'data1',
-                            showInLegend: true,
-                            donut: 35,
-                            tips: {
-                                trackMouse: true,
-                                width: 140,
-                                height: 28,
-                                renderer: function(storeItem, item) {
-                                    //var total = 0;
-                                    //storeItem.each(function(rec) {
-                                    //    total += rec.get('data1');
-                                    //});
-                                    //this.setTitle(storeItem.get('product_name') + ': ' + Math.round(storeItem.get('data1') / total * 100) + '%');
-                                    this.setTitle(storeItem.get('product_name') + ': ' +storeItem.get('data1')+'元库存成本');
-                                }
-                            },
-                            highlight: {
-                                segment: {
-                                    margin: 20
-                                }
-                            },
-                            label: {
-                                field: 'product_name',
-                                display: 'rotate',
-                                contrast: true,
-                                font: '18px Arial'
-                            }
-                        }]
-                    },{
-                        xtype:'chart',
-                        style: 'background:#fff',
-                        animate: true,
-                        shadow: true,
-                        width:400,
-                        height:400,
-                        store: Ext.create('app.store.StockChartPieStore'),
-                        axes: [{
-                            type: 'Numeric',
-                            position: 'left',
-                            fields: ['data1'],
-                            label: {
-                                renderer: Ext.util.Format.numberRenderer('0,0')
-                            },
-                            title: 'Number of Hits',
-                            grid: true,
-                            minimum: 0
-                        }, {
-                            type: 'Category',
-                            position: 'bottom',
-                            fields: ['product_name'],
-                            title: '库存商品成本统计图'
-                        }],
-                        series: [{
-                            type: 'column',
-                            axis: 'left',
-                            highlight: true,
-                            tips: {
-                                trackMouse: true,
-                                width: 140,
-                                height: 28,
-                                renderer: function(storeItem, item) {
-                                    this.setTitle(storeItem.get('product_name') + ': ' + storeItem.get('data1') + ' $');
-                                }
-                            },
-                            label: {
-                                display: 'insideEnd',
-                                'text-anchor': 'middle',
-                                field: 'data1',
-                                renderer: Ext.util.Format.numberRenderer('0'),
-                                orientation: 'vertical',
-                                color: '#333'
-                            },
-                            xField: 'product_name',
-                            yField: 'data1'
-                        }]
-                    }
-                ]
-            }]
-        }
-    ],
-    initComponent: function () {
-        var me = this;
+            }
+        );
+
         var cp = new Ext.state.CookieProvider();
         Ext.state.Manager.setProvider(cp);
         var css = cp.get('color');

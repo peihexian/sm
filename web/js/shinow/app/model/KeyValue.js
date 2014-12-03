@@ -12,12 +12,10 @@ Ext.define('app.model.KeyValue', {
 		alias : 'model.KeyValue',
 		fields : [
 				{
-					name : 'key',
-					type: 'string'
+					name : 'key'
 				},
 				{
-					name : 'value',
-					type: 'string'
+					name : 'value'
 				}
 		]
 });
