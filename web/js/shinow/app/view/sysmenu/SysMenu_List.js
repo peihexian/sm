@@ -18,19 +18,6 @@
 	initComponent: function() {
 		var me = this;
 		Ext.applyIf(me, {
-			tbar : [{
-				text : '新增',
-				action : 'add',
-				iconCls : 'add-btn-icon'
-			},'-',{
-				text : '修改',
-				action : 'edit',
-				iconCls : 'edit-btn-icon'
-			} ,'-',{
-				text : '删除',
-				action : 'del',
-				iconCls : 'del-btn-icon'
-			}],
 			items: [
 				{
 					xtype: 'gridpanel',

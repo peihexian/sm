@@ -60,9 +60,15 @@
 						},
 						{
 							text: '状态',
-							dataIndex:'status'
-							
-							
+							dataIndex:'status',
+							renderer:function(value){
+								if ((value=='false') || (value==false)){
+									return '未启用';
+								}
+								if ((value=='true') || (true==value)) {
+									return '启用';
+								}
+							}
 						},
 						{
 							text: '备注',
