@@ -132,6 +132,7 @@ Ext.define('app.view.Viewport', {
 
                     menu_panels[i]=Ext.create('Ext.panel.Panel',{
                         title:rec.menuName,
+                        autoScroll:true,
                         titleAlign :'center',
                         layout: {
                             type: 'vbox',
