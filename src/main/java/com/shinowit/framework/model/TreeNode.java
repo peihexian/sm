@@ -7,12 +7,12 @@ import java.util.List;
 
 public class TreeNode<T> {
 
-	public T data;
+	private T data;
 	
 	@JsonIgnore
-	public TreeNode<T> parent;
+	private TreeNode<T> parent;
 	
-	public List<TreeNode<T>> child_nodes=new ArrayList<TreeNode<T>>();
+	private List<TreeNode<T>> children=new ArrayList<TreeNode<T>>();
 	
 	public TreeNode(){}
 	
@@ -20,11 +20,33 @@ public class TreeNode<T> {
 		this.data=data;
 	}
 	
-	public TreeNode<T> addChild(TreeNode<T> node){
-		node.parent=this;
-		this.child_nodes.add(node);
-		return node;
+	public TreeNode<T> addChild(TreeNode<T> child){
+		child.parent=this;
+		this.children.add(child);
+		return child;
 	}
-	
-	
+
+	public T getData() {
+		return data;
+	}
+
+	public void setData(T data) {
+		this.data = data;
+	}
+
+	public TreeNode<T> getParent() {
+		return parent;
+	}
+
+	public void setParent(TreeNode<T> parent) {
+		this.parent = parent;
+	}
+
+	public List<TreeNode<T>> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<TreeNode<T>> children) {
+		this.children = children;
+	}
 }

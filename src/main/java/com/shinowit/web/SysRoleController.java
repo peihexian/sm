@@ -1,9 +1,14 @@
 package com.shinowit.web;
 
+import com.shinowit.dao.mapper.SysMenuMapper;
 import com.shinowit.dao.mapper.SysRoleMapper;
+import com.shinowit.entity.SysMenu;
+import com.shinowit.entity.SysMenuExample;
 import com.shinowit.entity.SysRole;
 import com.shinowit.entity.SysRoleExample;
 import com.shinowit.framework.controller.BaseController;
+import com.shinowit.framework.model.TreeNode;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +27,9 @@ public class SysRoleController extends BaseController {
 
     @Resource
     private SysRoleMapper sysrole_dao;
+
+    @Resource
+    private SysMenuMapper sys_menu_dao;
 
     @RequestMapping(value = "/listbypage")
     @ResponseBody
@@ -172,5 +180,52 @@ public class SysRoleController extends BaseController {
         return result;
     }
 
+    private void querySubMenuByRoleCode(String roleCode,TreeNode<SysMenu> parent_node){
+        if ((null==parent_node) || (parent_node.getData()==null)){
+            return;
+        }
+        List<SysMenu> submenus=sys_menu_dao.selectSubMenuByRoleAndParentMenuCode(roleCode, parent_node.getData().getMenuCode());
+        if (null!=submenus){
+            for (SysMenu menu:submenus){
+                TreeNode<SysMenu> node=new TreeNode<SysMenu>();
+                node.setData(menu);
+
+                parent_node.addChild(node);
+
+                querySubMenuByRoleCode(roleCode,node);
+            }
+        }
+    }
+
+    @RequestMapping(value="/menutree")
+    @ResponseBody
+    public Map<String,Object> getMenuTreeByRoleCode(@RequestParam("rolecode") String roleCode){
+        Map<String, Object> result = new HashMap<String, Object>();
+        try {
+            TreeNode<SysMenu> rootNode=new TreeNode<SysMenu>();
+            //取顶级节点
+            List<SysMenu> top_menus=sys_menu_dao.selectTopMenuByRole(roleCode);
+
+            for (SysMenu menu:top_menus){
+                TreeNode<SysMenu> node=new TreeNode<SysMenu>();
+                node.setData(menu);
+
+                rootNode.addChild(node);
+
+                querySubMenuByRoleCode(roleCode, node);
+            }
+
+            result.put("success",true);
+            result.put("menudata",rootNode);
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("msg", "数据库操作异常!");
+            if (logger.isDebugEnabled()) {
+                logger.error(e.getMessage(), e);
+            }
+            return result;
+        }
+        return result;
+    }
 
 }

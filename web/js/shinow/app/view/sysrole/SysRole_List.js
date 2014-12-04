@@ -12,11 +12,35 @@
 	extend: 'Ext.panel.Panel',
 	alias : 'widget.SysRole_List',
 	store : 'SysRole',
+	treeData:{menudata:{children:[]},text:'权限列表'},
 	layout: {
 		type: 'border'
 	},
 	initComponent: function() {
 		var me = this;
+		Ext.Ajax.request({
+			url:GLOBAL_ROOT_PATH+'/sysrole/menutree?rolecode=001',
+			async: false,
+			success:function(response){
+				me.treeData = response.responseText;
+				if (typeof(me.treeData) === 'string'){
+					me.treeData = Ext.JSON.decode(me.treeData);
+				}
+			}
+		});
+		var store = Ext.create("Ext.data.TreeStore",{
+			fields:[
+				{ name: 'id', type:'string',mapping: 'data.menuCode'},
+				{ name: 'text', type: 'string', mapping: 'data.menuName'}
+			]
+			,
+			root: {
+				text: '角色对应权限',
+				id: '-1',
+				children: me.treeData.menudata.children
+			}
+		});
+
 		Ext.applyIf(me, {
 			tbar : [{
 				text : '新增',
@@ -32,6 +56,14 @@
 				iconCls : 'del-btn-icon'
 			}],
 			items: [
+				{
+					xtype: 'treepanel',
+					region: 'east',
+					width:360,
+					collapsible: false,
+					title : "角色对应权限",
+					store: store
+				},
 				{
 					xtype: 'gridpanel',
 					region: 'center',

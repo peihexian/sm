@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.shinowit.dao.mapper.SysMenuMapper" >
+  <cache/>
   <resultMap id="BaseResultMap" type="com.shinowit.entity.SysMenu" >
     <id column="menu_code" property="menuCode" jdbcType="VARCHAR" />
     <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
