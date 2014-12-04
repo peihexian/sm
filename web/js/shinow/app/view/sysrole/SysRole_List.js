@@ -59,7 +59,7 @@
 				{
 					xtype: 'treepanel',
 					region: 'east',
-					width:360,
+					width:300,
 					collapsible: false,
 					title : "角色对应权限",
 					store: store
