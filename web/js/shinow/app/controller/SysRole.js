@@ -71,7 +71,7 @@ Ext.define('app.controller.SysRole', {
                         me.getSysrole_tree_panel().getRootNode().data.text='角色'+rec.get('roleName')+'对应权限';
                         me.getSysrole_tree_panel().expandAll();
                         //me.getSysrole_tree_panel().store=store;// .getStore().load({node:json_obj});
-                        me.getSysrole_tree_panel().doLayout();
+                       // me.getSysrole_tree_panel().doLayout();
                        // me.treeData = response.responseText;
                        // if (typeof(me.treeData) === 'string'){
                        //     me.treeData = Ext.JSON.decode(me.treeData);
