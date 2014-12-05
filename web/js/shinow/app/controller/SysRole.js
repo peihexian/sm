@@ -74,7 +74,7 @@ Ext.define('app.controller.SysRole', {
 
                 Ext.Ajax.request({
                     url: GLOBAL_ROOT_PATH + '/sysrole/menutree?rolecode=' + rec.get('roleCode'),
-                    scope : me,
+                    scope: me,
                     async: false,
                     success: function (response) {
                         var json_obj = Ext.JSON.decode(response.responseText);
@@ -93,6 +93,7 @@ Ext.define('app.controller.SysRole', {
             store.loadPage(1);
         },
         add: function (btn) {
+            var me = this;
             //用于新增数据的方法
             var window_id = 'SysRole_add_window';
 
@@ -115,7 +116,31 @@ Ext.define('app.controller.SysRole', {
                 //default data
             });
 
-            var _view = Ext.widget('SysRole_Add');
+            Ext.Ajax.request({
+                url: GLOBAL_ROOT_PATH + '/sysrole/fullmenutree',
+                async: false,
+                success: function (response) {
+                    me.treeData = response.responseText;
+                    if (typeof(me.treeData) === 'string') {
+                        me.treeData = Ext.JSON.decode(me.treeData);
+                    }
+                }
+            });
+            var store = Ext.create("Ext.data.TreeStore", {
+                fields: [
+                    {name: 'id', type: 'string', mapping: 'data.menuCode'},
+                    {name: 'text', type: 'string', mapping: 'data.menuName'},
+                    {name: 'checked', type: 'boolean', mapping: 'data.checked'}
+                ]
+                ,
+                root: {
+                    text: '角色对应权限',
+                    id: '-1',
+                    children: me.treeData.menudata.children
+                }
+            });
+
+            var _view = Ext.widget('SysRole_Add', {mytreestore: store});
             add_window = Ext.create('Ext.window.Window', {
                 id: window_id,
                 title: '新增角色信息表',
@@ -148,6 +173,9 @@ Ext.define('app.controller.SysRole', {
 
             add_window.down('form').loadRecord(new_record);
             add_window.show();
+            Ext.getCmp('role_add_tree_panel').expandAll();
+            //me.getRole_add_treepanel().getRootNode().expandAll();
+
         },
         //保存新增的数据
         save_add: function (btn) {
@@ -283,8 +311,8 @@ Ext.define('app.controller.SysRole', {
             //加载下拉列表框值及赋予缺省值
             edit_window.show();
         },
-        //保存修改结果的方法
         save_edit: function (btn) {
+            //保存修改结果的方法
             var me = this;
             var edit_window = btn.up('window');
             var form = edit_window.down('form').getForm();
@@ -315,5 +343,5 @@ Ext.define('app.controller.SysRole', {
                 });
             }
         }
-    }
+     }
 );

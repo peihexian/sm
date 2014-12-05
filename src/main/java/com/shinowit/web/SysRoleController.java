@@ -8,6 +8,7 @@ import com.shinowit.entity.SysRole;
 import com.shinowit.entity.SysRoleExample;
 import com.shinowit.framework.controller.BaseController;
 import com.shinowit.framework.model.TreeNode;
+import com.shinowit.framework.model.TreeNodeCheckable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -213,6 +214,59 @@ public class SysRoleController extends BaseController {
                 rootNode.addChild(node);
 
                 querySubMenuByRoleCode(roleCode, node);
+            }
+
+            result.put("success",true);
+            result.put("menudata",rootNode);
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("msg", "数据库操作异常!");
+            if (logger.isDebugEnabled()) {
+                logger.error(e.getMessage(), e);
+            }
+            return result;
+        }
+        return result;
+    }
+
+    private void querySubMenu(TreeNodeCheckable<SysMenu> parent_node){
+        if ((null==parent_node) || (parent_node.getData()==null)){
+            return;
+        }
+        SysMenuExample ex=new SysMenuExample();
+        ex.createCriteria().andParentMenuCodeEqualTo(parent_node.getData().getMenuCode());
+
+        List<SysMenu> submenus=sys_menu_dao.selectByExample(ex);
+        if (null!=submenus){
+            for (SysMenu menu:submenus){
+                TreeNodeCheckable<SysMenu> node=new TreeNodeCheckable<SysMenu>();
+                node.setData(menu);
+
+                parent_node.addChild(node);
+
+                querySubMenu(node);
+            }
+        }
+    }
+
+    @RequestMapping(value="/fullmenutree")
+    @ResponseBody
+    public Map<String,Object> getFullMenuTree(){
+        Map<String, Object> result = new HashMap<String, Object>();
+        try {
+            TreeNodeCheckable<SysMenu> rootNode=new TreeNodeCheckable<SysMenu>();
+            SysMenuExample ex=new SysMenuExample();
+            ex.createCriteria().andParentMenuCodeIsNull();
+            //取顶级节点
+            List<SysMenu> top_menus=sys_menu_dao.selectByExample(ex);
+
+            for (SysMenu menu:top_menus){
+                TreeNodeCheckable<SysMenu> node=new TreeNodeCheckable<SysMenu>();
+                node.setData(menu);
+
+                rootNode.addChild(node);
+
+                querySubMenu(node);
             }
 
             result.put("success",true);

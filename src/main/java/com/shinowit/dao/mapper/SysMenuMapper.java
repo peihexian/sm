@@ -46,4 +46,5 @@ public interface SysMenuMapper {
     @Select("select p.menu_code,p.menu_name from sys_role r, sys_menu p, sys_role_to_menu rp where r.role_code=#{role_code} and r.role_code=rp.role_code and p.parent_menu_code=#{parent_role_code} and p.menu_code=rp.menu_code")
     @ResultMap("com.shinowit.dao.mapper.SysMenuMapper.BaseResultMap")
     List<SysMenu> selectSubMenuByRoleAndParentMenuCode(@Param("role_code") String role_code,@Param("parent_role_code")String parent_role_code);
+
 }

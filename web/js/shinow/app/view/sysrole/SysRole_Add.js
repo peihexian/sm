@@ -13,15 +13,16 @@ Ext.define('app.view.sysrole.SysRole_Add', {
     alias: 'widget.SysRole_Add',
     layout: 'border',
     width: 400,
-    height: 135,
+    height: 435,
     border: false,
     buttonAlign: 'center',
+    mytreestore: null,
     initComponent: function () {
         var me = this;
         Ext.applyIf(me, {
             items: [
                 {
-                    region: "center",
+                    region: "north",
                     xtype: 'panel',
                     defaultType: 'textfield',
                     labelAlign: 'right',
@@ -30,7 +31,7 @@ Ext.define('app.view.sysrole.SysRole_Add', {
                     defaults: {
                         allowBlank: false,
                         autowidth: true,
-                        margin:'5 5 5 5',
+                        margin: '5 5 5 5',
                         labelAlign: 'right',
                         height: 20,
                         width: 299
@@ -71,6 +72,34 @@ Ext.define('app.view.sysrole.SysRole_Add', {
                             mode: "local"
                         }
                     ]
+                }, {
+                    region: "center",
+                    xtype: 'panel',
+                    height: 300,
+                    border: false,
+                    title: '请选择菜单权限',
+                    layout: 'fit',
+                    items: [
+                        {
+                            xtype: 'treepanel',
+                            id: 'role_add_tree_panel',
+                            width: 300,
+                            collapsible: false,
+                            store: me.mytreestore,
+                            listeners: {
+                                checkchange: function (node, checked) {
+                                    node.expand();
+                                    node.checked = checked;
+                                    node.eachChild(function (child) {
+                                        child.set('checked', checked);
+                                        child.fireEvent('checkchange', child, checked);
+                                    });
+                                }
+                            }
+
+                        }
+                    ]
+
                 }
             ],
             buttons: [
@@ -86,6 +115,7 @@ Ext.define('app.view.sysrole.SysRole_Add', {
                     }
                 }
             ]
+
         });
         this.callParent(arguments);
     }
