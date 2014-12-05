@@ -20,8 +20,8 @@ Ext.define('app.controller.SysRole', {
                 selector: 'SysRole_List>gridpanel'
             },
             {
-                ref:'sysrole_tree_panel',
-                selector:'SysRole_List>treepanel'
+                ref: 'sysrole_tree_panel',
+                selector: 'SysRole_List>treepanel'
             }
         ],
         init: function (application) {
@@ -29,12 +29,12 @@ Ext.define('app.controller.SysRole', {
             me.control({
                 'SysRole_List>gridpanel': {
                     render: this.loadDefaultListData,
-                    afterrender: function(grid) {
-                        var selModel=grid.getSelectionModel();
-                        selModel.myGrid=grid;
+                    afterrender: function (grid) {
+                        var selModel = grid.getSelectionModel();
+                        selModel.myGrid = grid;
                     },
-                    selectionchange: function(selModel, selected, eOpts) {
-                        var grid=selModel.theLookupGrid;
+                    selectionchange: function (selModel, selected, eOpts) {
+                        var grid = selModel.theLookupGrid;
                         me.loadRoleMenu();
                     }
                 },
@@ -55,27 +55,34 @@ Ext.define('app.controller.SysRole', {
                 }
             });
         },
-        loadRoleMenu: function(){
-            var me=this;
-            var rec =  me.getSysrole_gridpanel().getSelectionModel().getSelection()[0];
-            if (rec){
-                Ext.Ajax.request({
-                    url:GLOBAL_ROOT_PATH+'/sysrole/menutree?rolecode='+rec.get('roleCode'),
-                    async: false,
-                    success:function(response){
-                        var json_obj=Ext.JSON.decode(response.responseText);
-                        me.getSysrole_tree_panel().getRootNode().removeAll(false);
+        loadRoleMenu: function () {
+            var me = this;
+            var rec = me.getSysrole_gridpanel().getSelectionModel().getSelection()[0];
+            if (rec) {
 
-                        //me.getSysrole_tree_panel().getRootNode().appendChild(json_obj.menudata.children);
+                Ext.MessageBox.wait({
+                    title: '请稍候',
+                    msg: '正在加载数据，请耐心等待...',
+                    wait: true,
+                    progress: true,
+                    closable: true,
+                    waitConfig: {
+                        interval: 200
+                    },
+                    icon: Ext.Msg.INFO
+                });
+
+                Ext.Ajax.request({
+                    url: GLOBAL_ROOT_PATH + '/sysrole/menutree?rolecode=' + rec.get('roleCode'),
+                    scope : me,
+                    async: false,
+                    success: function (response) {
+                        var json_obj = Ext.JSON.decode(response.responseText);
+                        me.getSysrole_tree_panel().getRootNode().removeAll(false);
                         me.getSysrole_tree_panel().setRootNode(json_obj.menudata);
-                        me.getSysrole_tree_panel().getRootNode().data.text='角色'+rec.get('roleName')+'对应权限';
+                        me.getSysrole_tree_panel().getRootNode().data.text = '角色' + rec.get('roleName') + '对应权限';
                         me.getSysrole_tree_panel().expandAll();
-                        //me.getSysrole_tree_panel().store=store;// .getStore().load({node:json_obj});
-                       // me.getSysrole_tree_panel().doLayout();
-                       // me.treeData = response.responseText;
-                       // if (typeof(me.treeData) === 'string'){
-                       //     me.treeData = Ext.JSON.decode(me.treeData);
-                       // }
+                        Ext.MessageBox.hide();
                     }
                 });
 
