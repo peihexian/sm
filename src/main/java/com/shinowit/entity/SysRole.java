@@ -1,6 +1,7 @@
 package com.shinowit.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class SysRole implements Serializable {
     private String roleCode;
@@ -12,6 +13,8 @@ public class SysRole implements Serializable {
     private Boolean status;
 
     private static final long serialVersionUID = 1L;
+
+    private List<String> menus;
 
     public String getRoleCode() {
         return roleCode;
@@ -43,5 +46,14 @@ public class SysRole implements Serializable {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+
+    public List<String> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<String> menus) {
+        this.menus = menus;
     }
 }

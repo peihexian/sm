@@ -9,6 +9,7 @@ import com.shinowit.entity.SysRoleExample;
 import com.shinowit.framework.controller.BaseController;
 import com.shinowit.framework.model.TreeNode;
 import com.shinowit.framework.model.TreeNodeCheckable;
+import com.shinowit.service.SysRoleService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -31,6 +32,9 @@ public class SysRoleController extends BaseController {
 
     @Resource
     private SysMenuMapper sys_menu_dao;
+
+    @Resource
+    private SysRoleService sysRoleService;
 
     @RequestMapping(value = "/listbypage")
     @ResponseBody
@@ -93,9 +97,9 @@ public class SysRoleController extends BaseController {
         }
 
 
-        int rec_changed = 0;
+        boolean rec_created = false;
         try {
-            rec_changed = sysrole_dao.insert(pojo);
+            rec_created = this.sysRoleService.createRole(pojo);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "保存失败!数据库操作异常!");
@@ -104,7 +108,7 @@ public class SysRoleController extends BaseController {
             }
             return result;
         }
-        if (rec_changed > 0) {
+        if (true==rec_created) {
             result.put("success", true);
             result.put("msg", "保存成功!");
         } else {
@@ -160,9 +164,9 @@ public class SysRoleController extends BaseController {
     public Map<String, Object> del(@RequestParam("id") String roleCode) {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        int rec_changed = 0;
+        boolean rec_deleted= false;
         try {
-            rec_changed = sysrole_dao.deleteByPrimaryKey(roleCode);
+            rec_deleted = sysRoleService.deleteRole(roleCode);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "删除失败!数据库操作异常!");
@@ -171,7 +175,7 @@ public class SysRoleController extends BaseController {
             }
             return result;
         }
-        if (rec_changed > 0) {
+        if (true==rec_deleted) {
             result.put("success", true);
             result.put("msg", "删除成功!");
         } else {

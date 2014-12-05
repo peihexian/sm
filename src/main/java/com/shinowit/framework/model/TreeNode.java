@@ -49,4 +49,12 @@ public class TreeNode<T> {
 	public void setChildren(List<TreeNode<T>> children) {
 		this.children = children;
 	}
+
+	public boolean isLeaf(){
+		if ((null!=this.children) && (children.size()>0)){
+			return false;
+		}else{
+			return true;
+		}
+	}
 }

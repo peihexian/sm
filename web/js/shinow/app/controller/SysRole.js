@@ -182,8 +182,20 @@ Ext.define('app.controller.SysRole', {
             var me = this;
             var add_window = btn.up('window');
             var form = add_window.down('form').getForm();
+            var checked_records=Ext.getCmp('role_add_tree_panel').getChecked();
+            console.log(checked_records.length);
+            var menu_data=new Array();
+            Ext.each(checked_records,function(node,index){
+                if (node.data.id!='-1'){
+                    menu_data.push(node.data.id);
+                }
+
+            });
             if (form.isValid()) {
                 form.submit({
+                    params: {
+                        menus: menu_data
+                    },
                     url: GLOBAL_ROOT_PATH + "/sysrole/add",
                     waitTitle: '提示',
                     waitMsg: '正在提交数据,请稍候...',
