@@ -139,9 +139,9 @@ public class SysUserController extends BaseController {
             return result;
         }
 
-        int rec_changed = 0;
+        boolean rec_changed = false;
         try {
-            rec_changed = sysuser_dao.updateByPrimaryKey(pojo);
+            rec_changed = sysUserService.editUser(pojo);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "修改失败!数据库操作异常!");
@@ -150,7 +150,7 @@ public class SysUserController extends BaseController {
             }
             return result;
         }
-        if (rec_changed > 0) {
+        if (true==rec_changed) {
             result.put("success", true);
             result.put("msg", "修改成功!");
         } else {
@@ -209,6 +209,22 @@ public class SysUserController extends BaseController {
         Map<String, Object> result = new HashMap<String, Object>();
         try{
             List<SysRole> role_list=sys_role_dao.selectByExample(new SysRoleExample());
+            result.put("roles",role_list);
+            result.put("success",true);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error(e.getMessage(),e);
+        }
+        return result;
+    }
+
+    @RequestMapping(value="/edit_user_role_by_user_id")
+    @ResponseBody
+    public Map<String,Object> getEditUserRoles(@RequestParam("user_id")Integer user_id){
+        Map<String, Object> result = new HashMap<String, Object>();
+        try{
+            List<Map<String,Object>> role_list=jt.queryForList("select a.role_code,a.role_name,case when ((select count(0) from sys_user_role b where b.role_code=a.role_code and b.user_id=?)>0) then true else false end as checked from sys_role a ",new Object[]{user_id},new int[]{Types.INTEGER});
             result.put("roles",role_list);
             result.put("success",true);
 

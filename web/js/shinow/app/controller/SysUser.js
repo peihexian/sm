@@ -263,6 +263,7 @@ Ext.define('app.controller.SysUser', {
         },
         //打开编辑窗口并加载待编辑数据
         edit: function (btn) {
+            var me=this;
             var window_id = 'SysUser_edit_window';
 
             //以下检测是否该窗口已经打开,如果已经打开则不再重新创建新窗口
@@ -294,7 +295,7 @@ Ext.define('app.controller.SysUser', {
 
             edit_window = Ext.create('Ext.window.Window', {
                 id: window_id,
-                title: '编辑系统用户信息表',
+                title: '编辑用户信息',
                 layout: "fit",
                 closable: true,
                 modal: false,
@@ -323,6 +324,26 @@ Ext.define('app.controller.SysUser', {
              });
              */
 
+            Ext.Ajax.request({
+                url: GLOBAL_ROOT_PATH + '/sysuser/edit_user_role_by_user_id?user_id='+edit_record.get('userId'),
+                scope: me,
+                async: false,
+                success: function (response) {
+                    var json_obj = Ext.JSON.decode(response.responseText);
+                    Ext.MessageBox.hide();
+                    Ext.getCmp('user_edit_role_checkboxgroup').removeAll();
+                    Ext.getCmp('user_edit_role_checkboxgroup').add(Ext.Array.map(json_obj.roles, function(record) {
+                        return {
+                            boxLabel: record.role_name,
+                            inputValue: record.role_code,
+                            checked:record.checked,
+                            name: 'user_role'
+                        };
+                    }));
+                }
+            });
+
+
             edit_window.down('form').loadRecord(edit_record);
             //加载下拉列表框值及赋予缺省值
             edit_window.show();
@@ -332,8 +353,26 @@ Ext.define('app.controller.SysUser', {
             var me = this;
             var edit_window = btn.up('window');
             var form = edit_window.down('form').getForm();
+
+            var role_check_box_group=Ext.getCmp('user_edit_role_checkboxgroup');
+            var role_check_datas=new Array();
+            for (var i = 0; i < role_check_box_group.items.length; i++)
+            {
+                if (role_check_box_group.items.getAt(i).checked)
+                {
+                    role_check_datas.push(role_check_box_group.items.getAt(i).inputValue);
+                    //alert(role_check_box_group.items.itemAt(i).name);
+                }
+            }
+
+            if (role_check_datas.length==0){
+                Ext.Msg.alert('错误','请选择用户角色!');
+                return ;
+            }
+
             if (form.isValid()) {
                 form.submit({
+                    params:{roleCodes:role_check_datas},
                     url: GLOBAL_ROOT_PATH + "/sysuser/edit",
                     waitTitle: '提示',
                     waitMsg: '正在提交数据,请稍候...',
