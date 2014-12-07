@@ -1,9 +1,14 @@
 package com.shinowit.web;
 
+import com.shinowit.dao.mapper.SysRoleMapper;
 import com.shinowit.dao.mapper.SysUserMapper;
+import com.shinowit.entity.SysRole;
+import com.shinowit.entity.SysRoleExample;
 import com.shinowit.entity.SysUser;
 import com.shinowit.entity.SysUserExample;
 import com.shinowit.framework.controller.BaseController;
+import com.shinowit.service.SysUserService;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +28,15 @@ public class SysUserController extends BaseController {
 
     @Resource
     private SysUserMapper sysuser_dao;
+
+    @Resource
+    private JdbcTemplate jt;
+
+    @Resource
+    private SysRoleMapper sys_role_dao;
+
+    @Resource
+    private SysUserService sysUserService;
 
     @RequestMapping(value = "/listbypage")
     @ResponseBody
@@ -84,9 +99,9 @@ public class SysUserController extends BaseController {
         }
 
 
-        int rec_changed = 0;
+        boolean rec_changed = false;
         try {
-            rec_changed = sysuser_dao.insert(pojo);
+            rec_changed = sysUserService.createUser(pojo);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "保存失败!数据库操作异常!");
@@ -95,7 +110,7 @@ public class SysUserController extends BaseController {
             }
             return result;
         }
-        if (rec_changed > 0) {
+        if (true==rec_changed) {
             result.put("success", true);
             result.put("msg", "保存成功!");
         } else {
@@ -151,9 +166,9 @@ public class SysUserController extends BaseController {
     public Map<String, Object> del(@RequestParam("id") Integer userId) {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        int rec_changed = 0;
+        boolean rec_changed = false;
         try {
-            rec_changed = sysuser_dao.deleteByPrimaryKey(userId);
+            rec_changed = sysUserService.deleteUser(userId);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "删除失败!数据库操作异常!");
@@ -162,7 +177,7 @@ public class SysUserController extends BaseController {
             }
             return result;
         }
-        if (rec_changed > 0) {
+        if (true==rec_changed) {
             result.put("success", true);
             result.put("msg", "删除成功!");
         } else {
@@ -172,5 +187,36 @@ public class SysUserController extends BaseController {
         return result;
     }
 
+    @RequestMapping(value="/user_role")
+    @ResponseBody
+    public Map<String,Object> getUserRoles(@RequestParam("user_id") Integer user_id){
+        Map<String, Object> result = new HashMap<String, Object>();
+        try{
+            List<Map<String,Object>> role_list=jt.queryForList("select a.role_code,a.role_name from sys_role a inner join sys_user_role b on a.role_code=b.role_code where b.user_id=?", new Object[]{user_id}, new int[]{Types.INTEGER});
+            result.put("roles",role_list);
+            result.put("success",true);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error(e.getMessage(),e);
+        }
+        return result;
+    }
+
+    @RequestMapping(value="/user_role_all")
+    @ResponseBody
+    public Map<String,Object> getAllUserRoles(){
+        Map<String, Object> result = new HashMap<String, Object>();
+        try{
+            List<SysRole> role_list=sys_role_dao.selectByExample(new SysRoleExample());
+            result.put("roles",role_list);
+            result.put("success",true);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error(e.getMessage(),e);
+        }
+        return result;
+    }
 
 }

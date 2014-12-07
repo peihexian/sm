@@ -19,7 +19,7 @@
 	initComponent: function() {
 		var me = this;
 		Ext.Ajax.request({
-			url:GLOBAL_ROOT_PATH+'/sysrole/menutree?rolecode=001',
+			url:GLOBAL_ROOT_PATH+'/sysrole/menutree?rolecode=000',
 			async: false,
 			success:function(response){
 				me.treeData = response.responseText;
