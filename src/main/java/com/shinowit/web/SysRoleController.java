@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,9 @@ public class SysRoleController extends BaseController {
 
     @Resource
     private SysRoleService sysRoleService;
+
+    @Resource
+    private JdbcTemplate jt;
 
     @RequestMapping(value = "/listbypage")
     @ResponseBody
@@ -137,9 +141,9 @@ public class SysRoleController extends BaseController {
             return result;
         }
 
-        int rec_changed = 0;
+        boolean rec_changed = false;
         try {
-            rec_changed = sysrole_dao.updateByPrimaryKey(pojo);
+            rec_changed = sysRoleService.editRole(pojo);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "修改失败!数据库操作异常!");
@@ -148,7 +152,7 @@ public class SysRoleController extends BaseController {
             }
             return result;
         }
-        if (rec_changed > 0) {
+        if (true==rec_changed) {
             result.put("success", true);
             result.put("msg", "修改成功!");
         } else {
@@ -284,6 +288,55 @@ public class SysRoleController extends BaseController {
             return result;
         }
         return result;
+    }
+
+
+    @RequestMapping(value="/menutree_edit")
+    @ResponseBody
+    public Map<String,Object> getEditMenuTreeByRoleCode(@RequestParam("rolecode") String roleCode){
+        Map<String, Object> result = new HashMap<String, Object>();
+        try {
+            TreeNode<Map<String,Object>> rootNode=new TreeNode<Map<String,Object>>();
+            //取顶级节点
+            List<Map<String,Object>> top_menus=jt.queryForList("select a.*,case when ((select count(0) from sys_role_to_menu b where b.role_code=? and b.menu_code=a.menu_code)>0) then 'true' else 'false' end as checked  from sys_menu a where a.parent_menu_code is null",new Object[]{roleCode},new int[]{Types.VARCHAR});
+
+            for (Map<String,Object> menu:top_menus){
+                TreeNode<Map<String,Object>> node=new TreeNode<Map<String,Object>>();
+                node.setData(menu);
+
+                rootNode.addChild(node);
+
+                querySubEditMenuByRoleCode(roleCode, node);
+            }
+
+            result.put("success",true);
+            result.put("menudata",rootNode);
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("msg", "数据库操作异常!");
+            if (logger.isDebugEnabled()) {
+                logger.error(e.getMessage(), e);
+            }
+            return result;
+        }
+        return result;
+    }
+
+    private void querySubEditMenuByRoleCode(String roleCode,TreeNode<Map<String,Object>> parent_node){
+        if ((null==parent_node) || (parent_node.getData()==null)){
+            return;
+        }
+        List<Map<String,Object>> submenus=jt.queryForList("select a.*,case when ((select count(0) from sys_role_to_menu b where b.role_code=? and b.menu_code=a.menu_code)>0) then 'true' else 'false' end as checked  from sys_menu a where a.parent_menu_code=?", new Object[]{roleCode, parent_node.getData().get("menu_code")}, new int[]{Types.VARCHAR, Types.VARCHAR});
+        if (null!=submenus){
+            for (Map<String,Object> menu:submenus){
+                TreeNode<Map<String,Object>> node=new TreeNode<Map<String,Object>>();
+                node.setData(menu);
+
+                parent_node.addChild(node);
+
+                querySubEditMenuByRoleCode(roleCode,node);
+            }
+        }
     }
 
 }

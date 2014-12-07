@@ -182,11 +182,11 @@ Ext.define('app.controller.SysRole', {
             var me = this;
             var add_window = btn.up('window');
             var form = add_window.down('form').getForm();
-            var checked_records=Ext.getCmp('role_add_tree_panel').getChecked();
+            var checked_records = Ext.getCmp('role_add_tree_panel').getChecked();
             console.log(checked_records.length);
-            var menu_data=new Array();
-            Ext.each(checked_records,function(node,index){
-                if (node.data.id!='-1'){
+            var menu_data = new Array();
+            Ext.each(checked_records, function (node, index) {
+                if (node.data.id != '-1') {
                     menu_data.push(node.data.id);
                 }
 
@@ -258,6 +258,7 @@ Ext.define('app.controller.SysRole', {
         },
         //打开编辑窗口并加载待编辑数据
         edit: function (btn) {
+            var me = this;
             var window_id = 'SysRole_edit_window';
 
             //以下检测是否该窗口已经打开,如果已经打开则不再重新创建新窗口
@@ -285,7 +286,32 @@ Ext.define('app.controller.SysRole', {
             }
             var edit_record = sm.getSelection()[0];
 
-            var _view = Ext.widget('SysRole_Edit');
+            Ext.Ajax.request({
+                url: GLOBAL_ROOT_PATH + '/sysrole/menutree_edit?rolecode=' + edit_record.get('roleCode'),
+                async: false,
+                success: function (response) {
+                    me.treeData = response.responseText;
+                    if (typeof(me.treeData) === 'string') {
+                        me.treeData = Ext.JSON.decode(me.treeData);
+                    }
+                }
+            });
+            var store = Ext.create("Ext.data.TreeStore", {
+                fields: [
+                    {name: 'id', type: 'string', mapping: 'data.menu_code'},
+                    {name: 'text', type: 'string', mapping: 'data.menu_name'},
+                    {name: 'checked', type: 'boolean', mapping: 'data.checked'}
+                ]
+                ,
+                root: {
+                    text: '角色对应权限',
+                    id: '-1',
+                    children: me.treeData.menudata.children
+                }
+            });
+
+
+            var _view = Ext.widget('SysRole_Edit', {mytreestore: store});
 
             edit_window = Ext.create('Ext.window.Window', {
                 id: window_id,
@@ -322,14 +348,29 @@ Ext.define('app.controller.SysRole', {
             edit_window.down('form').loadRecord(edit_record);
             //加载下拉列表框值及赋予缺省值
             edit_window.show();
+
+            Ext.getCmp('role_edit_tree_panel').expandAll();
         },
         save_edit: function (btn) {
             //保存修改结果的方法
             var me = this;
             var edit_window = btn.up('window');
             var form = edit_window.down('form').getForm();
+
+            var checked_records = Ext.getCmp('role_edit_tree_panel').getChecked();
+            console.log(checked_records.length);
+            var menu_data = new Array();
+            Ext.each(checked_records, function (node, index) {
+                if (node.data.id != '-1') {
+                    menu_data.push(node.data.id);
+                }
+
+            });
             if (form.isValid()) {
                 form.submit({
+                    params: {
+                        menus: menu_data
+                    },
                     url: GLOBAL_ROOT_PATH + "/sysrole/edit",
                     waitTitle: '提示',
                     waitMsg: '正在提交数据,请稍候...',
@@ -355,5 +396,5 @@ Ext.define('app.controller.SysRole', {
                 });
             }
         }
-     }
+    }
 );

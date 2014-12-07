@@ -72,7 +72,8 @@ Ext.define('app.view.sysrole.SysRole_Add', {
                             mode: "local"
                         }
                     ]
-                }, {
+                },
+                {
                     region: "center",
                     xtype: 'panel',
                     height: 300,
@@ -90,7 +91,7 @@ Ext.define('app.view.sysrole.SysRole_Add', {
                                 checkchange: function (node, checked) {
                                     node.expand();
                                     node.checked = checked;
-                                    node.eachChild(function(child) {
+                                    node.eachChild(function (child) {
                                         child.set('checked', checked);
                                         child.fireEvent('checkchange', child, checked);
                                     });
@@ -99,7 +100,6 @@ Ext.define('app.view.sysrole.SysRole_Add', {
                             }
                         }
                     ]
-
                 }
             ],
             buttons: [

@@ -40,4 +40,17 @@ public class SysRoleService {
         result=true;
         return result;
     }
+
+    @Transactional
+    public boolean editRole(SysRole role){
+        boolean result=false;
+        sys_role_dao.updateByPrimaryKey(role);
+        jt.update("delete from sys_role_to_menu where role_code=?",new Object[]{role.getRoleCode()},new int[]{Types.VARCHAR});
+        for (String menu_id:role.getMenus()){
+            jt.update("insert into sys_role_to_menu(role_code,menu_code) values (?,?)",new Object[]{role.getRoleCode(),menu_id},new int[]{Types.VARCHAR,Types.VARCHAR});
+        }
+        result=true;
+        return result;
+    }
+
 }
