@@ -40,7 +40,7 @@ public class SysLogController extends BaseController {
         //如果有登录用户名称参数就在查询条件中追加
         if (login_name.trim().length()>0){
             query_sql=query_sql+" and login_name like ? ";
-            params.add(login_name);
+            params.add("%"+login_name+"%");
             params_type_list.add(Types.VARCHAR);
         }
 

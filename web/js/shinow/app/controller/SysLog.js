@@ -25,35 +25,45 @@ Ext.define('app.controller.SysLog', {
         ,
         loadDefaultListData: function (obj) {
             var store = obj.getStore();
-            store.loadPage(1, {
-                    params: {
-                        login_name: '',
-                        menus: null
+            store.on('beforeload', function () {
+                var proxy = store.getProxy();
+                proxy.setExtraParam('login_name', Ext.getCmp('sys_log_query_login_name').getValue());
+
+                var checked_records = Ext.getCmp('sys_log_query_menu_name_combobox').tree.getChecked();
+                console.log(checked_records.length);
+                var menu_data = new Array();
+                Ext.each(checked_records, function (node, index) {
+                    if (node.internalId != '-1') {
+                        menu_data.push(node.internalId);
                     }
-                }
-            );
+                });
+
+                proxy.setExtraParam('menus', menu_data.length == 0 ? null : menu_data);
+
+            })
+
+            store.loadPage(1);
         }
         ,
         query: function (btn) {
             var store = btn.up('panel').down('gridpanel').getStore();
 
-            var checked_records = Ext.getCmp('sys_log_query_menu_name_combobox').tree.getChecked();
-            console.log(checked_records.length);
-            var menu_data = new Array();
-            Ext.each(checked_records, function (node, index) {
-                if (node.internalId != '-1') {
-                    menu_data.push(node.internalId);
-                }
-            });
+            //var checked_records = Ext.getCmp('sys_log_query_menu_name_combobox').tree.getChecked();
+            //console.log(checked_records.length);
+            //var menu_data = new Array();
+            //Ext.each(checked_records, function (node, index) {
+            //    if (node.internalId != '-1') {
+            //        menu_data.push(node.internalId);
+            //    }
+            //});
 
 
-            store.loadPage(1, {
-                    params: {
-                        login_name: Ext.getCmp('sys_log_query_login_name').getValue(),
-                        menus: menu_data
-                    }
-                }
-            );
+            //params: {
+            //    login_name: Ext.getCmp('sys_log_query_login_name').getValue(),
+            //        menus: menu_data.length==0?null:menu_data
+            //}
+
+            store.loadPage(1);
         }
     }
 );

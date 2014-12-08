@@ -16,6 +16,11 @@ Ext.define('app.store.SysLog', {
                 actionMethods: {
                     read: "POST"
                 },
+                extraParams: {
+                    'login_name':'',
+                    'menus': null
+                }
+                ,
                 api: {
                     read: GLOBAL_ROOT_PATH + "/syslog/listbypage"
                 },
