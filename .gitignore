@@ -1,5 +1,4 @@
 .architect
-/web/static/js/extjs/
 target/
 *.class
 .mtj.tmp/
