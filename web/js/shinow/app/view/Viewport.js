@@ -87,6 +87,11 @@ Ext.define('app.view.Viewport', {
                         margins: '2 5 5 0',
                         activeTab: 0,
                         border: false,
+                        plugins : Ext.create('Ext.ux.TabCloseMenu', {
+                            closeTabText : '关闭当前页',
+                            closeOthersTabsText : '关闭其他页',
+                            closeAllTabsText : '关闭所有页'
+                        }),
                         items: [{
                             id: 'start-panel',
                             title: '欢迎使用',
