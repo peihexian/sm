@@ -25,43 +25,35 @@ Ext.define('app.controller.SysLog', {
         ,
         loadDefaultListData: function (obj) {
             var store = obj.getStore();
-            store.loadPage(1);
+            store.loadPage(1, {
+                    params: {
+                        login_name: '',
+                        menus: null
+                    }
+                }
+            );
         }
         ,
         query: function (btn) {
             var store = btn.up('panel').down('gridpanel').getStore();
-            var grid = btn.up('panel').down('gridpanel');
-            var sm = grid.getSelectionModel();
-            var sel_count = sm.getCount();
-            if (sel_count != 1) {
-                Ext.Msg.alert('错误', '请先选中要删除的记录!');
-                return;
-            }
-            var rec = sm.getSelection()[0];
-            Ext.MessageBox.confirm("提示", "您确定要删除这些信息吗?", function (button, text) {
-                if (button == 'yes') {
-                    Ext.Ajax.request({
-                        url: GLOBAL_ROOT_PATH + '/sysuserrole/del',
-                        params: {
-                            id: rec.get('id')
-                        },
-                        success: function (response) {
-                            var text = response.responseText;
-                            var jsonObj = eval("(" + text + ")");
-                            if (true == jsonObj.success) {
-                                Ext.Msg.alert('成功', jsonObj.msg);
-                                store.reload();
-                                if (store.getCount() > 0) {
-                                    sm.select(0);
-                                }
-                                ;
-                            } else {
-                                Ext.Msg.alert('失败', jsonObj.msg);
-                            }
-                        }
-                    });
+
+            var checked_records = Ext.getCmp('sys_log_query_menu_name_combobox').tree.getChecked();
+            console.log(checked_records.length);
+            var menu_data = new Array();
+            Ext.each(checked_records, function (node, index) {
+                if (node.internalId != '-1') {
+                    menu_data.push(node.internalId);
                 }
             });
+
+
+            store.loadPage(1, {
+                    params: {
+                        login_name: Ext.getCmp('sys_log_query_login_name').getValue(),
+                        menus: menu_data
+                    }
+                }
+            );
         }
     }
 );

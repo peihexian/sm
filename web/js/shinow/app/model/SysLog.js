@@ -7,7 +7,7 @@ Ext.define('app.model.SysLog', {
             type: 'int'
         },
         {
-            name: 'user_name',
+            name: 'login_name',
             type: 'string'
         }
         ,

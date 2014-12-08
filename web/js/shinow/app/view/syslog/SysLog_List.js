@@ -1,12 +1,39 @@
 Ext.define('app.view.syslog.SysLog_List', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.SysLog_List',
+    requires:['Ext.ux.TreeCombo'],
     store: 'SysLog',
     layout: {
         type: 'border'
     },
     initComponent: function () {
         var me = this;
+
+        Ext.Ajax.request({
+            url: GLOBAL_ROOT_PATH + '/sysrole/fullmenutree',
+            async: false,
+            success: function (response) {
+                me.treeData = response.responseText;
+                if (typeof(me.treeData) === 'string') {
+                    me.treeData = Ext.JSON.decode(me.treeData);
+                }
+            }
+        });
+        var store = Ext.create("Ext.data.TreeStore", {
+            fields: [
+                {name: 'id', type: 'string', mapping: 'data.menuCode'},
+                {name: 'text', type: 'string', mapping: 'data.menuName'},
+                {name: 'checked', type: 'boolean', mapping: 'data.checked'}
+            ]
+            ,
+            root: {
+                text: '角色对应权限',
+                id: '-1',
+                children: me.treeData.menudata.children
+            }
+        });
+
+
         Ext.applyIf(me, {
             tbar: [
                 '-',
@@ -14,26 +41,19 @@ Ext.define('app.view.syslog.SysLog_List', {
                     xtype:'textfield',
                     fieldLabel: '用户登录名称',
                     labelWidth:80,
+                    id:'sys_log_query_login_name',
                     name: 'login_name'
                 }
                 ,
                 {
-                    xtype: 'combobox',
+                    xtype: 'treecombo',
                     name: 'menu_name',
+                    id:'sys_log_query_menu_name_combobox',
                     margin: '0 0 0 5',
                     fieldLabel: '系统功能',
                     labelWidth:70,
                     emptyText: "请选择",
-                    store: new Ext.data.SimpleStore({
-                        fields: ['key', 'value'],
-                        data: [
-                            ['true', '启用'],
-                            ['false', '未启用']
-                        ]
-                    }),
-                    displayField: "value",
-                    valueField: "key",
-                    mode: "local"
+                    store: store
                 }
                 ,
                 {
@@ -63,7 +83,7 @@ Ext.define('app.view.syslog.SysLog_List', {
                         },
                         {
                             text: '系统用户',
-                            dataIndex: 'user_name'
+                            dataIndex: 'login_name'
                         },
                         {
                             text: '操作功能',
@@ -99,5 +119,6 @@ Ext.define('app.view.syslog.SysLog_List', {
             ]
         });
         me.callParent(arguments);
+        Ext.getCmp('sys_log_query_menu_name_combobox').tree.expandAll();
     }
 });
