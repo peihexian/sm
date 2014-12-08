@@ -1,23 +1,35 @@
-/**
- * <p>
- * 系统用户对应角色表
- * </p>
- * 
- * @author 代码生成器
- * @class app.model.SysUserRole
- * @extends Ext.data.Model
- */
-Ext.define('app.model.SysUserRole', {
-		extend : 'Ext.data.Model',
-		alias : 'model.SysUserRole',
-		fields : [
-				{
-					name : 'userId',
-					type: 'int'
-				},
-				{
-					name : 'roleCode',
-					type: 'string'
-				}
-		]
+Ext.define('app.model.SysLog', {
+    extend: 'Ext.data.Model',
+    alias: 'model.SysLog',
+    fields: [
+        {
+            name: 'log_id',
+            type: 'int'
+        },
+        {
+            name: 'user_name',
+            type: 'string'
+        }
+        ,
+        {
+            name: 'menu_name',
+            type: 'string'
+        }
+        ,
+        {
+            name: 'log_time',
+            type: 'datetime'
+        }
+        ,
+        {
+            name: 'ip',
+            type: 'string'
+        }
+        ,
+        {
+            name: 'content',
+            type: 'string'
+
+        }
+    ]
 });

@@ -795,3 +795,5 @@ update sys_menu set controller_full_classname='app.controller.Product',default_v
 update sys_menu set controller_full_classname='app.controller.SysUser',default_view_classname='SysUser_List' where menu_code='0405';
 
 update sys_menu set controller_full_classname='app.controller.SysRole',default_view_classname='SysRole_List' where menu_code='0406';
+
+update sys_menu set controller_full_classname='app.controller.SysLog',default_view_classname='SysLog_List' where menu_code='0407';

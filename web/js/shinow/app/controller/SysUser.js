@@ -198,6 +198,10 @@ Ext.define('app.controller.SysUser', {
                 return ;
             }
 
+            if (form.findField('loginPass').getValue()!=form.findField('loginPass1').getValue()){
+                Ext.Msg.alert('错误','两次密码输入不一致!');
+                return ;
+            }
             if (form.isValid()) {
                 form.submit({
                     params:{roleCodes:role_check_datas},
@@ -367,6 +371,11 @@ Ext.define('app.controller.SysUser', {
 
             if (role_check_datas.length==0){
                 Ext.Msg.alert('错误','请选择用户角色!');
+                return ;
+            }
+
+            if (form.findField('loginPass').getValue()!=form.findField('loginPass1').getValue()){
+                Ext.Msg.alert('错误','两次密码输入不一致!');
                 return ;
             }
 

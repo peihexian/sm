@@ -4,6 +4,7 @@ Ext.define('app.view.Viewport', {
     alias: 'widget.main_viewport',
     requires: [
         'Ext.tab.Panel',
+        'Ext.ux.TabCloseMenu',
         'Ext.layout.container.Border',
         'app.store.StockChartPieStore',
         'app.view.main.Main_Top_Panel',
@@ -185,7 +186,7 @@ Ext.define('app.view.Viewport', {
             },
             failure: function () {
                 Ext.MessageBox.hide();
-                Ext.MessageBox.alert('错误','通讯异常!请确认服务器是否正常工作!');
+                Ext.MessageBox.alert('错误', '通讯异常!请确认服务器是否正常工作!');
             }
         });
         me.callParent(arguments);
@@ -213,3 +214,4 @@ Ext.define('app.view.Viewport', {
         }
     }
 });
+
