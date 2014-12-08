@@ -92,7 +92,8 @@ Ext.define('app.view.syslog.SysLog_List', {
                         ,
                         {
                             text: '操作时间',
-                            dataIndex: 'log_time'
+                            dataIndex: 'log_time',
+                            renderer : Ext.util.Format.dateRenderer('Y-m-d H:i:s')
                         }
                         ,
                         {
