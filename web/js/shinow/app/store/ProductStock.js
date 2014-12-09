@@ -19,6 +19,9 @@
 		me.callParent([Ext.apply({
 			model : 'app.model.ProductStock',
 			pageSize : 19,
+			extraParams: {
+				'productCode':null
+			},
 			proxy : {
 				type : 'ajax',
 				url : GLOBAL_ROOT_PATH + '/productstock/listbypage',

@@ -25,12 +25,16 @@ public class ProductStockController extends BaseController {
 
     @RequestMapping(value = "/listbypage")
     @ResponseBody
-    public Map<String, Object> listByPage(@RequestParam("start") int start, @RequestParam("limit") int pageSize, @RequestParam("page") int pageIndex) {
+    public Map<String, Object> listByPage(@RequestParam("start") int start, @RequestParam("limit") int pageSize, @RequestParam("page") int pageIndex,@RequestParam("productCode") String productCode) {
         Map<String, Object> result = new HashMap<String, Object>();
 
         ProductStockExample ex = new ProductStockExample(); //创建缺省查询条件对象
         ex.setPageSize(pageSize);
         ex.setPageIndex(pageIndex);
+
+        if ((null!=productCode) && (productCode.trim().length()>0)){
+            ex.createCriteria().andProductCodeEqualTo(productCode);
+        }
         //ex.setOrderByClause("product_code");
 
         List<ProductStock> list_data = null;
@@ -63,114 +67,5 @@ public class ProductStockController extends BaseController {
 
         return result;
     }
-
-
-    @RequestMapping(value = "/add")
-    @ResponseBody
-    public Map<String, Object> add(@Valid ProductStock pojo, BindingResult bindResult) {
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        if (bindResult.hasErrors()) {
-
-            if (logger.isDebugEnabled()) {
-                logger.debug("发生了绑定错误");
-            }
-
-            result.put("success", false);
-            result.put("msg", "保存失败!输入数据非法!");
-
-            fillBindingErrorToResult(bindResult, result);
-            return result;
-        }
-
-
-        int rec_changed = 0;
-        try {
-            rec_changed = productstock_dao.insert(pojo);
-        } catch (Exception e) {
-            result.put("success", false);
-            result.put("msg", "保存失败!数据库操作异常!");
-            if (logger.isDebugEnabled()) {
-                logger.error(e.getMessage(), e);
-            }
-            return result;
-        }
-        if (rec_changed > 0) {
-            result.put("success", true);
-            result.put("msg", "保存成功!");
-        } else {
-            result.put("success", false);
-            result.put("msg", "保存失败!");
-        }
-        return result;
-    }
-
-
-    @RequestMapping(value = "/edit")
-    @ResponseBody
-    public Map<String, Object> edit(@Valid ProductStock pojo, BindingResult bindResult) {
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        if (bindResult.hasErrors()) {
-
-            if (logger.isDebugEnabled()) {
-                logger.debug("发生了绑定错误");
-            }
-
-            result.put("success", false);
-            result.put("msg", "数据修改失败!输入数据非法!");
-
-            fillBindingErrorToResult(bindResult, result);
-            return result;
-        }
-
-        int rec_changed = 0;
-        try {
-            rec_changed = productstock_dao.updateByPrimaryKey(pojo);
-        } catch (Exception e) {
-            result.put("success", false);
-            result.put("msg", "修改失败!数据库操作异常!");
-            if (logger.isDebugEnabled()) {
-                logger.error(e.getMessage(), e);
-            }
-            return result;
-        }
-        if (rec_changed > 0) {
-            result.put("success", true);
-            result.put("msg", "修改成功!");
-        } else {
-            result.put("success", false);
-            result.put("msg", "修改失败!");
-        }
-        return result;
-    }
-
-
-    @RequestMapping(value = "/del")
-    @ResponseBody
-    public Map<String, Object> del(@RequestParam("id") String productCode) {
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        int rec_changed = 0;
-        try {
-            rec_changed = productstock_dao.deleteByPrimaryKey(productCode);
-        } catch (Exception e) {
-            result.put("success", false);
-            result.put("msg", "删除失败!数据库操作异常!");
-            if (logger.isDebugEnabled()) {
-                logger.error(e.getMessage(), e);
-            }
-            return result;
-        }
-        if (rec_changed > 0) {
-            result.put("success", true);
-            result.put("msg", "删除成功!");
-        } else {
-            result.put("success", false);
-            result.put("msg", "删除失败!");
-        }
-        return result;
-    }
-
 
 }

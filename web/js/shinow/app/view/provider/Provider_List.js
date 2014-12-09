@@ -49,62 +49,50 @@
 						{
 							text: '供应商编码',
 							dataIndex:'providerCode'
-							
-							
 						},
 						{
 							text: '供应商名称',
 							dataIndex:'providerName'
-							
-							
 						},
 						{
 							text: '供应商助记码',
 							dataIndex:'providerNameAb'
-							
-							
 						},
 						{
 							text: '地址',
 							dataIndex:'address'
-							
-							
 						},
 						{
 							text: '联系人',
 							dataIndex:'linkName'
-							
-							
 						},
 						{
 							text: '联系电话',
 							dataIndex:'linkTel'
-							
-							
 						},
 						{
 							text: 'QQ',
 							dataIndex:'qq'
-							
-							
 						},
 						{
 							text: 'Email',
 							dataIndex:'email'
-							
-							
 						},
 						{
 							text: '排序编码',
 							dataIndex:'sortId'
-							
-							
 						},
 						{
 							text: '状态',
-							dataIndex:'status'
-							
-							
+							dataIndex: 'status',
+							renderer: function (value) {
+								if ((value == 'false') || (value == false)) {
+									return '未启用';
+								}
+								if ((value == 'true') || (true == value)) {
+									return '启用';
+								}
+							}
 						}
 					],
 					dockedItems: [{

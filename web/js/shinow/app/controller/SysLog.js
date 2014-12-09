@@ -40,7 +40,7 @@ Ext.define('app.controller.SysLog', {
 
                 proxy.setExtraParam('menus', menu_data.length == 0 ? null : menu_data);
 
-            })
+            });
 
             store.loadPage(1);
         }

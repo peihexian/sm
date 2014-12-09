@@ -4,6 +4,7 @@ import com.shinowit.dao.mapper.ProviderMapper;
 import com.shinowit.entity.Provider;
 import com.shinowit.entity.ProviderExample;
 import com.shinowit.framework.controller.BaseController;
+import com.shinowit.framework.tools.GB2Alpha;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,6 +87,7 @@ public class ProviderController extends BaseController {
 
         int rec_changed = 0;
         try {
+            pojo.setProviderNameAb(new GB2Alpha().String2Alpha(pojo.getProviderName()));
             rec_changed = provider_dao.insert(pojo);
         } catch (Exception e) {
             result.put("success", false);
@@ -126,6 +128,7 @@ public class ProviderController extends BaseController {
 
         int rec_changed = 0;
         try {
+            pojo.setProviderNameAb(new GB2Alpha().String2Alpha(pojo.getProviderName()));
             rec_changed = provider_dao.updateByPrimaryKey(pojo);
         } catch (Exception e) {
             result.put("success", false);

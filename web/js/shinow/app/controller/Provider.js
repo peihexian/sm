@@ -73,7 +73,7 @@
 			var _view=Ext.widget('Provider_Add');
 			add_window=Ext.create('Ext.window.Window', {
 				id: window_id,
-				title:'新增供应商信息表',
+				title:'新增供应商信息',
 				layout:"fit",
 				closable:true,
 				modal:false,
@@ -203,7 +203,7 @@
 			
 			edit_window=Ext.create('Ext.window.Window', {
 				id: window_id,
-				title:'编辑供应商信息表',
+				title:'编辑供应商信息',
 				layout:"fit",
 				closable:true,
 				modal:false,
