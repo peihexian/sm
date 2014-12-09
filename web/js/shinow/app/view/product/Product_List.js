@@ -82,8 +82,15 @@
 						},
 						{
 							text: '可售状态',
-							dataIndex:'valid'
-							
+							dataIndex:'valid',
+							renderer: function (value) {
+								if ((value == 'false') || (value == false)) {
+									return '未在售';
+								}
+								if ((value == 'true') || (true == value)) {
+									return '在售';
+								}
+							}
 							
 						},
 						{

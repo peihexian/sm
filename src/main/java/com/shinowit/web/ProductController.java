@@ -4,6 +4,7 @@ import com.shinowit.dao.mapper.ProductMapper;
 import com.shinowit.entity.Product;
 import com.shinowit.entity.ProductExample;
 import com.shinowit.framework.controller.BaseController;
+import com.shinowit.framework.tools.GB2Alpha;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,6 +87,8 @@ public class ProductController extends BaseController {
 
         int rec_changed = 0;
         try {
+            //生成助记码
+            pojo.setProductNameAb(new GB2Alpha().String2Alpha(pojo.getProductName()));
             rec_changed = product_dao.insert(pojo);
         } catch (Exception e) {
             result.put("success", false);
@@ -126,6 +129,7 @@ public class ProductController extends BaseController {
 
         int rec_changed = 0;
         try {
+            pojo.setProductNameAb(new GB2Alpha().String2Alpha(pojo.getProductName()));
             rec_changed = product_dao.updateByPrimaryKey(pojo);
         } catch (Exception e) {
             result.put("success", false);
