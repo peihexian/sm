@@ -13,7 +13,6 @@
 			items:[
 				{
 					xtype:'chart',
-					//region: 'center',
 					animate: true,
 					store:me.chart_store,
 					shadow: true,

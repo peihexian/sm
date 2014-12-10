@@ -9,7 +9,7 @@ Ext.define('app.view.main.Main_Column_Chart', {
         var me = this;
         Ext.applyIf(me, {
             title: '库存商品成本分布柱状图',
-            margins: '0 5 0 5',
+            //margins: '0 5 0 5',
             items: [
                 {
                     xtype: 'chart',

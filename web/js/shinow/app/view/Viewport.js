@@ -107,6 +107,7 @@ Ext.define('app.view.Viewport', {
                                 ,
                                 {
                                     xtype: 'main_column_chart',
+                                    margin:'0 0 0 5',
                                     width: 450,
                                     height: 400,
                                     chart_store: chart_data_store
