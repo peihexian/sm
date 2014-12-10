@@ -67,6 +67,7 @@ public class MenuController {
         }
 
         result.put("menus", root);
+        result.put("success",true);
 
         return result;
     }
