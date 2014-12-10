@@ -90,7 +90,7 @@ Ext.define('app.controller.InStock', {
             var _view = Ext.widget('InStock_Add');
             add_window = Ext.create('Ext.window.Window', {
                 id: window_id,
-                title: '新增入库信息表',
+                title: '新增入库信息',
                 layout: "fit",
                 closable: true,
                 modal: false,
