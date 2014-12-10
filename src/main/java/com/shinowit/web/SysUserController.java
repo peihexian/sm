@@ -110,7 +110,7 @@ public class SysUserController extends BaseController {
             }
             return result;
         }
-        if (true==rec_changed) {
+        if (true == rec_changed) {
             result.put("success", true);
             result.put("msg", "保存成功!");
         } else {
@@ -150,7 +150,7 @@ public class SysUserController extends BaseController {
             }
             return result;
         }
-        if (true==rec_changed) {
+        if (true == rec_changed) {
             result.put("success", true);
             result.put("msg", "修改成功!");
         } else {
@@ -177,7 +177,7 @@ public class SysUserController extends BaseController {
             }
             return result;
         }
-        if (true==rec_changed) {
+        if (true == rec_changed) {
             result.put("success", true);
             result.put("msg", "删除成功!");
         } else {
@@ -187,50 +187,50 @@ public class SysUserController extends BaseController {
         return result;
     }
 
-    @RequestMapping(value="/user_role")
+    @RequestMapping(value = "/user_role")
     @ResponseBody
-    public Map<String,Object> getUserRoles(@RequestParam("user_id") Integer user_id){
+    public Map<String, Object> getUserRoles(@RequestParam("user_id") Integer user_id) {
         Map<String, Object> result = new HashMap<String, Object>();
-        try{
-            List<Map<String,Object>> role_list=jt.queryForList("select a.role_code,a.role_name from sys_role a inner join sys_user_role b on a.role_code=b.role_code where b.user_id=?", new Object[]{user_id}, new int[]{Types.INTEGER});
-            result.put("roles",role_list);
-            result.put("success",true);
+        try {
+            List<Map<String, Object>> role_list = jt.queryForList("select a.role_code,a.role_name from sys_role a inner join sys_user_role b on a.role_code=b.role_code where b.user_id=?", new Object[]{user_id}, new int[]{Types.INTEGER});
+            result.put("roles", role_list);
+            result.put("success", true);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
         return result;
     }
 
-    @RequestMapping(value="/user_role_all")
+    @RequestMapping(value = "/user_role_all")
     @ResponseBody
-    public Map<String,Object> getAllUserRoles(){
+    public Map<String, Object> getAllUserRoles() {
         Map<String, Object> result = new HashMap<String, Object>();
-        try{
-            List<SysRole> role_list=sys_role_dao.selectByExample(new SysRoleExample());
-            result.put("roles",role_list);
-            result.put("success",true);
+        try {
+            List<SysRole> role_list = sys_role_dao.selectByExample(new SysRoleExample());
+            result.put("roles", role_list);
+            result.put("success", true);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
         return result;
     }
 
-    @RequestMapping(value="/edit_user_role_by_user_id")
+    @RequestMapping(value = "/edit_user_role_by_user_id")
     @ResponseBody
-    public Map<String,Object> getEditUserRoles(@RequestParam("user_id")Integer user_id){
+    public Map<String, Object> getEditUserRoles(@RequestParam("user_id") Integer user_id) {
         Map<String, Object> result = new HashMap<String, Object>();
-        try{
-            List<Map<String,Object>> role_list=jt.queryForList("select a.role_code,a.role_name,case when ((select count(0) from sys_user_role b where b.role_code=a.role_code and b.user_id=?)>0) then true else false end as checked from sys_role a ",new Object[]{user_id},new int[]{Types.INTEGER});
-            result.put("roles",role_list);
-            result.put("success",true);
+        try {
+            List<Map<String, Object>> role_list = jt.queryForList("select a.role_code,a.role_name,case when ((select count(0) from sys_user_role b where b.role_code=a.role_code and b.user_id=?)>0) then true else false end as checked from sys_role a ", new Object[]{user_id}, new int[]{Types.INTEGER});
+            result.put("roles", role_list);
+            result.put("success", true);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
         return result;
     }

@@ -5,13 +5,11 @@ import com.shinowit.entity.ProductStock;
 import com.shinowit.entity.ProductStockExample;
 import com.shinowit.framework.controller.BaseController;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,14 +23,14 @@ public class ProductStockController extends BaseController {
 
     @RequestMapping(value = "/listbypage")
     @ResponseBody
-    public Map<String, Object> listByPage(@RequestParam("start") int start, @RequestParam("limit") int pageSize, @RequestParam("page") int pageIndex,@RequestParam("productCode") String productCode) {
+    public Map<String, Object> listByPage(@RequestParam("start") int start, @RequestParam("limit") int pageSize, @RequestParam("page") int pageIndex, @RequestParam("productCode") String productCode) {
         Map<String, Object> result = new HashMap<String, Object>();
 
         ProductStockExample ex = new ProductStockExample(); //创建缺省查询条件对象
         ex.setPageSize(pageSize);
         ex.setPageIndex(pageIndex);
 
-        if ((null!=productCode) && (productCode.trim().length()>0)){
+        if ((null != productCode) && (productCode.trim().length() > 0)) {
             ex.createCriteria().andProductCodeEqualTo(productCode);
         }
         //ex.setOrderByClause("product_code");

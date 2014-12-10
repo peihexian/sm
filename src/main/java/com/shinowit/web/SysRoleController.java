@@ -112,7 +112,7 @@ public class SysRoleController extends BaseController {
             }
             return result;
         }
-        if (true==rec_created) {
+        if (true == rec_created) {
             result.put("success", true);
             result.put("msg", "保存成功!");
         } else {
@@ -152,7 +152,7 @@ public class SysRoleController extends BaseController {
             }
             return result;
         }
-        if (true==rec_changed) {
+        if (true == rec_changed) {
             result.put("success", true);
             result.put("msg", "修改成功!");
         } else {
@@ -168,7 +168,7 @@ public class SysRoleController extends BaseController {
     public Map<String, Object> del(@RequestParam("id") String roleCode) {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        boolean rec_deleted= false;
+        boolean rec_deleted = false;
         try {
             rec_deleted = sysRoleService.deleteRole(roleCode);
         } catch (Exception e) {
@@ -179,7 +179,7 @@ public class SysRoleController extends BaseController {
             }
             return result;
         }
-        if (true==rec_deleted) {
+        if (true == rec_deleted) {
             result.put("success", true);
             result.put("msg", "删除成功!");
         } else {
@@ -189,34 +189,34 @@ public class SysRoleController extends BaseController {
         return result;
     }
 
-    private void querySubMenuByRoleCode(String roleCode,TreeNode<SysMenu> parent_node){
-        if ((null==parent_node) || (parent_node.getData()==null)){
+    private void querySubMenuByRoleCode(String roleCode, TreeNode<SysMenu> parent_node) {
+        if ((null == parent_node) || (parent_node.getData() == null)) {
             return;
         }
-        List<SysMenu> submenus=sys_menu_dao.selectSubMenuByRoleAndParentMenuCode(roleCode, parent_node.getData().getMenuCode());
-        if (null!=submenus){
-            for (SysMenu menu:submenus){
-                TreeNode<SysMenu> node=new TreeNode<SysMenu>();
+        List<SysMenu> submenus = sys_menu_dao.selectSubMenuByRoleAndParentMenuCode(roleCode, parent_node.getData().getMenuCode());
+        if (null != submenus) {
+            for (SysMenu menu : submenus) {
+                TreeNode<SysMenu> node = new TreeNode<SysMenu>();
                 node.setData(menu);
 
                 parent_node.addChild(node);
 
-                querySubMenuByRoleCode(roleCode,node);
+                querySubMenuByRoleCode(roleCode, node);
             }
         }
     }
 
-    @RequestMapping(value="/menutree")
+    @RequestMapping(value = "/menutree")
     @ResponseBody
-    public Map<String,Object> getMenuTreeByRoleCode(@RequestParam("rolecode") String roleCode){
+    public Map<String, Object> getMenuTreeByRoleCode(@RequestParam("rolecode") String roleCode) {
         Map<String, Object> result = new HashMap<String, Object>();
         try {
-            TreeNode<SysMenu> rootNode=new TreeNode<SysMenu>();
+            TreeNode<SysMenu> rootNode = new TreeNode<SysMenu>();
             //取顶级节点
-            List<SysMenu> top_menus=sys_menu_dao.selectTopMenuByRole(roleCode);
+            List<SysMenu> top_menus = sys_menu_dao.selectTopMenuByRole(roleCode);
 
-            for (SysMenu menu:top_menus){
-                TreeNode<SysMenu> node=new TreeNode<SysMenu>();
+            for (SysMenu menu : top_menus) {
+                TreeNode<SysMenu> node = new TreeNode<SysMenu>();
                 node.setData(menu);
 
                 rootNode.addChild(node);
@@ -224,8 +224,8 @@ public class SysRoleController extends BaseController {
                 querySubMenuByRoleCode(roleCode, node);
             }
 
-            result.put("success",true);
-            result.put("menudata",rootNode);
+            result.put("success", true);
+            result.put("menudata", rootNode);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "数据库操作异常!");
@@ -237,17 +237,17 @@ public class SysRoleController extends BaseController {
         return result;
     }
 
-    private void querySubMenu(TreeNodeCheckable<SysMenu> parent_node){
-        if ((null==parent_node) || (parent_node.getData()==null)){
+    private void querySubMenu(TreeNodeCheckable<SysMenu> parent_node) {
+        if ((null == parent_node) || (parent_node.getData() == null)) {
             return;
         }
-        SysMenuExample ex=new SysMenuExample();
+        SysMenuExample ex = new SysMenuExample();
         ex.createCriteria().andParentMenuCodeEqualTo(parent_node.getData().getMenuCode());
 
-        List<SysMenu> submenus=sys_menu_dao.selectByExample(ex);
-        if (null!=submenus){
-            for (SysMenu menu:submenus){
-                TreeNodeCheckable<SysMenu> node=new TreeNodeCheckable<SysMenu>();
+        List<SysMenu> submenus = sys_menu_dao.selectByExample(ex);
+        if (null != submenus) {
+            for (SysMenu menu : submenus) {
+                TreeNodeCheckable<SysMenu> node = new TreeNodeCheckable<SysMenu>();
                 node.setData(menu);
 
                 parent_node.addChild(node);
@@ -257,19 +257,19 @@ public class SysRoleController extends BaseController {
         }
     }
 
-    @RequestMapping(value="/fullmenutree")
+    @RequestMapping(value = "/fullmenutree")
     @ResponseBody
-    public Map<String,Object> getFullMenuTree(){
+    public Map<String, Object> getFullMenuTree() {
         Map<String, Object> result = new HashMap<String, Object>();
         try {
-            TreeNodeCheckable<SysMenu> rootNode=new TreeNodeCheckable<SysMenu>();
-            SysMenuExample ex=new SysMenuExample();
+            TreeNodeCheckable<SysMenu> rootNode = new TreeNodeCheckable<SysMenu>();
+            SysMenuExample ex = new SysMenuExample();
             ex.createCriteria().andParentMenuCodeIsNull();
             //取顶级节点
-            List<SysMenu> top_menus=sys_menu_dao.selectByExample(ex);
+            List<SysMenu> top_menus = sys_menu_dao.selectByExample(ex);
 
-            for (SysMenu menu:top_menus){
-                TreeNodeCheckable<SysMenu> node=new TreeNodeCheckable<SysMenu>();
+            for (SysMenu menu : top_menus) {
+                TreeNodeCheckable<SysMenu> node = new TreeNodeCheckable<SysMenu>();
                 node.setData(menu);
 
                 rootNode.addChild(node);
@@ -277,8 +277,8 @@ public class SysRoleController extends BaseController {
                 querySubMenu(node);
             }
 
-            result.put("success",true);
-            result.put("menudata",rootNode);
+            result.put("success", true);
+            result.put("menudata", rootNode);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "数据库操作异常!");
@@ -291,17 +291,17 @@ public class SysRoleController extends BaseController {
     }
 
 
-    @RequestMapping(value="/menutree_edit")
+    @RequestMapping(value = "/menutree_edit")
     @ResponseBody
-    public Map<String,Object> getEditMenuTreeByRoleCode(@RequestParam("rolecode") String roleCode){
+    public Map<String, Object> getEditMenuTreeByRoleCode(@RequestParam("rolecode") String roleCode) {
         Map<String, Object> result = new HashMap<String, Object>();
         try {
-            TreeNode<Map<String,Object>> rootNode=new TreeNode<Map<String,Object>>();
+            TreeNode<Map<String, Object>> rootNode = new TreeNode<Map<String, Object>>();
             //取顶级节点
-            List<Map<String,Object>> top_menus=jt.queryForList("select a.menu_code,a.menu_name,case when ((select count(0) from sys_role_to_menu b where b.role_code=? and b.menu_code=a.menu_code)>0) then 'true' else 'false' end as checked  from sys_menu a where a.parent_menu_code is null",new Object[]{roleCode},new int[]{Types.VARCHAR});
+            List<Map<String, Object>> top_menus = jt.queryForList("select a.menu_code,a.menu_name,case when ((select count(0) from sys_role_to_menu b where b.role_code=? and b.menu_code=a.menu_code)>0) then 'true' else 'false' end as checked  from sys_menu a where a.parent_menu_code is null", new Object[]{roleCode}, new int[]{Types.VARCHAR});
 
-            for (Map<String,Object> menu:top_menus){
-                TreeNode<Map<String,Object>> node=new TreeNode<Map<String,Object>>();
+            for (Map<String, Object> menu : top_menus) {
+                TreeNode<Map<String, Object>> node = new TreeNode<Map<String, Object>>();
                 node.setData(menu);
 
                 rootNode.addChild(node);
@@ -309,8 +309,8 @@ public class SysRoleController extends BaseController {
                 querySubEditMenuByRoleCode(roleCode, node);
             }
 
-            result.put("success",true);
-            result.put("menudata",rootNode);
+            result.put("success", true);
+            result.put("menudata", rootNode);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "数据库操作异常!");
@@ -322,19 +322,19 @@ public class SysRoleController extends BaseController {
         return result;
     }
 
-    private void querySubEditMenuByRoleCode(String roleCode,TreeNode<Map<String,Object>> parent_node){
-        if ((null==parent_node) || (parent_node.getData()==null)){
+    private void querySubEditMenuByRoleCode(String roleCode, TreeNode<Map<String, Object>> parent_node) {
+        if ((null == parent_node) || (parent_node.getData() == null)) {
             return;
         }
-        List<Map<String,Object>> submenus=jt.queryForList("select a.menu_code,a.menu_name,case when ((select count(0) from sys_role_to_menu b where b.role_code=? and b.menu_code=a.menu_code)>0) then 'true' else 'false' end as checked  from sys_menu a where a.parent_menu_code=?", new Object[]{roleCode, parent_node.getData().get("menu_code")}, new int[]{Types.VARCHAR, Types.VARCHAR});
-        if (null!=submenus){
-            for (Map<String,Object> menu:submenus){
-                TreeNode<Map<String,Object>> node=new TreeNode<Map<String,Object>>();
+        List<Map<String, Object>> submenus = jt.queryForList("select a.menu_code,a.menu_name,case when ((select count(0) from sys_role_to_menu b where b.role_code=? and b.menu_code=a.menu_code)>0) then 'true' else 'false' end as checked  from sys_menu a where a.parent_menu_code=?", new Object[]{roleCode, parent_node.getData().get("menu_code")}, new int[]{Types.VARCHAR, Types.VARCHAR});
+        if (null != submenus) {
+            for (Map<String, Object> menu : submenus) {
+                TreeNode<Map<String, Object>> node = new TreeNode<Map<String, Object>>();
                 node.setData(menu);
 
                 parent_node.addChild(node);
 
-                querySubEditMenuByRoleCode(roleCode,node);
+                querySubEditMenuByRoleCode(roleCode, node);
             }
         }
     }

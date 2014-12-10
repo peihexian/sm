@@ -1,8 +1,6 @@
 package com.shinowit.web.main;
 
-import com.shinowit.framework.model.KeyValueBean;
 import org.apache.shiro.authz.annotation.RequiresUser;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,15 +30,13 @@ public class MainController {
     }
 
 
-
-
-    @RequestMapping(value="/stock_chart")
+    @RequestMapping(value = "/stock_chart")
     @ResponseBody
-    public Map<String,Object> queryStockChartData(){
-        String sql="select b.product_name,(a.avg_price*a.num) as data1  from product_stock a inner join product b on a.product_code=b.product_code";
-        Map<String,Object> result=new HashMap<String, Object>();
-        List<Map<String,Object>> list1=jt.queryForList(sql);
-        result.put("chart_data",list1);
+    public Map<String, Object> queryStockChartData() {
+        String sql = "select b.product_name,(a.avg_price*a.num) as data1  from product_stock a inner join product b on a.product_code=b.product_code";
+        Map<String, Object> result = new HashMap<String, Object>();
+        List<Map<String, Object>> list1 = jt.queryForList(sql);
+        result.put("chart_data", list1);
         return result;
     }
 }
