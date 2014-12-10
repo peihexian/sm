@@ -16,8 +16,6 @@ Ext.define('app.view.main.Main_Column_Chart', {
                     style: 'background:#fff',
                     animate: true,
                     shadow: true,
-                    width: 450,
-                    height: 400,
                     store: me.chart_store,
                     axes: [{
                         type: 'Numeric',

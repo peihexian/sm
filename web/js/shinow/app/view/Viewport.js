@@ -100,11 +100,15 @@ Ext.define('app.view.Viewport', {
                             items: [
                                 {
                                     xtype: 'main_pie_chart',
+                                    width:450,
+                                    height:400,
                                     chart_store: chart_data_store
                                 }
                                 ,
                                 {
                                     xtype: 'main_column_chart',
+                                    width: 450,
+                                    height: 400,
                                     chart_store: chart_data_store
                                 }
                             ]

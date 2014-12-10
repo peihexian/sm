@@ -2,24 +2,47 @@
 Ext.define('app.view.productstockchart.ProductStockChartPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.ProductStockChartPanel',
+    requires:['app.view.main.Main_Pie_Chart', 'app.view.main.Main_Column_Chart'],
     store: 'ProductStock',
+    border:false,
     layout: {
         type: 'border'
     },
     initComponent: function () {
         var me = this;
-        var productCode_store = Ext.create('app.store.Product', {
-            pageSize: 1000,
-            autoLoad: true
-        });
+        var chart_data_store = Ext.create('app.store.StockChartPieStore');
         Ext.applyIf(me, {
             items: [
                 {
-                    xtype: 'panel',
                     region: 'center',
-                    store: 'ProductStock',
-                    width: '100%',
-                    height: '100%'
+                    xtype: 'panel',
+                    layout:'column',
+                    items:[
+                        {
+                            columnWidth : .5,
+                            border:false,
+                            xtype:'panel',
+                            layout:'vbox',
+                            items:[
+                                {
+                                    xtype: 'main_pie_chart',
+                                    chart_store: chart_data_store
+                                }
+                                ,
+                                {
+                                    xtype: 'main_column_chart',
+                                    chart_store: chart_data_store
+                                }
+                            ]
+
+                        },
+                        {
+                            columnWidth : .5,
+                            border:false,
+                            xtype:'panel'
+                        }
+
+                    ]
                 }
             ]
         });

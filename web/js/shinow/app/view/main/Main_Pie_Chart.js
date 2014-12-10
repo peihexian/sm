@@ -15,8 +15,6 @@
 					xtype:'chart',
 					//region: 'center',
 					animate: true,
-					width:450,
-					height:400,
 					store:me.chart_store,
 					shadow: true,
 					legend: {
