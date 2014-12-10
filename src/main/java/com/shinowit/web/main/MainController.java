@@ -33,7 +33,7 @@ public class MainController {
     @RequestMapping(value = "/stock_chart")
     @ResponseBody
     public Map<String, Object> queryStockChartData() {
-        String sql = "select b.product_name,(a.avg_price*a.num) as data1  from product_stock a inner join product b on a.product_code=b.product_code";
+        String sql = "select b.product_name,(a.avg_price*a.num) as data1  from product_stock a inner join product b on a.product_code=b.product_code order by data1 desc limit 0,10";
         Map<String, Object> result = new HashMap<String, Object>();
         List<Map<String, Object>> list1 = jt.queryForList(sql);
         result.put("chart_data", list1);

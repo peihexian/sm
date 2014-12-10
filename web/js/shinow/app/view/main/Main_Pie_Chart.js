@@ -9,7 +9,7 @@
 	initComponent: function() {
 		var me = this;
 		Ext.applyIf(me, {
-			title:'库存商品成本分布饼图',
+			title:'库存商品成本前10分布饼图',
 			items:[
 				{
 					xtype:'chart',

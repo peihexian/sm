@@ -8,7 +8,7 @@ Ext.define('app.view.main.Main_Column_Chart', {
     initComponent: function () {
         var me = this;
         Ext.applyIf(me, {
-            title: '库存商品成本分布柱状图',
+            title: '库存商品成本前10分布柱状图',
             //margins: '0 5 0 5',
             items: [
                 {
