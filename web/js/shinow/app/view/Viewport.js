@@ -143,11 +143,11 @@ Ext.define('app.view.Viewport', {
                 var res = Ext.JSON.decode(response.responseText);
 
                 var menu_panels = new Array();
-                for (var i = 0; i < res.subMenuList.length; i++) {
-                    var rec = res.subMenuList[i];
+                for (var i = 0; i < res.menus.children.length; i++) {
+                    var rec = res.menus.children[i];
 
                     menu_panels[i] = Ext.create('Ext.panel.Panel', {
-                        title: rec.menuName,
+                        title: rec.data.menu_name,
                         autoScroll: true,
                         titleAlign: 'center',
                         layout: {
@@ -159,8 +159,8 @@ Ext.define('app.view.Viewport', {
                         items: []
                     });
 
-                    for (var j = 0; j < rec.subMenuList.length; j++) {
-                        var subrec = rec.subMenuList[j];
+                    for (var j = 0; j < rec.children.length; j++) {
+                        var subrec = rec.children[j];
                         var btn = Ext.create('Ext.button.Button', {
                             xtype: 'button',
                             icon: './static/css/img/add.gif',
@@ -168,17 +168,17 @@ Ext.define('app.view.Viewport', {
                             style: {
                                 marginBottom: '10px'
                             },
-                            menuCode: subrec.menuCode,
-                            menuName: subrec.menuName,
-                            menuUrl: subrec.menuUrl,
-                            iconUrl: subrec.iconUrl,
-                            controllerFullClassname: subrec.controllerFullClassname,
-                            controllerShortName: subrec.controllerShortName,
-                            defaultViewClassname: subrec.defaultViewClassname,
+                            menuCode: subrec.data.menu_code,
+                            menuName: subrec.data.menu_name,
+                            menuUrl: subrec.data.menu_url,
+                            iconUrl: subrec.data.icon_url,
+                            controllerFullClassname: subrec.data.controller_full_classname,
+                            controllerShortName: null,
+                            defaultViewClassname: subrec.data.default_view_classname,
                             handler: function (e) {
                                 me.menuClick(me, this.controllerFullClassname, this.defaultViewClassname, this.menuName, this.menuCode);
                             },
-                            text: subrec.menuName
+                            text: subrec.data.menu_name
                         });
                         menu_panels[i].items.add(btn);
                     }
