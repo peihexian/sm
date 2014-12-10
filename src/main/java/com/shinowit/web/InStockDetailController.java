@@ -25,12 +25,13 @@ public class InStockDetailController extends BaseController {
 
     @RequestMapping(value = "/listbypage")
     @ResponseBody
-    public Map<String, Object> listByPage(@RequestParam("start") int start, @RequestParam("limit") int pageSize, @RequestParam("page") int pageIndex) {
+    public Map<String, Object> listByPage(@RequestParam("start") int start, @RequestParam("limit") int pageSize, @RequestParam("page") int pageIndex,@RequestParam("in_stock_id") Integer in_stock_id) {
         Map<String, Object> result = new HashMap<String, Object>();
 
         InStockDetailExample ex = new InStockDetailExample(); //创建缺省查询条件对象
         ex.setPageSize(pageSize);
         ex.setPageIndex(pageIndex);
+        ex.createCriteria().andInStockIdEqualTo(in_stock_id);
         //ex.setOrderByClause("in_stock_detail_id");
 
         List<InStockDetail> list_data = null;

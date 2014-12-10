@@ -20,6 +20,10 @@ public class InStock implements Serializable {
 
     private String memo;
 
+    private String realName; //入库操作员真实姓名
+
+    private String providerName;//供应商名称
+
     private static final long serialVersionUID = 1L;
 
     public Integer getInStockId() {
@@ -84,5 +88,21 @@ public class InStock implements Serializable {
 
     public void setMemo(String memo) {
         this.memo = memo;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getProviderName() {
+        return providerName;
+    }
+
+    public void setProviderName(String providerName) {
+        this.providerName = providerName;
     }
 }

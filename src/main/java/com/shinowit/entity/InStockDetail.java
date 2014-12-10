@@ -13,6 +13,8 @@ public class InStockDetail implements Serializable {
 
     private Float price;
 
+    private String productName;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getInStockDetailId() {
@@ -53,5 +55,13 @@ public class InStockDetail implements Serializable {
 
     public void setPrice(Float price) {
         this.price = price;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 }

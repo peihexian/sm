@@ -209,6 +209,8 @@
     where in_stock_detail_id = #{inStockDetailId,jdbcType=INTEGER}
   </update>
   <resultMap id="selectPageResult" extends="BaseResultMap" type="com.shinowit.entity.InStockDetail" >
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+
     <!--
 <association property="" column="" javaType="">
    <id column="" property="" jdbcType="" />
@@ -218,7 +220,7 @@
 
   </resultMap>
   <select id="selectPage" resultMap="selectPageResult" parameterType="com.shinowit.entity.InStockDetailExample" >
-    select a.* from in_stock_detail a   <if test="_parameter != null" >    <include refid="Example_Where_Clause" />   </if>  <if test="orderByClause != null" >      order by ${orderByClause}    </if> limit ${skipRecordCount}, ${pageSize} 
+    select a.* ,(select product_name from product where product.product_code=a.product_code) as product_name  from in_stock_detail a   <if test="_parameter != null" >    <include refid="Example_Where_Clause" />   </if>  <if test="orderByClause != null" >      order by ${orderByClause}    </if> limit ${skipRecordCount}, ${pageSize}
   </select>
   <select id="selectMaxPrimaryKeyValue" resultType="java.lang.Integer" >
     select max(in_stock_detail_id) from in_stock_detail
