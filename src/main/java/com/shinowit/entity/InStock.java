@@ -1,5 +1,8 @@
 package com.shinowit.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.shinowit.framework.convert.CustomDateTimeSerializer;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -14,6 +17,7 @@ public class InStock implements Serializable {
 
     private Byte inType;
 
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
     private Date inTime;
 
     private String handlerName;

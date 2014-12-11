@@ -19,7 +19,7 @@ Ext.define('app.model.SysLog', {
         {
             name: 'log_time',
             type: 'date',
-            dateFormat:'timestamp'
+            format: 'Y-m-d H:i:s'
 
         }
         ,

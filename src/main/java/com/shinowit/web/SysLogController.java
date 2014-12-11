@@ -26,8 +26,8 @@ public class SysLogController extends BaseController {
     public Map<String, Object> listByPage(@RequestParam("start") int start, @RequestParam("limit") int pageSize, @RequestParam("page") int pageIndex, @RequestParam("login_name") String login_name, @RequestParam("menus") String[] menu_codes) {
         Map<String, Object> result = new HashMap<String, Object>();
 
-//        String query_sql="select a.*,b.login_name,c.menu_name from sys_log a left outer join sys_user b on a.user_id=b.user_id left outer join sys_menu c on a.menu_code=c.menu_code order by log_id desc limit ?,?";
-        String query_sql = "select a.*,b.login_name,c.menu_name from sys_log a left outer join sys_user b on a.user_id=b.user_id left outer join sys_menu c on a.menu_code=c.menu_code where 1=1 ";
+//        String query_sql="select a.log_id,a.user_id,a.menu_code,date_format(a.log_time,'%Y-%m-%d %H:%i:%s') as log_time,a.ip,a.content,b.login_name,c.menu_name from sys_log a left outer join sys_user b on a.user_id=b.user_id left outer join sys_menu c on a.menu_code=c.menu_code order by log_id desc limit ?,?";
+        String query_sql = "select a.log_id,a.user_id,a.menu_code,date_format(a.log_time,'%Y-%m-%d %H:%i:%s') as log_time,a.ip,a.content,b.login_name,c.menu_name from sys_log a left outer join sys_user b on a.user_id=b.user_id left outer join sys_menu c on a.menu_code=c.menu_code where 1=1 ";
 
         List<Object> params = new ArrayList<Object>();
         List<Integer> params_type_list = new ArrayList<Integer>();

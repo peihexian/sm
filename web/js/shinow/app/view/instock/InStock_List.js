@@ -72,23 +72,24 @@ Ext.define('app.view.instock.InStock_List', {
                     columns: [
                         {
                             text: '入库单号',
-                            dataIndex: 'inStockId'
+                            dataIndex: 'inStockId',
+                            width: 40
                         },
                         {
                             text: '供应商',
-                            dataIndex: 'providerName'
-
+                            dataIndex: 'providerName',
+                            width: 130
 
                         },
                         {
                             text: '入库操作用户',
-                            dataIndex: 'realName'
-
-
+                            dataIndex: 'realName',
+                            width: 50
                         },
                         {
                             text: '入库方式',
                             dataIndex: 'inType',
+                            width: 40,
                             renderer:function(value){
                                 if ((value=='1') || (value==1)){
                                     return '正常入库';
@@ -105,15 +106,18 @@ Ext.define('app.view.instock.InStock_List', {
                         {
                             text: '入库时间',
                             dataIndex: 'inTime',
+                            width: 70,
                             renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s')
                         },
                         {
                             text: '经手人',
+                            width: 40,
                             dataIndex: 'handlerName'
                         },
                         {
                             text: '入库金额',
-                            dataIndex: 'totalMoney'
+                            dataIndex: 'totalMoney',
+                            width: 40
                         },
                         {
                             text: '备注',

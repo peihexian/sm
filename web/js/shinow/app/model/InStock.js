@@ -30,7 +30,8 @@ Ext.define('app.model.InStock', {
         },
         {
             name: 'inTime',
-            type: 'timestamp'
+            type: 'timestamp',
+            format: 'Y-m-d H:i:s'
         },
         {
             name: 'handlerName',

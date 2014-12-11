@@ -1,5 +1,8 @@
 package com.shinowit.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.shinowit.framework.convert.CustomDateTimeSerializer;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,6 +13,7 @@ public class SysLog implements Serializable {
 
     private String menuCode;
 
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
     private Date logTime;
 
     private String ip;
