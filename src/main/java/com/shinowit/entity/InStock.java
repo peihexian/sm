@@ -1,7 +1,9 @@
 package com.shinowit.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 public class InStock implements Serializable {
     private Integer inStockId;
@@ -23,6 +25,10 @@ public class InStock implements Serializable {
     private String realName; //入库操作员真实姓名
 
     private String providerName;//供应商名称
+
+    private String details;
+
+    private List<InStockDetail> detailList;
 
     private static final long serialVersionUID = 1L;
 
@@ -104,5 +110,21 @@ public class InStock implements Serializable {
 
     public void setProviderName(String providerName) {
         this.providerName = providerName;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public List<InStockDetail> getDetailList() {
+        return detailList;
+    }
+
+    public void setDetailList(List<InStockDetail> detailList) {
+        this.detailList = detailList;
     }
 }

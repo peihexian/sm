@@ -125,8 +125,21 @@ Ext.define('app.controller.InStock', {
             var me = this;
             var add_window = btn.up('window');
             var form = add_window.down('form').getForm();
+            var detailRecords=new Array();
+            Ext.each(Ext.getCmp('in_stock_add_detail_gridpanel').getStore().data.items,function(node,index){
+                detailRecords.push(node.data);
+            });
+            if (detailRecords.length==0){
+                Ext.Msg.alert('错误','请增加入库商品信息!');
+                return ;
+            }
             if (form.isValid()) {
                 form.submit({
+                    params: {
+                        //Ext.JSON.encode(Ext.getCmp('in_stock_add_detail_gridpanel').getStore().reader.jsonData)
+                        details: Ext.JSON.encode(detailRecords)
+                    },
+                    method: 'POST',
                     url: GLOBAL_ROOT_PATH + "/instock/add",
                     waitTitle: '提示',
                     waitMsg: '正在提交数据,请稍候...',

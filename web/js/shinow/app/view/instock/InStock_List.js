@@ -88,8 +88,18 @@ Ext.define('app.view.instock.InStock_List', {
                         },
                         {
                             text: '入库方式',
-                            dataIndex: 'inType'
-
+                            dataIndex: 'inType',
+                            renderer:function(value){
+                                if ((value=='1') || (value==1)){
+                                    return '正常入库';
+                                }
+                                if ((value=='2') || (true==2)) {
+                                    return '报溢入库';
+                                }
+                                if ((value=='3') || (true==3)) {
+                                    return '盘盈入库';
+                                }
+                            }
 
                         },
                         {

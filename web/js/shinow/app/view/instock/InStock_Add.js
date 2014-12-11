@@ -34,13 +34,13 @@ Ext.define('app.view.instock.InStock_Add', {
         });
 
         var details_store = Ext.create('Ext.data.Store', {
-            autoLoad: true,
-            model: 'InStockDetail',
-            data : {},
+            autoLoad: false,
+            model: 'app.model.InStockDetail',
+            data : [],
             proxy: {
                 type: 'memory',
                 reader: {
-                    type: 'array'
+                    type: 'json'
                 }
             }
         });
@@ -73,7 +73,6 @@ Ext.define('app.view.instock.InStock_Add', {
                                         {
                                             columnWidth: .5,
                                             xtype: 'combobox',
-                                            maxLength: 6,
                                             name: 'providerCode',
                                             editable: false,
                                             forceSelection: true,
@@ -174,6 +173,7 @@ Ext.define('app.view.instock.InStock_Add', {
                                         {
                                             columnWidth: .5,
                                             name: 'totalMoney',
+                                            id:'in_stock_add_top_pnl_total_money_textfield',
                                             fieldLabel: '入库金额'
                                         }
                                     ]
@@ -212,6 +212,7 @@ Ext.define('app.view.instock.InStock_Add', {
                             region: "center",
                             xtype:'form',
                             layout:'fit',
+                            border:false,
                             id:'in_stock_add_form_input',
                             items:[
 
@@ -270,9 +271,44 @@ Ext.define('app.view.instock.InStock_Add', {
                                         {
                                             flex: 0.5,
                                             xtype:'button',
+                                            id:'in_stock_add_input_btn_save',
                                             text:'新增',
                                             handler:function(){
+                                                //取编辑form
+                                                var form=Ext.getCmp('in_stock_add_form_input').getForm();
 
+                                                var _record=null;
+                                                if (Ext.getCmp('in_stock_add_input_btn_save').getText()=='新增'){
+                                                    //生成新record
+                                                    _record = Ext.create('app.model.InStockDetail',{
+                                                    });
+
+                                                    //复制form输入框数据到record里面
+                                                    Ext.apply(_record.data,form.getValues());
+
+                                                    //复制产品名称
+                                                    _record.data.productName=form.findField('productCode').rawValue;
+
+                                                    //向gridpanel对应的store里面加入新数据
+                                                    Ext.getCmp('in_stock_add_detail_gridpanel').getStore().add(_record);
+
+                                                }else{
+                                                    //修改数据时
+                                                    _record=form.getRecord();
+                                                    //复制form输入框数据到record里面
+                                                    Ext.apply(_record.data,form.getValues());
+
+                                                    //复制产品名称
+                                                    _record.data.productName=form.findField('productCode').rawValue;
+
+                                                    //刷新grid界面
+                                                    Ext.getCmp('in_stock_add_detail_gridpanel').getView().refresh();
+
+                                                }
+
+                                                me.calcTotalMoney();
+                                                Ext.getCmp('in_stock_add_input_btn_save').setText('新增');
+                                                Ext.getCmp('in_stock_add_form_input').getForm().reset();
                                             }
                                         }
                                         ,
@@ -297,8 +333,9 @@ Ext.define('app.view.instock.InStock_Add', {
                     xtype: 'gridpanel',
                     id: 'in_stock_add_detail_gridpanel',
                     width: 310,
+                    border:false,
                     columnLines: true,
-                    store: Ext.create('app.store.InStockDetail', {autoLoad: false}),
+                    store: details_store,
                     title: '入库明细信息',
                     columns: [
                         {
@@ -315,20 +352,42 @@ Ext.define('app.view.instock.InStock_Add', {
                         },
                         {
                             xtype: 'actioncolumn',
+                            text: '编辑',
                             width: 50,
                             items: [{
+                                margin:'0 5 0 5',
                                 icon: GLOBAL_ROOT_PATH + '/static/css/img/edit.png',
                                 tooltip: '编辑',
                                 handler: function (grid, rowIndex, colIndex) {
+                                    var form=Ext.getCmp('in_stock_add_form_input').getForm();
                                     var rec = grid.getStore().getAt(rowIndex);
-                                    alert("Edit " + rec.get('firstname'));
+                                    Ext.getCmp('in_stock_add_input_btn_save').setText('修改');
+                                    form.loadRecord(rec);
+                                    //alert("Edit " + rec.get('productName'));
                                 }
-                            }, {
-                                icon: GLOBAL_ROOT_PATH + '/static/css/img/delete.png',
+
+                            }]
+                        }
+                        ,
+                        {
+
+                            xtype: 'actioncolumn',
+                            text: '删除',
+                            width: 50,
+                            items: [{
+                                margin:'0 5 0 5',
+                                icon: GLOBAL_ROOT_PATH + '/static/css/img/delete.gif',
                                 tooltip: '删除',
                                 handler: function (grid, rowIndex, colIndex) {
-                                    var rec = grid.getStore().getAt(rowIndex);
-                                    alert("Terminate " + rec.get('firstname'));
+                                    Ext.MessageBox.confirm("提示","您确定要删除这些信息吗?",function(button,text) {
+                                        if (button == 'yes') {
+                                            grid.getStore().removeAt(rowIndex);
+                                            Ext.getCmp('in_stock_add_detail_gridpanel').getView().refresh();
+                                            me.calcTotalMoney();
+                                            //var rec = grid.getStore().getAt(rowIndex);
+                                            //alert("Terminate " + rec.get('productName'));
+                                        }
+                                    });
                                 }
                             }]
                         }
@@ -353,4 +412,15 @@ Ext.define('app.view.instock.InStock_Add', {
 
         this.callParent(arguments);
     }
+   ,
+    calcTotalMoney:function(){
+        var me=this;
+        var count=0;
+        Ext.each(Ext.getCmp('in_stock_add_detail_gridpanel').getStore().data.items,function(node,index){
+            count=count+node.data.num*node.data.price;
+        });
+        Ext.getCmp('in_stock_add_top_pnl_total_money_textfield').setValue(count);
+    }
+
+
 });

@@ -1,11 +1,17 @@
 package com.shinowit.web;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shinowit.dao.mapper.InStockMapper;
 import com.shinowit.entity.InStock;
+import com.shinowit.entity.InStockDetail;
 import com.shinowit.entity.InStockExample;
 import com.shinowit.framework.controller.BaseController;
+import com.shinowit.service.InStockService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +28,9 @@ public class InStockController extends BaseController {
 
     @Resource
     private InStockMapper instock_dao;
+
+    @Resource
+    private InStockService inStockService;
 
     @RequestMapping(value = "/listbypage")
     @ResponseBody
@@ -83,10 +92,27 @@ public class InStockController extends BaseController {
             return result;
         }
 
+        //提交的字符串数据转pojo list
 
-        int rec_changed = 0;
+        try{
+            ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+            List<InStockDetail> parsedList = objectMapper.readValue(pojo.getDetails(), new TypeReference<List<InStockDetail>>(){});
+
+            pojo.setDetailList(parsedList);
+        }catch (Exception e) {
+            e.printStackTrace();
+            if (logger.isDebugEnabled()) {
+                logger.error("发生了转换错误");
+            }
+
+            result.put("success", false);
+            result.put("msg", "保存失败!输入数据非法!");
+            return result;
+        }
+
+        boolean rec_changed = false;
         try {
-            rec_changed = instock_dao.insert(pojo);
+            rec_changed = inStockService.create(pojo);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "保存失败!数据库操作异常!");
@@ -95,7 +121,7 @@ public class InStockController extends BaseController {
             }
             return result;
         }
-        if (rec_changed > 0) {
+        if (true==rec_changed) {
             result.put("success", true);
             result.put("msg", "保存成功!");
         } else {
