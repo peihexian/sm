@@ -11,7 +11,7 @@
 Ext.define('app.view.instock.InStock_Add', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.InStock_Add',
-    requires:['Ext.ux.DateTimeField'],
+    requires:['Ext.ux.DateTimeField','app.model.InStockDetail'],
     layout: 'border',
     width: 650,
     height: 470,
@@ -31,6 +31,18 @@ Ext.define('app.view.instock.InStock_Add', {
         var productCode_store = Ext.create('app.store.Product', {
             pageSize: 1000,
             autoLoad: true
+        });
+
+        var details_store = Ext.create('Ext.data.Store', {
+            autoLoad: true,
+            model: 'InStockDetail',
+            data : {},
+            proxy: {
+                type: 'memory',
+                reader: {
+                    type: 'array'
+                }
+            }
         });
         Ext.applyIf(me, {
             items: [
@@ -258,7 +270,10 @@ Ext.define('app.view.instock.InStock_Add', {
                                         {
                                             flex: 0.5,
                                             xtype:'button',
-                                            text:'新增'
+                                            text:'新增',
+                                            handler:function(){
+
+                                            }
                                         }
                                         ,
                                         {
