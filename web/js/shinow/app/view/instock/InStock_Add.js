@@ -44,6 +44,17 @@ Ext.define('app.view.instock.InStock_Add', {
                 }
             }
         });
+
+        Ext.apply(Ext.form.field.VTypes, {
+            //使用正则表达式
+            floatonly: function (value, field) {
+                var regEx = /(^[-+]?\d\d*\.\d*$)|(^[-+]?\d\d*$)|(^[-+]?\.\d\d*$)/; //浮点数
+                return regEx.test(value);
+            },
+            floatonlyText: "请输入正确的浮点数",
+            floatonlyMask: /[+\-\.0-9]/  //限制键盘的输入
+        });
+
         Ext.applyIf(me, {
             items: [
                 {
@@ -174,6 +185,7 @@ Ext.define('app.view.instock.InStock_Add', {
                                             columnWidth: .5,
                                             name: 'totalMoney',
                                             id:'in_stock_add_top_pnl_total_money_textfield',
+                                            vtype:'floatonly',
                                             fieldLabel: '入库金额'
                                         }
                                     ]
@@ -254,6 +266,7 @@ Ext.define('app.view.instock.InStock_Add', {
                                             labelWidth:30,
                                             height: 20,
                                             width: 100,
+                                            vtype:'floatonly',
                                             fieldLabel: '数量'
                                         },
 
@@ -265,6 +278,7 @@ Ext.define('app.view.instock.InStock_Add', {
                                             labelWidth:30,
                                             height: 20,
                                             width: 100,
+                                            vtype:'floatonly',
                                             fieldLabel: '进价'
                                         }
                                         ,
@@ -277,6 +291,9 @@ Ext.define('app.view.instock.InStock_Add', {
                                                 //取编辑form
                                                 var form=Ext.getCmp('in_stock_add_form_input').getForm();
 
+                                                if (!form.isValid()){
+                                                    return;
+                                                }
                                                 var _record=null;
                                                 if (Ext.getCmp('in_stock_add_input_btn_save').getText()=='新增'){
                                                     //生成新record
