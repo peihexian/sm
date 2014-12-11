@@ -11,9 +11,10 @@
 Ext.define('app.view.instock.InStock_Add', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.InStock_Add',
+    requires:['Ext.ux.DateTimeField'],
     layout: 'border',
     width: 650,
-    height: 500,
+    height: 470,
     border: false,
     buttonAlign: 'center',
     initComponent: function () {
@@ -111,11 +112,26 @@ Ext.define('app.view.instock.InStock_Add', {
                                     items: [
                                         {
                                             columnWidth: .5,
+                                            xtype: 'combobox',
                                             name: 'inType',
-                                            fieldLabel: '入库方式'
+                                            fieldLabel: '入库方式',
+                                            forceSelection: true,
+                                            emptyText: "请选择",
+                                            store: new Ext.data.SimpleStore({
+                                                fields: ['key', 'value'],
+                                                data: [
+                                                    ['1', '正常入库'],
+                                                    ['2', '报溢入库'],
+                                                    ['3', '盘盈入库']
+                                                ]
+                                            }),
+                                            displayField: "value",
+                                            valueField: "key",
+                                            mode: "local"
                                         },
 
                                         {
+                                            xtype:'datetimefield',
                                             columnWidth: .5,
                                             name: 'inTime',
                                             fieldLabel: '入库时间'
@@ -182,63 +198,80 @@ Ext.define('app.view.instock.InStock_Add', {
                         ,
                         {
                             region: "center",
-                            xtype: 'panel',
-                            layout: 'column',
-                            title: '明细信息编辑',
-                            defaults: {
-                                allowBlank: false,
-                                margin: '5 5 5 5',
-                                labelAlign: 'right'
-                            },
-                            items: [
-                                {
-                                    columnWidth: 1 / 4,
-                                    xtype: 'combobox',
-                                    name: 'productCode',
-                                    editable: false,
-                                    forceSelection: true,
-                                    labelAlign: 'right',
-                                    fieldLabel: '商品',
-                                    labelWidth:30,
-                                    store: productCode_store,
-                                    queryMode: 'local',
-                                    displayField: 'productName',
-                                    valueField: 'productCode',
-                                    allowBlank: false,
-                                    height: 20,
-                                    width: 299,
-                                    emptyText: '请选择'
-                                }
-                                ,
-                                {
-                                    xtype: 'textfield',
-                                    columnWidth: 1 / 4,
-                                    name: 'num',
-                                    height: 20,
-                                    width: 299,
-                                    fieldLabel: '数量'
-                                },
+                            xtype:'form',
+                            layout:'fit',
+                            id:'in_stock_add_form_input',
+                            items:[
 
                                 {
-                                    xtype: 'textfield',
-                                    columnWidth: 1 / 4,
-                                    name: 'price',
-                                    height: 20,
-                                    width: 299,
-                                    fieldLabel: '进价'
-                                }
-                                ,
-                                {
-                                    xtype:'button',
-                                    text:'新增'
-                                }
-                                ,
-                                {
-                                    xtype:'button',
-                                    text:'重输'
+                                    xtype: 'panel',
+                                    layout: 'hbox',
+                                    title: '明细信息编辑',
+                                    defaults: {
+                                        allowBlank: false,
+                                        margin: '5 5 5 5',
+                                        labelAlign: 'right'
+                                    },
+                                    items: [
+                                        {
+                                            flex: 1.5,
+                                            xtype: 'combobox',
+                                            name: 'productCode',
+                                            editable: false,
+                                            forceSelection: true,
+                                            id:'in_stock_add_product_code_combobox',
+                                            labelAlign: 'right',
+                                            fieldLabel: '商品',
+                                            labelWidth:30,
+                                            store: productCode_store,
+                                            queryMode: 'local',
+                                            displayField: 'productName',
+                                            valueField: 'productCode',
+                                            allowBlank: false,
+                                            height: 20,
+                                            width: 299,
+                                            emptyText: '请选择'
+                                        }
+                                        ,
+                                        {
+                                            xtype: 'textfield',
+                                            flex: 1,
+                                            id:'in_stock_add_input_num',
+                                            name: 'num',
+                                            labelWidth:30,
+                                            height: 20,
+                                            width: 100,
+                                            fieldLabel: '数量'
+                                        },
+
+                                        {
+                                            xtype: 'textfield',
+                                            flex: 1,
+                                            id:'in_stock_add_input_price',
+                                            name: 'price',
+                                            labelWidth:30,
+                                            height: 20,
+                                            width: 100,
+                                            fieldLabel: '进价'
+                                        }
+                                        ,
+                                        {
+                                            flex: 0.5,
+                                            xtype:'button',
+                                            text:'新增'
+                                        }
+                                        ,
+                                        {
+                                            flex: 0.5,
+                                            xtype:'button',
+                                            text:'重输',
+                                            handler:function(){
+                                                Ext.getCmp('in_stock_add_form_input').getForm().reset();
+                                            }
+                                        }
+                                    ]
                                 }
                             ]
-
                         }
                     ]
                 }
