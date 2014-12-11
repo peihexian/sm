@@ -15,10 +15,15 @@ public class CustomDateConverter implements Converter<String, Date> {
         if ((null == source) || (source.trim().length() == 0)) {
             return null;
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(false);
+        SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat1.setLenient(false);
         try {
-            return dateFormat.parse(source);
+            if (source.trim().length()>10) {
+                return dateFormat2.parse(source);
+            }else{
+                return dateFormat1.parse(source);
+            }
         } catch (ParseException e) {
             if (logger.isDebugEnabled()) {
                 logger.error(e.getMessage(), e);

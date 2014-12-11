@@ -40,7 +40,7 @@ public class InStockController extends BaseController {
         InStockExample ex = new InStockExample(); //创建缺省查询条件对象
         ex.setPageSize(pageSize);
         ex.setPageIndex(pageIndex);
-        //ex.setOrderByClause("in_stock_id");
+        ex.setOrderByClause("in_stock_id desc");
 
         List<InStock> list_data = null;
         int record_count = 0;

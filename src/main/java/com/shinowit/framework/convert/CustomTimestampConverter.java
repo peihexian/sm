@@ -16,9 +16,15 @@ public class CustomTimestampConverter implements Converter<String, Timestamp> {
         if ((null == source) || (source.trim().length() == 0)) {
             return null;
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            Date tmp_date = dateFormat.parse(source);
+            Date tmp_date=null;
+            if (source.trim().length()>10){
+                tmp_date= dateFormat2.parse(source);
+            }else {
+                tmp_date= dateFormat1.parse(source);
+            }
             return new Timestamp(tmp_date.getTime());
         } catch (ParseException e) {
             if (logger.isDebugEnabled()) {
