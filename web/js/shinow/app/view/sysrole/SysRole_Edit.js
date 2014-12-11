@@ -91,6 +91,14 @@ Ext.define('app.view.sysrole.SysRole_Edit', {
                                 checkchange: function (node, checked) {
                                     node.expand();
                                     node.checked = checked;
+                                    if (true == checked) {
+                                        //设置父节点为选中状态
+                                        var parent_node = node.parentNode;
+                                        while (parent_node != null) {
+                                            parent_node.set('checked', checked);
+                                            parent_node=parent_node.parentNode;
+                                        }
+                                    }
                                     node.eachChild(function (child) {
                                         child.set('checked', checked);
                                         child.fireEvent('checkchange', child, checked);
