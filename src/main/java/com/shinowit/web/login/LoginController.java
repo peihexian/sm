@@ -1,6 +1,8 @@
 package com.shinowit.web.login;
 
+import com.shinowit.dao.mapper.SysLogMapper;
 import com.shinowit.dao.mapper.SysUserMapper;
+import com.shinowit.entity.SysLog;
 import com.shinowit.entity.SysUser;
 import com.shinowit.entity.SysUserExample;
 import com.shinowit.framework.security.PasswordHelper;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +38,9 @@ public class LoginController {
 
     @Resource
     private SysUserMapper sys_user_dao;
+
+    @Resource
+    private SysLogMapper log_dao;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String login() {
@@ -73,6 +79,16 @@ public class LoginController {
                         result.put("msg", "登录成功!");
                         result.put("status", true);
                         result.put("main_url", "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/main");
+
+                        SysLog log=new SysLog();
+                        log.setIp(request.getRemoteAddr());
+                        log.setUserId(user.getUserId());
+                        log.setLogTime(new Date());
+                        log.setContent("用户成功登陆系统!");
+                        log.setMenuCode(null);
+
+                        log_dao.insert(log);
+
                     }
                 }
             } catch (Exception e) {
