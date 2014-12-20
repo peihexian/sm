@@ -150,9 +150,27 @@ public class InStockController extends BaseController {
             return result;
         }
 
-        int rec_changed = 0;
+        //提交的字符串数据转pojo list
+
+        try{
+            ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+            List<InStockDetail> parsedList = objectMapper.readValue(pojo.getDetails(), new TypeReference<List<InStockDetail>>(){});
+
+            pojo.setDetailList(parsedList);
+        }catch (Exception e) {
+            e.printStackTrace();
+            if (logger.isDebugEnabled()) {
+                logger.error("发生了转换错误");
+            }
+
+            result.put("success", false);
+            result.put("msg", "保存失败!输入数据非法!");
+            return result;
+        }
+
+        boolean rec_changed = false;
         try {
-            rec_changed = instock_dao.updateByPrimaryKey(pojo);
+            rec_changed = inStockService.edit(pojo);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "修改失败!数据库操作异常!");
@@ -161,7 +179,7 @@ public class InStockController extends BaseController {
             }
             return result;
         }
-        if (rec_changed > 0) {
+        if (true==rec_changed) {
             result.put("success", true);
             result.put("msg", "修改成功!");
         } else {
@@ -177,9 +195,9 @@ public class InStockController extends BaseController {
     public Map<String, Object> del(@RequestParam("id") Integer inStockId) {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        int rec_changed = 0;
+        boolean rec_changed = false;
         try {
-            rec_changed = instock_dao.deleteByPrimaryKey(inStockId);
+            rec_changed = inStockService.delete(inStockId);
         } catch (Exception e) {
             result.put("success", false);
             result.put("msg", "删除失败!数据库操作异常!");
@@ -188,7 +206,7 @@ public class InStockController extends BaseController {
             }
             return result;
         }
-        if (rec_changed > 0) {
+        if (true==rec_changed) {
             result.put("success", true);
             result.put("msg", "删除成功!");
         } else {

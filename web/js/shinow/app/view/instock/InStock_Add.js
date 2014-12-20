@@ -1,13 +1,3 @@
-/**
- * <p>
- * 入库信息表 新增数据window
- * </p>
- *
- * @author 代码生成器
- * @class app.view.instock.InStock_Add
- * @extends Ext.panel.Panel
- */
-
 Ext.define('app.view.instock.InStock_Add', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.InStock_Add',
@@ -142,9 +132,9 @@ Ext.define('app.view.instock.InStock_Add', {
                                             store: new Ext.data.SimpleStore({
                                                 fields: ['key', 'value'],
                                                 data: [
-                                                    ['1', '正常入库'],
-                                                    ['2', '报溢入库'],
-                                                    ['3', '盘盈入库']
+                                                    [1, '正常入库'],
+                                                    [2, '报溢入库'],
+                                                    [3, '盘盈入库']
                                                 ]
                                             }),
                                             displayField: "value",

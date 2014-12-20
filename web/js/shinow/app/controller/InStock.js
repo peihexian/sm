@@ -1,16 +1,7 @@
-/**
- * <p>
- * 入库信息表 controller
- * </p>
- *
- * @author 代码生成器
- * @class app.controller.InStock
- * @extends Ext.app.Controller
- */
 Ext.define('app.controller.InStock', {
         extend: 'Ext.app.Controller',
         alias: 'controller.InStock',
-        requires: ['app.model.InStock', 'app.store.InStock', 'app.view.instock.InStock_List', 'app.view.instock.InStock_Add', 'app.view.instock.InStock_Edit','app.store.InStockDetail'],
+        requires: ['app.model.InStock', 'app.store.InStock', 'app.view.instock.InStock_List', 'app.view.instock.InStock_Add', 'app.view.instock.InStock_Edit', 'app.store.InStockDetail'],
         models: ['InStock'],
         views: ['instock.InStock_List', 'instock.InStock_Add', 'instock.InStock_Edit'],
         stores: ['InStock'],
@@ -59,9 +50,9 @@ Ext.define('app.controller.InStock', {
             var me = this;
             var rec = me.getInstock_gridpanel().getSelectionModel().getSelection()[0];
             if (rec) {
-                var store=Ext.getCmp('in_stock_list_detail_gridpanel').getStore();
-                store.getProxy().setExtraParam('in_stock_id',rec.get('inStockId'));
-                store.loadPage(1,{limit:10000});
+                var store = Ext.getCmp('in_stock_list_detail_gridpanel').getStore();
+                store.getProxy().setExtraParam('in_stock_id', rec.get('inStockId'));
+                store.loadPage(1, {limit: 10000});
             }
         },
         add: function (btn) {
@@ -74,13 +65,6 @@ Ext.define('app.controller.InStock', {
                 add_window.show();
                 return;
             }
-            /*
-             var desktop = this.app.getDesktop();
-             if (desktop.getWindow(window_id)){
-             desktop.restoreWindow(desktop.getWindow(window_id));
-             return;
-             }
-             */
 
             var store = btn.up('panel').down('gridpanel').getStore();
             var new_record = Ext.create('app.model.InStock', {
@@ -101,22 +85,6 @@ Ext.define('app.controller.InStock', {
                 animCollapse: false,
                 constrainHeader: true
             });
-
-            /*
-             var add_window = desktop.createWindow({
-             id: window_id,
-             title:'新增入库信息表',
-             layout:"fit",
-             closable:true,
-             closeAction:"destroy",
-             items:[_view],
-             iconCls: 'bogus',
-             maximizable:false,
-             animCollapse:false,
-             constrainHeader:true
-             });
-             */
-
             add_window.down('form').loadRecord(new_record);
             add_window.show();
         },
@@ -125,13 +93,13 @@ Ext.define('app.controller.InStock', {
             var me = this;
             var add_window = btn.up('window');
             var form = add_window.down('form').getForm();
-            var detailRecords=new Array();
-            Ext.each(Ext.getCmp('in_stock_add_detail_gridpanel').getStore().data.items,function(node,index){
+            var detailRecords = new Array();
+            Ext.each(Ext.getCmp('in_stock_add_detail_gridpanel').getStore().data.items, function (node, index) {
                 detailRecords.push(node.data);
             });
-            if (detailRecords.length==0){
-                Ext.Msg.alert('错误','请增加入库商品信息!');
-                return ;
+            if (detailRecords.length == 0) {
+                Ext.Msg.alert('错误', '请增加入库商品信息!');
+                return;
             }
             if (form.isValid()) {
                 form.submit({
@@ -166,8 +134,8 @@ Ext.define('app.controller.InStock', {
         },
         //删除数据
         del: function (btn) {
-            var store = btn.up('panel').down('gridpanel').getStore();
-            var grid = btn.up('panel').down('gridpanel');
+            var store = btn.up('panel').down('gridpanel[id=in_stock_list_gridpanel_1]').getStore();
+            var grid = btn.up('panel').down('gridpanel[id=in_stock_list_gridpanel_1]');
             var sm = grid.getSelectionModel();
             var sel_count = sm.getCount();
             if (sel_count != 1) {
@@ -211,16 +179,8 @@ Ext.define('app.controller.InStock', {
                 return;
             }
 
-            /*
-             var desktop = this.app.getDesktop();
-             if (desktop.getWindow(window_id)){
-             desktop.restoreWindow(desktop.getWindow(window_id));
-             return;
-             }
-             */
-
-            var store = btn.up('panel').down('gridpanel').getStore();
-            var grid = btn.up('panel').down('gridpanel');
+            var store = btn.up('panel').down('gridpanel[id=in_stock_list_gridpanel_1]').getStore();
+            var grid = btn.up('panel').down('gridpanel[id=in_stock_list_gridpanel_1]');
             var sm = grid.getSelectionModel();
             var sel_count = sm.getCount();
             if (sel_count != 1) {
@@ -233,7 +193,7 @@ Ext.define('app.controller.InStock', {
 
             edit_window = Ext.create('Ext.window.Window', {
                 id: window_id,
-                title: '编辑入库信息表',
+                title: '编辑入库信息',
                 layout: "fit",
                 closable: true,
                 modal: false,
@@ -244,26 +204,7 @@ Ext.define('app.controller.InStock', {
                 animCollapse: false,
                 constrainHeader: true
             });
-
-            /*
-             var edit_window = desktop.createWindow({
-             id: window_id,
-             title:'编辑入库信息表',
-             layout:"fit",
-             width:440,
-             height:280,
-             closable:true,
-             closeAction:"destroy",
-             items:[_view],
-             iconCls: 'bogus',
-             maximizable:false,
-             animCollapse:false,
-             constrainHeader:true
-             });
-             */
-
             edit_window.down('form').loadRecord(edit_record);
-            //加载下拉列表框值及赋予缺省值
             var providerCode_combobox = edit_window.down('textfield[name=providerCode]');
             providerCode_combobox.getStore().load(
                 function (records, operation, success) {
@@ -280,6 +221,38 @@ Ext.define('app.controller.InStock', {
                     }
                 }
             );
+            var intype_combobox = edit_window.down('textfield[name=inType]');
+            intype_combobox.getStore().load(
+                function (records, operation, success) {
+                    if (true == success) {
+                        intype_combobox.setValue(edit_record.get('inType'));
+                    }
+                }
+            );
+            var details_store = Ext.getCmp('in_stock_edit_detail_gridpanel').getStore();
+
+            //查数据库
+            var database_store = Ext.create('app.store.InStockDetail', {autoLoad: false});
+            database_store.getProxy().setExtraParam('in_stock_id', edit_record.get('inStockId'));
+            database_store.loadPage(1, {
+                limit: 10000, callback: function (records, operation, success) {
+                    Ext.each(records, function (rec, index) {
+                        //生成新record
+                        _record = Ext.create('app.model.InStockDetail', {});
+
+                        //复制数据到record里面
+                        Ext.apply(_record.data, rec.data);
+
+                        //复制产品名称
+                        //_record.data.productName=form.findField('productCode').rawValue;
+
+                        details_store.add(_record);
+                    });
+                }
+            });
+
+
+
             edit_window.show();
         },
         //保存修改结果的方法
@@ -287,8 +260,20 @@ Ext.define('app.controller.InStock', {
             var me = this;
             var edit_window = btn.up('window');
             var form = edit_window.down('form').getForm();
+            var detailRecords = new Array();
+            Ext.each(Ext.getCmp('in_stock_edit_detail_gridpanel').getStore().data.items, function (node, index) {
+                detailRecords.push(node.data);
+            });
+            if (detailRecords.length == 0) {
+                Ext.Msg.alert('错误', '请增加入库商品信息!');
+                return;
+            }
             if (form.isValid()) {
                 form.submit({
+                    params: {
+                        //Ext.JSON.encode(Ext.getCmp('in_stock_add_detail_gridpanel').getStore().reader.jsonData)
+                        details: Ext.JSON.encode(detailRecords)
+                    },
                     url: GLOBAL_ROOT_PATH + "/instock/edit",
                     waitTitle: '提示',
                     waitMsg: '正在提交数据,请稍候...',
